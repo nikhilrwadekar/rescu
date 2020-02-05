@@ -1,79 +1,115 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import React from "react";
+import { Platform } from "react-native";
+import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from "../components/TabBarIcon";
 
+// Our Tabs for the App - HomeScreen, ProfileScreen, DonateScreen, NotificationScreen
+import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import DonateScreen from "../screens/DonateScreen";
+import NotificationScreen from "../screens/NotificationScreen";
+import SignInScreen from "../screens/SignInScreen";
+
+// Config for something
 const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {},
+  web: { headerMode: "screen" },
+  default: {}
 });
 
+// First TAB : Home
+// The Stack of Screens for 'Home' TAB
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    // Add more screens here!
+    SignIn: SignInScreen
   },
   config
 );
 
+// The TAB
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === "ios" ? "ios-home" : "md-home"}
     />
-  ),
+  )
 };
 
-HomeStack.path = '';
+HomeStack.path = "";
 
-const LinksStack = createStackNavigator(
+// Second TAB: Profile
+
+const ProfileStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Profile: ProfileScreen
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+ProfileStack.navigationOptions = {
+  tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-contact" : "md-contact"}
+    />
+  )
 };
 
-LinksStack.path = '';
+ProfileStack.path = "";
 
-const SettingsStack = createStackNavigator(
+// Third TAB: Donate
+const DonateStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Donate: DonateScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+DonateStack.navigationOptions = {
+  tabBarLabel: "Donate",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-card" : "md-card"}
+    />
+  )
 };
 
-SettingsStack.path = '';
+DonateStack.path = "";
+
+// Fourth TAB: Notifications
+const NotificationStack = createStackNavigator(
+  {
+    Notification: NotificationScreen
+  },
+  config
+);
+
+NotificationStack.navigationOptions = {
+  tabBarLabel: "Notifications",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-notifications" : "md-notifications"}
+    />
+  )
+};
+
+NotificationStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  ProfileStack,
+  DonateStack,
+  NotificationStack
 });
 
-tabNavigator.path = '';
+tabNavigator.path = "";
 
 export default tabNavigator;
