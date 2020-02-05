@@ -6,11 +6,11 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import TabBarIcon from "../components/TabBarIcon";
 
 // Our Tabs for the App - HomeScreen, ProfileScreen, DonateScreen, NotificationScreen
-import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import DonateScreen from "../screens/DonateScreen";
-import NotificationScreen from "../screens/NotificationScreen";
-import HomeTwoScreen from "../screens/HomeTwoScreen";
+import HomeScreen from "../screens/App/Home/HomeScreen";
+import ProfileScreen from "../screens/App/Profile/ProfileScreen";
+import DonateScreen from "../screens/App/Donate/DonateScreen";
+import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
+import HomeTwoScreen from "../screens/App/Home/HomeTwoScreen";
 
 // Config for something
 const config = Platform.select({

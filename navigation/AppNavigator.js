@@ -1,7 +1,7 @@
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import SignInScreen from "../screens/SignInScreen";
+import SignInScreen from "../screens/Auth/SignInScreen";
 import MainTabNavigator from "./MainTabNavigator";
 
 // The Auth Screen/Component Stack
