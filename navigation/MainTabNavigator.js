@@ -10,7 +10,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import DonateScreen from "../screens/DonateScreen";
 import NotificationScreen from "../screens/NotificationScreen";
-import SignInScreen from "../screens/SignInScreen";
+import HomeTwoScreen from "../screens/HomeTwoScreen";
 
 // Config for something
 const config = Platform.select({
@@ -24,7 +24,7 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     // Add more screens here!
-    SignIn: SignInScreen
+    HomeTwo: HomeTwoScreen
   },
   config
 );
