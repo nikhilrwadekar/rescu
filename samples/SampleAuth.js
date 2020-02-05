@@ -11,6 +11,7 @@ import {
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
+// SIGN IN COMPONENT -- STARTS
 class SignInScreen extends React.Component {
   static navigationOptions = {
     title: "Please sign in"
@@ -28,8 +29,9 @@ class SignInScreen extends React.Component {
     await AsyncStorage.setItem("userToken", "abc");
     this.props.navigation.navigate("App");
   };
-}
+} // SIGN IN COMPONENT -- ENDS
 
+// HOME SCREEN COMPONENT -- STARTS
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: "Welcome to the app!"
@@ -52,8 +54,9 @@ class HomeScreen extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate("Auth");
   };
-}
+} // HOME SCREEN COMPONENT -- ENDS
 
+// OTHER SCREEN COMPONENT -- STARTS
 class OtherScreen extends React.Component {
   static navigationOptions = {
     title: "Lots of features here"
@@ -72,8 +75,9 @@ class OtherScreen extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate("Auth");
   };
-}
+} // OTHER SCREEN COMPONENT -- ENDS
 
+// AUTH LOADING COMPONENT -- STARTS
 class AuthLoadingScreen extends React.Component {
   constructor() {
     super();
@@ -98,7 +102,7 @@ class AuthLoadingScreen extends React.Component {
       </View>
     );
   }
-}
+} // AUTH LOADING COMPONENT -- ENDS
 
 const styles = StyleSheet.create({
   container: {
@@ -108,9 +112,11 @@ const styles = StyleSheet.create({
   }
 });
 
+// APP (MAIN TAB) & AUTH -- STACKS
 const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
+// APP CONTAINER -- SWITCH NAVIGATORS
 export default createAppContainer(
   createSwitchNavigator(
     {

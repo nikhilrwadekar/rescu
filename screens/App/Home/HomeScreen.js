@@ -10,7 +10,7 @@ import {
   Button,
   ScrollViewComponent
 } from "react-native";
-import ListItem from "../components/ListItem";
+import ListItem from "../../../components/ListItem";
 
 _signOutAsync = async () => {
   await AsyncStorage.clear();
@@ -23,6 +23,7 @@ export default class HomeScreen extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -37,7 +38,14 @@ export default class HomeScreen extends Component {
         <Button
           title="Go to Home Two"
           onPress={() => {
-            this.props.navigation.navigate("HomeTwo");
+            navigation.navigate("HomeTwo");
+          }}
+        />
+
+        <Button
+          title="Sign Out"
+          onPress={() => {
+            navigation.navigate("SignIn");
           }}
         />
       </View>
