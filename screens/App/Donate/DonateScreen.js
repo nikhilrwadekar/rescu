@@ -6,6 +6,7 @@ export class DonateScreen extends Component {
     return (
       <View>
         <Text> Donate Screen </Text>
+        <button title="Click to Donate" />
       </View>
     );
   }
