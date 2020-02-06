@@ -21,3 +21,7 @@ export default class HomeTwoScreen extends Component {
     );
   }
 }
+
+HomeTwoScreen.navigationOptions = {
+  title: "Home Two"
+};
