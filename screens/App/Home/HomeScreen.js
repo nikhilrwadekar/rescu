@@ -24,16 +24,20 @@ export default class HomeScreen extends Component {
 
   render() {
     const { navigation } = this.props;
+    const username = this.props.navigation.getParam("username");
+    const user = this.props.navigation.getParam("user");
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <ListItem name="Test" />
-          <ListItem name="Test" />
-          <ListItem name="Test" />
-          <ListItem name="Test" />
-          <ListItem name="Test" />
-          <ListItem name="Test" />
-        </ScrollView>
+        <Text style={styles.user}>Hello, {user ? user.givenName : ""}! 😃</Text>
+        <Image
+          style={styles.userImage}
+          source={{
+            uri: user
+              ? user.photoUrl
+              : "https://genslerzudansdentistry.com/wp-content/uploads/2015/11/anonymous-user-300x296.png"
+          }}
+        />
+        <ScrollView></ScrollView>
 
         <Button
           title="Go to Home Two"
@@ -62,5 +66,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  user: {
+    fontSize: 25,
+    flex: 1,
+    textAlign: "center"
+  },
+  userImage: {
+    width: 200,
+    height: 200,
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center"
   }
 });
