@@ -17,13 +17,10 @@ const AnonymousDonateStack = createStackNavigator({
 
 export default createAppContainer(
   createSwitchNavigator({
-    // LoginSample: { screen: LoginScreen },
-    // ProfileSample: { screen: ProfileScreen },
-
     // App Entry Point
     Auth: AuthStack,
 
-    // App after sign-in
+    // App after Successfull Sign In
     Main: MainTabNavigator,
 
     // Anonymous Donate Flow

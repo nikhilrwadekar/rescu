@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View, TextInput, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Button } from "react-native-elements";
+import { Button, Divider } from "react-native-elements";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -62,7 +62,6 @@ export class SignInScreen extends Component {
               onChangeText={text => this.setState({ email })}
               value={this.state.text}
             />
-
             <TextInput
               style={{ height: 40 }}
               placeholder="Password"
@@ -71,13 +70,13 @@ export class SignInScreen extends Component {
               onChangeText={text => this.setState({ password })}
               value={this.state.text}
             />
-
             <Button
               title="Login with Email"
               onPress={() => {
                 navigation.navigate("Home");
               }}
             />
+            <Divider style={{ backgroundColor: "blue" }} />
           </View>
           {/* Social Login Buttons - Start */}
           <View style={styles.socialButtonContainer}>
