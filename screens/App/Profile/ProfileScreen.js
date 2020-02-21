@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
-
-import AssignedTaskCardComponent from "../../../components/ProfileHeader";
 import pic from "../../../assets/images/profile.png";
+import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 
 
 
@@ -31,15 +30,8 @@ export class ProfileScreen extends Component {
           onPressEditProfile={this.onPressEditProfile}
 
         />
-         <AssignedTaskCardComponent
-          jobType="hjc"
-          date="jcssj"
-          location="kjbckjs"
-          time="jbsc"
-          buttonText="kjchfjhffyjkguk"
-          onPressOptOut="kjds"
+    
 
-        />
       </View>
     );
   }

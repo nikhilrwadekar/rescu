@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
-
+import { View, Button, StyleSheet, Image } from "react-native";
 // Test Comment
 const ProfileHeader = ({
   imageUrl,
@@ -29,7 +28,12 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     profileImage:{
-paddingBottom:40
+      paddingBottom:40,
+      borderRadius: 100,
+      borderWidth: 0.5,
+      height: 120,
+      width: 120
+
     },
     editButton:{
         marginTop:30,
