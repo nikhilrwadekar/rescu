@@ -1,44 +1,47 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
-import ProfileHeader from "../../../components/ProfileHeader";
-
-import AssignedTaskCardComponent from "../../../components/ProfileHeader";
-import pic from "../../../assets/images/profile.png";
-
-
+import { Text, View, Share, StyleSheet } from "react-native";
+import ShareDonationComponent from "../../../components/ShareDonationComponent";
 
 export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      imageUrl: pic,
-      buttonText: "Edit Profile"
-    };
+    this.state = {};
   }
-    // Edit Profile Function
-    onPressEditProfile = () => {
-      this.setState({
-        buttonText: "Text Changed"
+
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React"
       });
-    };
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  handleShareDonate = () => {
+    console.log("Profile Screen: handleShareDonate() was called");
+  };
+
   render() {
     return (
-      <View>
-        <ProfileHeader
-          imageUrl={this.state.imageUrl}
-          buttonText={this.state.buttonText}
-          onPressEditProfile={this.onPressEditProfile}
-
-        />
-         <AssignedTaskCardComponent
-          jobType="hjc"
-          date="jcssj"
-          location="kjbckjs"
-          time="jbsc"
-          buttonText="kjchfjhffyjkguk"
-          onPressOptOut="kjds"
-
+      <View style={styles.container}>
+        {/* <Text> This is Profile Screen </Text> */}
+        <ShareDonationComponent
+          textButton={"Share"}
+          textStatement={"Encourage your friends to donate"}
+          onShareButtonPress={this.onShare}
         />
       </View>
     );
@@ -48,5 +51,13 @@ export class ProfileScreen extends Component {
 ProfileScreen.navigationOptions = {
   title: "Profile Screen"
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    textAlign: "center"
+  }
+});
 
 export default ProfileScreen;
