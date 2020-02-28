@@ -13,5 +13,5 @@ export default class NotificationScreen extends Component {
 
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
-  title: "Notifications"
+  title: "Your Notifications"
 };

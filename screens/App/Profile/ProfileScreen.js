@@ -55,4 +55,8 @@ export default class ProfileScreen extends Component {
   }
 }
 
+ProfileScreen.navigationOptions = {
+  title: "Your Profile"
+};
+
 const styles = StyleSheet.create({});
