@@ -1,63 +1,58 @@
 import React, { Component } from "react";
-import { Text, View, Share, StyleSheet } from "react-native";
-import ShareDonationComponent from "../../../components/ShareDonationComponent";
-
-export class ProfileScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  onShare = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          "React Native | A framework for building native apps using React"
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
+import { Text, View, StyleSheet } from "react-native";
+import ProfileHeader from "../../../components/ProfileHeader";
+import ProfileOption from "../../../components/AssignedVolunteerings";
+const profilePicture = require("../../../assets/images/young-lady.jpg");
+export default class ProfileScreen extends Component {
+  // Assigned Volunteerings
+  handleAssignedVolunteeringsPress = () => {
+    console.log("Assigned Volunteerings!");
   };
 
-  handleShareDonate = () => {
-    console.log("Profile Screen: handleShareDonate() was called");
+  //Edit Preferences
+  handleEditPreferencesPress = () => {
+    console.log("Edit Preferences!");
   };
 
+  //Donate
+  handleDonatePress = () => {
+    console.log("Donate!");
+  };
+
+  //Terms & Conditions
+  handleTermsAndConditionsPress = () => {
+    console.log("T&C!");
+  };
   render() {
     return (
-      <View style={styles.container}>
-        {/* <Text> This is Profile Screen </Text> */}
-        <ShareDonationComponent
-          textButton={"Share"}
-          textStatement={"Encourage your friends to donate"}
-          onShareButtonPress={this.onShare}
+      <View>
+        <ProfileHeader
+          buttonText="Edit Profile"
+          imageUrl={profilePicture}
+          onPressEditProfile={this.handleEditProfile}
+          key="1"
+          fName="Someone Here"
+        />
+
+        <ProfileOption
+          buttonText="Assigned Volunteerings"
+          onOptionPressed={this.handleAssignedVolunteeringsPress}
+        />
+        <ProfileOption
+          buttonText="Edit Preferences"
+          onOptionPressed={this.handleEditPreferencesPress}
+        />
+        <ProfileOption
+          buttonText="Donate"
+          onOptionPressed={this.handleDonatePress}
+        />
+        <ProfileOption
+          buttonText="Terms & Conditions"
+          onOptionPressed={this.handleTermsAndConditionsPress}
         />
       </View>
     );
   }
 }
 
-ProfileScreen.navigationOptions = {
-  title: "Profile Screen"
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    textAlign: "center"
-  }
-});
-
-export default ProfileScreen;
+const styles = StyleSheet.create({});

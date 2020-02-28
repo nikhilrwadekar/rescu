@@ -2,14 +2,15 @@ import React from "react";
 import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
 
 // Test Comment
-const ProfileHeader = ({ imageUrl, buttonText, onPressEditProfile }) => (
+const ProfileHeader = ({ imageUrl, buttonText, onPressEditProfile, fName }) => (
   <View style={styles.header}>
     <Image
-      style={{ width: 70, height: 70 }}
+      style={styles.profileImage}
       source={imageUrl}
       style={styles.profileImage}
     />
 
+    <Text style={styles.fName}>{fName}</Text>
     <View style={styles.editButton}>
       <Button title={buttonText} onPress={onPressEditProfile} />
     </View>
@@ -22,8 +23,15 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center"
   },
+  fName: {
+    fontSize: 24
+  },
   profileImage: {
-    paddingBottom: 40
+    paddingBottom: 40,
+    resizeMode: "cover",
+    width: 150,
+    height: 150,
+    borderRadius: 150
   },
   editButton: {
     marginTop: 30,
