@@ -8,7 +8,10 @@ import TabBarIcon from "../components/TabBarIcon";
 // Our Tabs for the App - HomeScreen, ProfileScreen, DonateScreen, NotificationScreen
 import HomeScreen from "../screens/App/Home/HomeScreen";
 import ProfileScreen from "../screens/App/Profile/ProfileScreen";
+
+// Donation Stack
 import DonateScreen from "../screens/App/Donate/DonateScreen";
+import DonateSuccessScreen from "../screens/App/Donate/DonateSuccessScreen"
 import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
 import HomeTwoScreen from "../screens/App/Home/HomeTwoScreen";
 
@@ -66,7 +69,8 @@ ProfileStack.path = "";
 // Third TAB: Donate
 const DonateStack = createStackNavigator(
   {
-    Donate: DonateScreen
+    Donate: DonateScreen,
+    DonateSuccess: DonateSuccessScreen
   },
   config
 );
