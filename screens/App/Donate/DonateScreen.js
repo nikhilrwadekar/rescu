@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 import DonationAmountComponent from "../../../components/DonationAmountComponent";
 
-
 export class DonateScreen extends Component {
+
   constructor(props) {
     super(props);
 
@@ -47,6 +47,10 @@ export class DonateScreen extends Component {
           onPressDecrement={this.handleDecrementDonation}
           onChangeDonationValue={this.handleDonationChange}
         />
+
+        <Button title="Go To Donation Success" onPress={
+          ()=> {this.props.navigation.navigate("DonateSuccess")}
+        }/>
       </View>
     );
   }
@@ -63,4 +67,3 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-export default DonateScreen;

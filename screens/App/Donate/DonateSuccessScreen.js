@@ -2,34 +2,34 @@ import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 import DonationSuccess from "../../../components/DonationSuccess";
 
-export class DonateS_Screen extends Component {
+export class DonationSuccessScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       thanksText: "Thank you!",
       currency: "$",
-      initialAmount: this.initialAmount,
-      donationCmfText: "Your donation was successful"
+      donationAmount: "120",
+      donationCmfText: "Your donation was successful!"
     };
   }
 
   render() {
-    const { thanksText, currency, initialAmount, donationCmfText } = this.state;
+    const { thanksText, currency, donationAmount, donationCmfText } = this.state;
     return (
       <View style={styles.container}>
         <DonationSuccess
-          thanksText={this.thanksText}
+          thankingText={thanksText}
           currency={currency}
-          initialAmount={initialAmount}
-          donationCmfText={donationCmfText}
+          donationAmount={donationAmount}
+          donationConfirmationText={donationCmfText}
         />
       </View>
     );
   }
 }
 
-DonateScreen.navigationOptions = {
+DonationSuccessScreen.navigationOptions = {
   title: "Sucess"
 };
 
@@ -40,4 +40,6 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-export default DonateS_Screen;
+export default DonationSuccessScreen;
+
+
