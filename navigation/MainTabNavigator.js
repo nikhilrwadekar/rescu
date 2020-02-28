@@ -8,6 +8,7 @@ import { TabBarIcon, TabBarFontAwesomeIcon } from "../components/TabBarIcon";
 // Our Tabs for the App - HomeScreen, ProfileScreen, TasksScreen, NotificationScreen
 import HomeScreen from "../screens/App/Home/HomeScreen";
 import ProfileScreen from "../screens/App/Profile/ProfileScreen";
+
 import TasksScreen from "../screens/App/Tasks/TasksScreen";
 import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
 import HomeTwoScreen from "../screens/App/Home/HomeTwoScreen";
@@ -65,7 +66,9 @@ ProfileStack.path = "";
 // Second TAB: Tasks
 const TaskStack = createStackNavigator(
   {
+
     Tasks: TasksScreen
+
   },
   config
 );
