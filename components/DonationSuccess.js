@@ -1,15 +1,14 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import DonationAmountComponent from "../../../components/DonationAmountComponent";
 
-const DonationSuccess = ({ thanksText, donationCmfText }) => (
+const DonationSuccess = ({ thankingText, donationConfirmationText, currency, donationAmount}) => (
   <View style={styles.mDSContainer}>
-    <Text>{thanksText}</Text>
+    <Text>{thankingText}</Text>
 
     <View style={styles.donationSuccContainer}>
-      <Text>{this.props.currency}</Text>
-      <Text>{this.props.initialAmount}</Text>
-      <Text>{donationCmfText}</Text>
+      <Text>{currency}</Text>
+      <Text>{donationAmount}</Text>
+      <Text>{donationConfirmationText}</Text>
     </View>
   </View>
 );
