@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import { Text, View, Share, StyleSheet } from "react-native";
 import ShareDonationComponent from "../../../components/ShareDonationComponent";
+import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
+import AdditionalSkillComponent from "../../../components/AdditionalSkillComponent";
+import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 
 export class ProfileScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      // switchValue1 = false
+    };
   }
 
   onShare = async () => {
@@ -34,6 +39,12 @@ export class ProfileScreen extends Component {
     console.log("Profile Screen: handleShareDonate() was called");
   };
 
+  handleToggleValue = value => {
+    // console.log("Toggle button was called");
+    this.setState({ switchValue1: value });
+    console.log("Switch 1 is: " + value);
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -42,6 +53,22 @@ export class ProfileScreen extends Component {
           textButton={"Share"}
           textStatement={"Encourage your friends to donate"}
           onShareButtonPress={this.onShare}
+        />
+
+        <UpdateButtonProfileComponent
+          buttonText={"Update"}
+          onPressUpdate={() => console.log("Update")}
+        />
+
+        <AdditionalSkillComponent
+          additionalSkillTextLabel={"Additional skills or services"}
+          onGetText={val => console.log(val)}
+        />
+
+        <AvailabilityToggleComponent
+          availabilityText={"Availibility"}
+          switchValue={this.state.switchValue1}
+          onToggleChange={this.handleToggleValue}
         />
       </View>
     );
