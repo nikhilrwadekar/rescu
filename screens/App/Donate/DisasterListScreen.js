@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 import DonationListItem from "../../../components/DonationListItem";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export class DonationListItemScreen extends Component {
+export class DisasterListScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -16,13 +17,20 @@ export class DonationListItemScreen extends Component {
 
   render() {
     const { itemExcerpt, imgDLIUrl, location } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <DonationListItem
-          itemExcerpt={itemExcerpt}
-          imgDLIUrl={imgDLIUrl}
-          location={location}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SingleDisaster");
+          }}
+        >
+          <DonationListItem
+            itemExcerpt={itemExcerpt}
+            imgDLIUrl={imgDLIUrl}
+            location={location}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -36,4 +44,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DonationListItemScreen;
+export default DisasterListScreen;

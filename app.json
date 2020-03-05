@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Rescu",
-    "slug": "rescu-react-native",
+    "name": "Outreach",
+    "slug": "outreach-react-native",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": ["ios", "android", "web"],

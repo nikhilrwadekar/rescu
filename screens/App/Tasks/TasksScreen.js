@@ -11,4 +11,8 @@ export default class TasksScreen extends Component {
   }
 }
 
+TasksScreen.navigationOptions = {
+  title: "Your Tasks"
+};
+
 const styles = StyleSheet.create({});
