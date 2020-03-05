@@ -3,11 +3,9 @@ import { Text, View } from "react-native";
 
 export default class NotificationScreen extends Component {
   render() {
-    return (
-      <View>
-        <Text> This is the Notification Screen </Text>
-      </View>
-    );
+    return <View>
+      
+    </View>;
   }
 }
 
