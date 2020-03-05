@@ -106,9 +106,16 @@ export class SignInScreen extends Component {
         <View style={styles.bottomContainer}>
           <Button
             style={styles.donateButton}
+            title="Sign Up"
+            onPress={() => {
+              navigation.navigate("SignUp");
+            }}
+          />
+          <Button
+            style={styles.donateButton}
             title="Donate Now"
             onPress={() => {
-              navigation.navigate("AnonymousDonate");
+              navigation.navigate("Donate");
             }}
           />
         </View>
