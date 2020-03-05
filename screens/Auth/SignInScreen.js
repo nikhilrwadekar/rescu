@@ -127,7 +127,7 @@ export class SignInScreen extends Component {
 }
 
 SignInScreen.navigationOptions = {
-  title: "Rescu"
+  title: "Outreach"
 };
 
 const styles = StyleSheet.create({
