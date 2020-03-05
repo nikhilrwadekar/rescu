@@ -1,27 +1,29 @@
 import React, { Component } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 
-const DonationListItem = ({ imgDLIUrl, location, itemExcerpt }) => (
+const DisasterListItem = ({ imgDLIUrl, location, itemExcerpt }) => (
   <View style={styles.mDLIContainer}>
     <View style={styles.imgDLI}>
-      <Image style={{ width: 50, height: 50 }} source={imgDLIUrl}></Image>
+      <Image style={{ width: "100%", height: 100 }} source={imgDLIUrl}></Image>
     </View>
-    <View style={styles.DonationaListItem}>
-      <Text>{location}</Text>
+    <View style={styles.DisasterListItem}>
+      <Text style={styles.DisasterListItemHeader}>{location}</Text>
       <Text style={{ flexWrap: "wrap" }}>{itemExcerpt}</Text>
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
-  DonationListItem: {
+  DisasterListItem: {
     flex: 1,
-    backgroundColor: "#0f0",
     width: "100%"
   },
-
+  DisasterListItemHeader: {
+    fontSize: 20
+  },
   imgDLI: {
-    alignSelf: "flex-start",
+    width: "20%",
+    alignSelf: "center",
     marginRight: "2%"
   },
 
@@ -29,4 +31,4 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   }
 });
-export default DonationListItem;
+export default DisasterListItem;
