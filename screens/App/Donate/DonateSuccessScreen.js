@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, Share, Button, StyleSheet } from "react-native";
 import DonationSuccess from "../../../components/DonationSuccess";
+import ShareDonationComponent from "../../../components/ShareDonationComponent";
 
 export class DonationSuccessScreen extends Component {
   constructor(props) {
@@ -13,6 +14,31 @@ export class DonationSuccessScreen extends Component {
       donationCmfText: "Your donation was successful!"
     };
   }
+
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React"
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  handleShareDonate = () => {
+    console.log("Profile Screen: handleShareDonate() was called");
+  };
 
   render() {
     const {
@@ -30,6 +56,12 @@ export class DonationSuccessScreen extends Component {
           currency={currency}
           donationAmount={donationAmount}
           donationConfirmationText={donationCmfText}
+        />
+
+        <ShareDonationComponent
+          textButton={"Share"}
+          textStatement={"Encourage your friends to donate"}
+          onShareButtonPress={this.onShare}
         />
 
         <Button

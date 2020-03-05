@@ -4,24 +4,30 @@ import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
 const profilePicture = require("../../../assets/images/young-lady.jpg");
 export default class ProfileScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
-    console.log("Assigned Volunteerings!");
+    this.props.navigation.navigate("Tasks");
   };
 
   //Edit Preferences
   handleEditPreferencesPress = () => {
-    console.log("Edit Preferences!");
+    this.props.navigation.navigate("EditPreferences");
   };
 
   //Donate
   handleDonatePress = () => {
-    console.log("Donate!");
+    this.props.navigation.navigate("DisasterList");
   };
 
   //Terms & Conditions
   handleTermsAndConditionsPress = () => {
-    console.log("T&C!");
+    this.props.navigation.navigate("Terms");
   };
   render() {
     const { navigation } = this.props;
