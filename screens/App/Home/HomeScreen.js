@@ -1,18 +1,8 @@
 import React, { Component } from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-  ScrollViewComponent
-} from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import CardList from "react-native-card-animated-modal";
-// import { Button } from "react-native-elements";
 
+// Sign Out!
 _signOutAsync = async () => {
   await AsyncStorage.clear();
   this.props.navigation.navigate("Auth");
@@ -101,8 +91,11 @@ export default class HomeScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const username = this.props.navigation.getParam("username");
-    const user = this.props.navigation.getParam("user");
+    const username =
+      this.props.navigation.getParam("username") || "Anonymous User";
+    const user = this.props.navigation.getParam("user") || {
+      name: "Anonymous User"
+    };
     return (
       <CardList
         cardContainerStyle={{
@@ -120,7 +113,7 @@ export default class HomeScreen extends Component {
                   color: "rgba(0, 0, 0, 0.5)"
                 }}
               >
-                {user ? `Hello, ${user.name}` : now.toDateString()}
+                Hello, {user.name}
               </Text>
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 Volunteering Options Near You

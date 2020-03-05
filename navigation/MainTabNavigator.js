@@ -7,12 +7,13 @@ import { TabBarIcon, TabBarFontAwesomeIcon } from "../components/TabBarIcon";
 
 // Our Tabs for the App - HomeScreen, ProfileScreen, TasksScreen, NotificationScreen
 import HomeScreen from "../screens/App/Home/HomeScreen";
-import ProfileScreen from "../screens/App/Profile/ProfileScreen";
-
 import TasksScreen from "../screens/App/Tasks/TasksScreen";
 import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
-import HomeTwoScreen from "../screens/App/Home/HomeTwoScreen";
 
+// Profile & Following Screens
+import ProfileScreen from "../screens/App/Profile/ProfileScreen";
+import EditPreferencesScreen from "../screens/App/Profile/EditPreferencesScreen";
+import TermsScreen from "../screens/App/Profile/TermsScreen";
 // Config for something
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -23,9 +24,8 @@ const config = Platform.select({
 // The Stack of Screens for 'Home' TAB
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: HomeScreen
     // Add more screens here!
-    HomeTwo: HomeTwoScreen
   },
   config
 );
@@ -46,7 +46,9 @@ HomeStack.path = "";
 // Last TAB: Profile
 const ProfileStack = createStackNavigator(
   {
-    Profile: ProfileScreen
+    Profile: ProfileScreen,
+    EditPreferences: EditPreferencesScreen,
+    Terms: TermsScreen
   },
   config
 );
@@ -66,9 +68,7 @@ ProfileStack.path = "";
 // Second TAB: Tasks
 const TaskStack = createStackNavigator(
   {
-
     Tasks: TasksScreen
-
   },
   config
 );

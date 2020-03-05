@@ -2,28 +2,38 @@ import React, { Component } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
+import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 const profilePicture = require("../../../assets/images/young-lady.jpg");
 export default class ProfileScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isAvailable: true
+    };
+  }
+
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
-    console.log("Assigned Volunteerings!");
+    this.props.navigation.navigate("Tasks");
   };
 
   //Edit Preferences
   handleEditPreferencesPress = () => {
-    console.log("Edit Preferences!");
+    this.props.navigation.navigate("EditPreferences");
   };
 
   //Donate
   handleDonatePress = () => {
-    console.log("Donate!");
+    this.props.navigation.navigate("DisasterList");
   };
 
   //Terms & Conditions
   handleTermsAndConditionsPress = () => {
-    console.log("T&C!");
+    this.props.navigation.navigate("Terms");
   };
   render() {
+    const { isAvailable } = this.state;
     const { navigation } = this.props;
     return (
       <View>
@@ -33,6 +43,12 @@ export default class ProfileScreen extends Component {
           onPressEditProfile={this.handleEditProfile}
           key="1"
           fName="Someone Here"
+        />
+
+        <AvailabilityToggleComponent
+          availabilityText="Availability"
+          onToggleChange={isAvailable => this.setState({ isAvailable })}
+          switchValue={isAvailable}
         />
 
         <ProfileOption
