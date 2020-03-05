@@ -13,7 +13,6 @@ import PreferencesScreenTwo from "../screens/Auth/PreferencesScreenTwo";
 import DisasterListScreen from "../screens/App/Donate/DisasterListScreen";
 import SingleDisasterScreen from "../screens/App/Donate/SingleDisasterScreen";
 import DonateScreen from "../screens/App/Donate/DonateScreen";
-import DonationConfirmationScreen from "../screens/App/Donate/DonationConfirmationScreen.new";
 import DonationSuccessScreen from "../screens/App/Donate/DonateSuccessScreen";
 
 // The Auth Screen/Component Stack

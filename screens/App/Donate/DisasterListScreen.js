@@ -1,54 +1,47 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Button } from "react-native";
-import { ListItem } from "react-native-elements";
+import { Text, View, Button, StyleSheet } from "react-native";
+import DonationListItem from "../../../components/DonationListItem";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default class DisasterListScreen extends Component {
+export class DisasterListScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      list: [
-        {
-          name: "Amy Farha",
-          avatar_url:
-            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-          subtitle: "Vice President"
-        },
-        {
-          name: "Chris Jackson",
-          avatar_url:
-            "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-          subtitle: "Vice Chairman"
-        }
-      ]
+      imgDLIUrl: { uri: "https://reactnative.dev/img/tiny_logo.png" },
+      location: "8850 Osler St, Vancouver, BC V6P 4G2",
+      itemExcerpt:
+        "Buddhist Compassion Relief Tzu Chi Foundation, Canada is founded by its CEO, Mr. Gary Ho, in 1992 under the inspiration of Dharma Master Cheng Yen to inaugurate Tzu Chi’s good works in Canada"
     };
   }
 
   render() {
-    const { list } = this.state;
+    const { itemExcerpt, imgDLIUrl, location } = this.state;
     const { navigation } = this.props;
     return (
-      <View>
-        {list.map((l, i) => (
-          <TouchableOpacity
-            key={i}
-            onPress={() => {
-              navigation.navigate("SingleDisaster");
-            }}
-          >
-            <ListItem
-              key={i}
-              leftAvatar={{ source: { uri: l.avatar_url } }}
-              title={l.name}
-              subtitle={l.subtitle}
-              bottomDivider
-            />
-          </TouchableOpacity>
-        ))}
+      <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SingleDisaster");
+          }}
+        >
+          <DonationListItem
+            itemExcerpt={itemExcerpt}
+            imgDLIUrl={imgDLIUrl}
+            location={location}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    textAlign: "center"
+  }
+});
+
+export default DisasterListScreen;
