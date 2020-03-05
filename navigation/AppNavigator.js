@@ -20,7 +20,7 @@ export default createAppContainer(
     // App Entry Point
     Auth: AuthStack,
 
-    // App after Successfull Sign In
+    // App after Successful Sign In
     Main: MainTabNavigator,
 
     // Anonymous Donate Flow

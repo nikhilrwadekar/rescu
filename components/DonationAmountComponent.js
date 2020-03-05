@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, Button, TextInput, StyleSheet } from "react-native";
 
-
 const DonationAmountComponent = ({
   currency,
   initialAmount,
