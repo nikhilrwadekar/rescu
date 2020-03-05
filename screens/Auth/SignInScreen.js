@@ -115,7 +115,7 @@ export class SignInScreen extends Component {
             style={styles.donateButton}
             title="Donate Now"
             onPress={() => {
-              navigation.navigate("Donate");
+              navigation.navigate("DisasterList");
             }}
           />
         </View>
