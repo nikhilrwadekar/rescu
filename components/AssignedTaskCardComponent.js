@@ -10,6 +10,7 @@ const AssignedTaskCardComponent = ({
   buttonText,
   onPressOptOut
 }) => (
+<<<<<<< HEAD
  
        <View style={styles.container}>
 
@@ -25,11 +26,23 @@ const AssignedTaskCardComponent = ({
     <Text style={styles.time}>{time}</Text>
     <View style={styles.optOutButton}><Button title={buttonText} onPress={onPressOptOut} /></View>
  </View>
+=======
+  <View style={styles.header}>
+    <Text>{jobType}</Text>
+    <Text>{date}</Text>
+    <Text>{location}</Text>
+    <Text>{time}</Text>
+    <Text>ckboughoucbob</Text>
+
+    <View style={styles.editButton}>
+      <Button title={date} onPress={onPressOptOut} />
+>>>>>>> abda8b866fc4f4db485a219610fb2ed78711d60c
     </View>
- 
+  </View>
 );
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
     container:{
         width:"100%",   
         padding:10,
@@ -51,5 +64,20 @@ const styles = StyleSheet.create({
         borderColor: '#d6d7da'
     }
   
+=======
+  header: {
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "#d6d7da"
+  },
+  editButton: {
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "#d6d7da"
+  }
+>>>>>>> abda8b866fc4f4db485a219610fb2ed78711d60c
 });
 export default AssignedTaskCardComponent;

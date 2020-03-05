@@ -3,12 +3,13 @@ import { Platform } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
-import TabBarIcon from "../components/TabBarIcon";
+import { TabBarIcon, TabBarFontAwesomeIcon } from "../components/TabBarIcon";
 
-// Our Tabs for the App - HomeScreen, ProfileScreen, DonateScreen, NotificationScreen
+// Our Tabs for the App - HomeScreen, ProfileScreen, TasksScreen, NotificationScreen
 import HomeScreen from "../screens/App/Home/HomeScreen";
 import ProfileScreen from "../screens/App/Profile/ProfileScreen";
-import DonateScreen from "../screens/App/Donate/DonateScreen";
+
+import TasksScreen from "../screens/App/Tasks/TasksScreen";
 import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
 import HomeTwoScreen from "../screens/App/Home/HomeTwoScreen";
 
@@ -42,8 +43,7 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = "";
 
-// Second TAB: Profile
-
+// Last TAB: Profile
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen
@@ -63,27 +63,29 @@ ProfileStack.navigationOptions = {
 
 ProfileStack.path = "";
 
-// Third TAB: Donate
-const DonateStack = createStackNavigator(
+// Second TAB: Tasks
+const TaskStack = createStackNavigator(
   {
-    Donate: DonateScreen
+
+    Tasks: TasksScreen
+
   },
   config
 );
 
-DonateStack.navigationOptions = {
-  tabBarLabel: "Donate",
+TaskStack.navigationOptions = {
+  tabBarLabel: "Tasks",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-card" : "md-card"}
+      name={Platform.OS === "ios" ? "ios-list" : "md-contact"}
     />
   )
 };
 
-DonateStack.path = "";
+TaskStack.path = "";
 
-// Fourth TAB: Notifications
+// Third TAB: Notifications
 const NotificationStack = createStackNavigator(
   {
     Notification: NotificationScreen
@@ -105,13 +107,11 @@ NotificationStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  ProfileStack,
-  DonateStack,
-  NotificationStack
+  TaskStack,
+  NotificationStack,
+  ProfileStack
 });
 
 tabNavigator.path = "";
 
 export default tabNavigator;
-
-//comment for testing
