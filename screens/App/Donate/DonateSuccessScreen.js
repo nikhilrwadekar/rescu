@@ -15,7 +15,14 @@ export class DonationSuccessScreen extends Component {
   }
 
   render() {
-    const { thanksText, currency, donationAmount, donationCmfText } = this.state;
+    const {
+      thanksText,
+      currency,
+      donationAmount,
+      donationCmfText
+    } = this.state;
+
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <DonationSuccess
@@ -23,6 +30,13 @@ export class DonationSuccessScreen extends Component {
           currency={currency}
           donationAmount={donationAmount}
           donationConfirmationText={donationCmfText}
+        />
+
+        <Button
+          title="Sign Up"
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
         />
       </View>
     );
@@ -41,5 +55,3 @@ const styles = StyleSheet.create({
   }
 });
 export default DonationSuccessScreen;
-
-

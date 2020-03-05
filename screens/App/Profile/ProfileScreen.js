@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import pic from "../../../assets/images/profile.png";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
@@ -42,6 +42,7 @@ export default class ProfileScreen extends Component {
     console.log("T&C!");
   };
   render() {
+    const { navigation } = this.props;
     return (
       <View>
         <ProfileHeader
@@ -68,9 +69,21 @@ export default class ProfileScreen extends Component {
           buttonText="Terms & Conditions"
           onOptionPressed={this.handleTermsAndConditionsPress}
         />
+
+        {/* Logout */}
+        <Button
+          title="Logout"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        />
       </View>
     );
   }
 }
+
+ProfileScreen.navigationOptions = {
+  title: "Your Profile"
+};
 
 const styles = StyleSheet.create({});
