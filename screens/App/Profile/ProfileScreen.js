@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button, Alert } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
@@ -73,7 +73,23 @@ export default class ProfileScreen extends Component {
         <Button
           title="Logout"
           onPress={() => {
-            navigation.navigate("SignIn");
+            Alert.alert(
+              "Logout",
+              "Do you really want to logout?",
+              [
+                {
+                  text: "Yes, please.",
+                  onPress: () => navigation.navigate("SignIn")
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                }
+                // { text: "OK", onPress: () => console.log("OK Pressed") }
+              ],
+              { cancelable: false }
+            );
           }}
         />
       </View>

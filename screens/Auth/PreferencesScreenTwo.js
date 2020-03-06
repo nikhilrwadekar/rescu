@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Button } from "react-native";
+import { Text, StyleSheet, View, Button, Alert } from "react-native";
 import SelectMultiple from "react-native-select-multiple";
 import AdditionalSkillComponent from "../../components/AdditionalSkillComponent";
 import AcceptTermsConditionsComponent from "../../components/AcceptTermsConditionsComponent";
@@ -9,6 +9,7 @@ export default class PreferencesScreenTwo extends Component {
 
     this.state = {
       termsCheck: false,
+      selectedVolunteeringTypes: [],
       volunteeringTypes: [
         "Driving",
         "Swimming",
@@ -36,7 +37,11 @@ export default class PreferencesScreenTwo extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { volunteeringTypes, termsCheck } = this.state;
+    const {
+      volunteeringTypes,
+      termsCheck,
+      selectedVolunteeringTypes
+    } = this.state;
     return (
       <View>
         <Text>Types of Volunteering</Text>
@@ -65,7 +70,18 @@ export default class PreferencesScreenTwo extends Component {
         <Button
           title="Save"
           onPress={() => {
-            navigation.navigate("Home");
+            if (termsCheck && !!selectedVolunteeringTypes.length)
+              navigation.navigate("Home");
+            else if (!selectedVolunteeringTypes.length)
+              Alert.alert(
+                "Volunteering Types",
+                "Please select at least one volunteering type of your choice."
+              );
+            else
+              Alert.alert(
+                "Terms and Conditions",
+                "Please accept terms and conditions to continue."
+              );
           }}
         />
       </View>
