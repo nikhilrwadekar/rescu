@@ -146,8 +146,8 @@ export class SignInScreen extends Component {
               navigation.navigate("SignIn");
             }}
           >
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
-              <Text>Already have an account? </Text>
+            <View style={styles.underLineTextContainer}>
+              <Text style={{ fontSize: 16 }}>Already have an account? </Text>
               <Text style={styles.underLineText}>Login</Text>
             </View>
           </TouchableOpacity>
@@ -197,7 +197,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   bottomContainer: {
-    marginBottom: 36
+    marginBottom: 36,
+    height: 200,
+    justifyContent: "space-around"
   },
   topContainer: {
     alignItems: "center"
@@ -212,9 +214,9 @@ const styles = StyleSheet.create({
   underLineText: {
     fontSize: 16,
     textDecorationLine: "underline",
-
     textAlign: "center"
-  }
+  },
+  underLineTextContainer: { flexDirection: "row", justifyContent: "center" }
 });
 
 export default SignInScreen;

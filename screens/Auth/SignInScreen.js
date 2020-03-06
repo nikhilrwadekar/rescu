@@ -94,6 +94,11 @@ export class SignInScreen extends Component {
             <Divider style={{ backgroundColor: "blue" }} />
           </View>
           {/* Social Login Buttons - Start */}
+
+          <View style={styles.continueTextContainer}>
+            <Text style={styles.continueText}>or continue with</Text>
+          </View>
+
           <View style={styles.socialButtonContainer}>
             <Button
               icon={<Icon name="google" size={25} color="#3a3a3a" />}
@@ -122,12 +127,11 @@ export class SignInScreen extends Component {
           {/* Go Back to Login */}
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("SignIn");
+              navigation.navigate("SignUp");
             }}
           >
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
-              <Text style={{ fontSize: 16 }}>Already have an account? </Text>
-              <Text style={styles.underLineText}>Login</Text>
+              <Text style={styles.underLineText}>Create account</Text>
             </View>
           </TouchableOpacity>
 
@@ -157,7 +161,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10
-    // backgroundColor: "#f00"
   },
   socialButtonContainer: {
     // flex: 1,
@@ -176,16 +179,13 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flex: 1,
-    // backgroundColor: "#fff",
     justifyContent: "center"
   },
   bottomContainer: {
-    // flex: 1,
-    // justifyContent: "flex-end",
-    marginBottom: 36
-    // backgroundColor: "#0f0"
-    // alignSelf: "flex-end"
-    // height: 200
+    marginBottom: 36,
+
+    height: 200,
+    justifyContent: "space-around"
   },
   underLineTextContainer: {
     alignItems: "center",
@@ -195,6 +195,13 @@ const styles = StyleSheet.create({
   underLineText: {
     fontSize: 16,
     textDecorationLine: "underline",
+    textAlign: "center"
+  },
+  continueTextContainer: {
+    marginTop: 30
+  },
+  continueText: {
+    fontSize: 20,
     textAlign: "center"
   }
 });
