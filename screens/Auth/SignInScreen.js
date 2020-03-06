@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View, TextInput, StyleSheet, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Button, Divider } from "react-native-elements";
+import { Button, Divider, SocialIcon } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -69,22 +69,33 @@ export class SignInScreen extends Component {
         {/* Vertically Centered Container - Starts */}
         <View style={styles.middleContainer}>
           <View>
-            <TextInput
-              style={{ height: 40 }}
-              placeholder="Email"
-              autoCompleteType="username"
-              keyboardType="email-address"
-              onChangeText={text => this.setState({ email })}
-              value={this.state.text}
-            />
-            <TextInput
-              style={{ height: 40 }}
-              placeholder="Password"
-              autoCompleteType="password"
-              secureTextEntry={isPasswordHidden}
-              onChangeText={text => this.setState({ password })}
-              value={this.state.text}
-            />
+            <View style={styles.textWithIconPlaceholder}>
+              <Icon style={styles.iconPlaceHolder} size={20} name="envelope" />
+              <TextInput
+                style={{ height: 40 }}
+                placeholder="Email"
+                autoCompleteType="username"
+                keyboardType="email-address"
+                onChangeText={text => this.setState({ email })}
+                value={this.state.text}
+              />
+            </View>
+            <View style={styles.textWithIconPlaceholder}>
+              <Icon
+                style={styles.iconPlaceHolder}
+                size={25}
+                name="unlock-alt"
+              />
+
+              <TextInput
+                style={{ height: 40 }}
+                placeholder="Password"
+                autoCompleteType="password"
+                secureTextEntry={isPasswordHidden}
+                onChangeText={text => this.setState({ password })}
+                value={this.state.text}
+              />
+            </View>
             <Button
               title="Login with Email"
               onPress={() => {
@@ -96,7 +107,7 @@ export class SignInScreen extends Component {
           {/* Social Login Buttons - Start */}
 
           <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>or continue with</Text>
+            <Text style={styles.continueText}>or login with</Text>
           </View>
 
           <View style={styles.socialButtonContainer}>
@@ -203,6 +214,13 @@ const styles = StyleSheet.create({
   continueText: {
     fontSize: 20,
     textAlign: "center"
+  },
+  textWithIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  iconPlaceHolder: {
+    width: 30
   }
 });
 
