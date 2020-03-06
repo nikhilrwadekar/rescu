@@ -5,43 +5,38 @@ import pic from "../../../assets/images/profile.png";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 
 import ProfileOption from "../../../components/AssignedVolunteerings";
+import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 const profilePicture = require("../../../assets/images/young-lady.jpg");
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      imageUrl: pic,
-      buttonText: "Edit Profile"
+      isAvailable: true
     };
   }
-  // Edit Profile Function
-  onPressEditProfile = () => {
-    this.setState({
-      buttonText: "Text Changed"
-    });
-  };
 
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
-    console.log("Assigned Volunteerings!");
+    this.props.navigation.navigate("Tasks");
   };
 
   //Edit Preferences
   handleEditPreferencesPress = () => {
-    console.log("Edit Preferences!");
+    this.props.navigation.navigate("EditPreferences");
   };
 
   //Donate
   handleDonatePress = () => {
-    console.log("Donate!");
+    this.props.navigation.navigate("DisasterList");
   };
 
   //Terms & Conditions
   handleTermsAndConditionsPress = () => {
-    console.log("T&C!");
+    this.props.navigation.navigate("Terms");
   };
   render() {
+    const { isAvailable } = this.state;
     const { navigation } = this.props;
     return (
       <View>
@@ -51,6 +46,12 @@ export default class ProfileScreen extends Component {
           onPressEditProfile={this.handleEditProfile}
           key="1"
           fName="Someone Here"
+        />
+
+        <AvailabilityToggleComponent
+          availabilityText="Availability"
+          onToggleChange={isAvailable => this.setState({ isAvailable })}
+          switchValue={isAvailable}
         />
 
         <ProfileOption
