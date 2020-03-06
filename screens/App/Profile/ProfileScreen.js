@@ -1,47 +1,79 @@
 import React, { Component } from "react";
-import { Text, View, Share, StyleSheet } from "react-native";
-import ShareDonationComponent from "../../../components/ShareDonationComponent";
-
-export class ProfileScreen extends Component {
+import { Text, View, StyleSheet, Button } from "react-native";
+import ProfileHeader from "../../../components/ProfileHeader";
+import ProfileOption from "../../../components/AssignedVolunteerings";
+import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
+const profilePicture = require("../../../assets/images/young-lady.jpg");
+export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      isAvailable: true
+    };
   }
 
-  onShare = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          "React Native | A framework for building native apps using React"
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
+  // Assigned Volunteerings
+  handleAssignedVolunteeringsPress = () => {
+    this.props.navigation.navigate("Tasks");
   };
 
-  handleShareDonate = () => {
-    console.log("Profile Screen: handleShareDonate() was called");
+  //Edit Preferences
+  handleEditPreferencesPress = () => {
+    this.props.navigation.navigate("EditPreferences");
   };
 
+  //Donate
+  handleDonatePress = () => {
+    this.props.navigation.navigate("DisasterList");
+  };
+
+  //Terms & Conditions
+  handleTermsAndConditionsPress = () => {
+    this.props.navigation.navigate("Terms");
+  };
   render() {
+    const { isAvailable } = this.state;
+    const { navigation } = this.props;
     return (
-      <View style={styles.container}>
-        {/* <Text> This is Profile Screen </Text> */}
-        <ShareDonationComponent
-          textButton={"Share"}
-          textStatement={"Encourage your friends to donate"}
-          onShareButtonPress={this.onShare}
+      <View>
+        <ProfileHeader
+          buttonText="Edit Profile"
+          imageUrl={profilePicture}
+          onPressEditProfile={this.handleEditProfile}
+          key="1"
+          fName="Someone Here"
+        />
+
+        <AvailabilityToggleComponent
+          availabilityText="Availability"
+          onToggleChange={isAvailable => this.setState({ isAvailable })}
+          switchValue={isAvailable}
+        />
+
+        <ProfileOption
+          buttonText="Assigned Volunteerings"
+          onOptionPressed={this.handleAssignedVolunteeringsPress}
+        />
+        <ProfileOption
+          buttonText="Edit Preferences"
+          onOptionPressed={this.handleEditPreferencesPress}
+        />
+        <ProfileOption
+          buttonText="Donate"
+          onOptionPressed={this.handleDonatePress}
+        />
+        <ProfileOption
+          buttonText="Terms & Conditions"
+          onOptionPressed={this.handleTermsAndConditionsPress}
+        />
+
+        {/* Logout */}
+        <Button
+          title="Logout"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
         />
       </View>
     );
@@ -49,16 +81,7 @@ export class ProfileScreen extends Component {
 }
 
 ProfileScreen.navigationOptions = {
-  title: "Profile Screen"
+  title: "Your Profile"
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    textAlign: "center"
-  }
-});
-
-export default ProfileScreen;
-
+const styles = StyleSheet.create({});

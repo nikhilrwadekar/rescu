@@ -7,12 +7,12 @@ import {
   StyleSheet
 } from "react-native";
 
-const AssignedVolunteerings = () => {
+const AssignedVolunteerings = ({ buttonText, onOptionPressed }) => {
   return (
     <View>
-      <TouchableHighlight style={styles.touchable}>
+      <TouchableHighlight style={styles.touchable} onPress={onOptionPressed}>
         <View style={styles.touchableView}>
-          <Text style={styles.buttonText}>Assigned Opportunities</Text>
+          <Text style={styles.buttonText}>{buttonText}</Text>
           <Image
             source={require("../assets/images/next.png")}
             style={styles.nextIcon}
