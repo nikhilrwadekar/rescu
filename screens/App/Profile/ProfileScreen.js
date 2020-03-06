@@ -51,10 +51,11 @@ export default class ProfileScreen extends Component {
           switchValue={isAvailable}
         />
 
-        <ProfileOption
+        {/* Removed after discussion as it is redundant */}
+        {/* <ProfileOption
           buttonText="Assigned Volunteerings"
           onOptionPressed={this.handleAssignedVolunteeringsPress}
-        />
+        /> */}
         <ProfileOption
           buttonText="Edit Preferences"
           onOptionPressed={this.handleEditPreferencesPress}
