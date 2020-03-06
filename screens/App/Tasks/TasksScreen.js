@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
-
+import Timer from "../../../components/Timer.js";
 const UpcomingTasksComponent = () => (
   <View style={[styles.scene, { backgroundColor: "#fff" }]}>
     <AssignedTaskCardComponent
