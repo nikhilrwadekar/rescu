@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, TextInput, StyleSheet } from "react-native";
+import { Text, View, TextInput, StyleSheet, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider } from "react-native-elements";
-
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Google Sign-In Imports
@@ -14,33 +14,37 @@ const ANDROID_CLIENT_ID =
   "458548322242-ul355ju06tuq252kfnk5endjor0lala5.apps.googleusercontent.com";
 
 export class SignInScreen extends Component {
+  // Sign In Screen
   state = {
     email: "",
     password: "",
     isPasswordHidden: true
   };
 
-  // Google OAuth
+  // Google + Expo - OAuth
   signInWithGoogle = async () => {
     try {
       const result = await Google.logInAsync({
         iosClientId: IOS_CLIENT_ID,
         androidClientId: ANDROID_CLIENT_ID,
+        // Get Profile Information and Email from Google
         scopes: ["profile", "email"]
       });
 
       if (result.type === "success") {
-        console.log("LoginScreen.js.js 21 | ", result.user.givenName);
+        // If success, Navigate to Home Screen with user's information
         this.props.navigation.navigate("Home", {
           username: result.user.givenName,
           user: result.user
-        }); //after Google login redirect to Profile
+        });
+
+        // Return the Access Token
         return result.accessToken;
       } else {
         return { cancelled: true };
       }
     } catch (e) {
-      console.log("LoginScreen.js.js 30 | Error with login", e);
+      console.log("Error! - ", e);
       return { error: true };
     }
   };
@@ -51,6 +55,17 @@ export class SignInScreen extends Component {
     return (
       // Main Container ->
       <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <Image
+            style={{
+              width: 200,
+              height: 200,
+              resizeMode: "contain"
+            }}
+            source={require("../../assets/images/outreach_logo.png")}
+          ></Image>
+        </View>
+
         {/* Vertically Centered Container - Starts */}
         <View style={styles.middleContainer}>
           <View>
@@ -104,20 +119,28 @@ export class SignInScreen extends Component {
         {/* Vertically Centered Container - Ends */}
         {/* Bottom Container - Starts */}
         <View style={styles.bottomContainer}>
-          <Button
-            style={styles.donateButton}
-            title="Sign Up"
+          {/* Go Back to Login */}
+          <TouchableOpacity
             onPress={() => {
-              navigation.navigate("SignUp");
+              navigation.navigate("SignIn");
             }}
-          />
-          <Button
-            style={styles.donateButton}
-            title="Donate Now"
+          >
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <Text style={{ fontSize: 16 }}>Already have an account? </Text>
+              <Text style={styles.underLineText}>Login</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Skip to Donate */}
+          <TouchableOpacity
             onPress={() => {
               navigation.navigate("DisasterList");
             }}
-          />
+          >
+            <View style={styles.underLineTextContainer}>
+              <Text style={styles.underLineText}>Skip to Donate</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         {/* Bottom Container - Ends */}
       </View>
@@ -148,6 +171,9 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75
   },
+  topContainer: {
+    alignItems: "center"
+  },
   middleContainer: {
     flex: 1,
     // backgroundColor: "#fff",
@@ -160,6 +186,16 @@ const styles = StyleSheet.create({
     // backgroundColor: "#0f0"
     // alignSelf: "flex-end"
     // height: 200
+  },
+  underLineTextContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  underLineText: {
+    fontSize: 16,
+    textDecorationLine: "underline",
+    textAlign: "center"
   }
 });
 

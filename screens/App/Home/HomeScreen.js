@@ -185,7 +185,11 @@ export default class HomeScreen extends Component {
                   padding: 10
                 }}
               >
-                <Button title="REQUEST TO VOLUNTEER" color="#D54425" />
+                <Button
+                  title="REQUEST TO VOLUNTEER"
+                  onPress={() => {}}
+                  color="#D54425"
+                />
                 {item.renderDetails({ item, index })}
               </View>
             );
