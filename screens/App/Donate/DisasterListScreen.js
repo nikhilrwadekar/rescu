@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
-import DonationListItem from "../../../components/DonationListItem";
+import DisasterListItem from "../../../components/DisasterListItem";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export class DisasterListScreen extends Component {
@@ -25,7 +25,7 @@ export class DisasterListScreen extends Component {
             navigation.navigate("SingleDisaster");
           }}
         >
-          <DonationListItem
+          <DisasterListItem
             itemExcerpt={itemExcerpt}
             imgDLIUrl={imgDLIUrl}
             location={location}
