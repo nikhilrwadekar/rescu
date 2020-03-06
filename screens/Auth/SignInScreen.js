@@ -111,7 +111,9 @@ export class SignInScreen extends Component {
           </View>
 
           <View style={styles.socialButtonContainer}>
-            <Button
+            <SocialIcon onPress={this.signInWithGoogle} raised type="google" />
+            <SocialIcon raised type="facebook" />
+            {/* <Button
               icon={<Icon name="google" size={25} color="#3a3a3a" />}
               style={styles.socialSignInButton}
               onPress={this.signInWithGoogle}
@@ -128,7 +130,7 @@ export class SignInScreen extends Component {
               style={styles.socialSignInButton}
               onPress={this.signInWithGoogle}
               type="outline"
-            />
+            /> */}
           </View>
           {/* Social Login Buttons - End */}
         </View>
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
   socialButtonContainer: {
     // flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     marginTop: 25,
     marginBottom: 25
   },
