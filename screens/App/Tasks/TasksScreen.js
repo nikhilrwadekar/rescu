@@ -1,40 +1,82 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  AsyncStorage
+} from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
 import { ScrollView } from "react-native-gesture-handler";
+import axios from "axios";
+// Left Tab: Upcoming
 
-const UpcomingTasksComponent = () => (
-  <ScrollView style={[styles.scene, { backgroundColor: "#fff" }]}>
-    {[0, 1, 2, 3, 4, 5, 6, 7].map(item => (
-      <AssignedTaskCardComponent
-        buttonText="Opt Out"
-        date={new Date().toDateString()}
-        jobType="Cooking"
-        location="Surrey, BC"
-        onPressOptOut={() => {
-          Alert.alert(
-            "Opt Out?",
-            "You're about to opt out",
-            [
-              {
-                text: "Yes, please.",
-                onPress: () => console.log("Yes, please. pressed")
-              },
-              {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
-              }
-            ],
-            { cancelable: false }
-          );
-        }}
-      />
-    ))}
-  </ScrollView>
-);
+class UpcomingTasksComponent extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      reliefCenterGroupedTasks: []
+    };
+  }
+
+  async componentDidMount() {
+    console.log("Upcoming was mounted.");
+    const tasks = await AsyncStorage.getItem("tasks");
+
+    this.setState({
+      reliefCenterGroupedTasks: JSON.parse(tasks)
+    });
+  }
+
+  render() {
+    const { reliefCenterGroupedTasks } = this.state;
+    return (
+      <ScrollView style={[styles.scene, { backgroundColor: "#fff" }]}>
+        {reliefCenterGroupedTasks &&
+          reliefCenterGroupedTasks.map(reliefCenter => {
+            const { name, location } = reliefCenter;
+            return reliefCenter.tasks.map(
+              task => (
+                <AssignedTaskCardComponent
+                  buttonText="Opt Out"
+                  date={
+                    new Date(task.date).toDateString() +
+                    ` from ${task.time.start} to ${task.time.end} `
+                  }
+                  jobType={`${task.type} at ${name}`}
+                  location={location}
+                  onPressOptOut={() => {
+                    Alert.alert(
+                      "Opt Out?",
+                      "You're about to opt out",
+                      [
+                        {
+                          text: "Yes, please.",
+                          onPress: () => console.log("Yes, please. pressed")
+                        },
+                        {
+                          text: "Cancel",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        }
+                      ],
+                      { cancelable: false }
+                    );
+                  }}
+                />
+              ),
+              // Pass First Map's Data Into the Other Map
+              { name, location }
+            );
+          })}
+      </ScrollView>
+    );
+  }
+}
+
+// Right Tab: History
 const HistoryComponent = () => (
   <View style={[styles.scene, { backgroundColor: "#fff" }]} />
 );
@@ -44,6 +86,9 @@ const renderScene = SceneMap({
   first: UpcomingTasksComponent,
   second: HistoryComponent
 });
+
+const API_URL = "http://localhost:4000/api/";
+
 export default class TasksScreen extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +100,15 @@ export default class TasksScreen extends Component {
         { key: "second", title: "History" }
       ]
     };
+  }
+
+  async componentDidMount() {
+    console.log("Root Tasks was mounted.");
+    const tasks = await axios.get(
+      `${API_URL}/user/nikhilrwadekar@gmail.com/tasks`
+    );
+    const tasksGroupedByReliefCenters = JSON.stringify(tasks.data);
+    await AsyncStorage.setItem("tasks", tasksGroupedByReliefCenters);
   }
 
   render() {
