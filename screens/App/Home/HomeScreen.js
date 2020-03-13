@@ -1,213 +1,73 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import CardList from "react-native-card-animated-modal";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ActivityIndicator,
+  SafeAreaView,
+  AsyncStorage
+} from "react-native";
+import CardLayout from "./CardLayout";
 
-// Sign Out!
-_signOutAsync = async () => {
-  await AsyncStorage.clear();
-  this.props.navigation.navigate("Auth");
-};
-
-const now = new Date();
-const CARDS = [
-  {
-    // image source for Image component
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1560252829-804f1aedf1be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    // Height for the card
-    height: 0,
-    // Will be used when you want to render different contents per card.
-    renderDetails: ({ item, index }) => (
-      <View style={{ paddingTop: 35 }}>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-      </View>
-    )
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1557660559-42497f78035b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1541532108062-73f2181a08c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  }
-];
+const API_URL = "http://localhost:4000/api";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true,
+      reliefCenters: []
+    };
+  }
+
+  // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
+  async componentDidMount() {
+    fetch(`${API_URL}/user/opportunities`)
+      .then(response => response.json())
+      .then(responseJson => {
+        const reliefCenters = responseJson.map(reliefCenter => {
+          return {
+            image: {
+              uri: reliefCenter.picture_url
+            },
+            reliefCenter
+          };
+        });
+
+        this.setState({
+          isLoading: false,
+          reliefCenters: reliefCenters
+        });
+      })
+      .catch(error => console.log(error)); //to catch the errors if any
+
+    await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+
+      if (result) {
+        this.setState({ googleDetails: result });
+      }
+    });
   }
 
   render() {
-    const { navigation } = this.props;
-    const username =
-      this.props.navigation.getParam("username") || "Anonymous User";
-    const user = this.props.navigation.getParam("user") || {
-      name: "Anonymous User"
-    };
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color="#0c9" />
+        </View>
+      );
+    }
+
+    return <CardLayout reliefCenters={this.state.reliefCenters} />;
+
     return (
-      <CardList
-        cardContainerStyle={{
-          backgroundColor: "#fff"
-        }}
-        detailsContainerStyle={{}}
-        listContainerStyle={{}}
-        safeAreaStyle={{ backgroundColor: "rgb(250,250,250)" }}
-        listProps={{
-          ListHeaderComponent: () => (
-            <View style={{ padding: 16, paddingBottom: 0 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: "rgba(0, 0, 0, 0.5)"
-                }}
-              >
-                Hello, {user.name}
-              </Text>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                Volunteering Options Near You
-              </Text>
-            </View>
-          )
-        }}
-        data={CARDS}
-        renderItem={({ item, index }) => {
-          /* Render card per item */
-          if (item.renderItem) return item.renderItem({ item, index });
-
-          /* Default card when not specified */
-          return (
-            <View
-              style={{
-                padding: 20,
-                borderBottomLeftRadius: 10,
-                bottomBottomRightRadius: 10
-                // backgroundColor: "#fff"
-                // backgroundColor: "red"
-              }}
-            >
-              {/* <Text
-                style={{
-                  fontSize: 14,
-                  color: "rgba(0, 0, 0, 0.5)"
-                }}
-              >
-                Volunteering Option #{index + 1}
-              </Text> */}
-              <Text
-                style={{
-                  fontSize: 25,
-                  color: "rgba(0, 0, 0, 0.75)"
-                }}
-              >
-                Lattitude Global Volunteering - Canada
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-
-                  color: "rgba(0, 0, 0, 0.5)"
-                }}
-              >
-                15 minutes away
-              </Text>
-              <Text
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontSize: 16
-                }}
-              >
-                needs 2 Volunteers
-              </Text>
-            </View>
-          );
-        }}
-        renderDetails={({ item, index }) => {
-          /* Render card per item */
-          if (item.renderDetails)
-            return (
-              <View
-                style={{
-                  // paddingRight: 25,
-                  // paddingLeft: 25,
-
-                  padding: 10
-                }}
-              >
-                <Button
-                  title="REQUEST TO VOLUNTEER"
-                  onPress={() => {}}
-                  color="#D54425"
-                />
-                {item.renderDetails({ item, index })}
-              </View>
-            );
-
-          /* You can also provide custom content per item */
-          return (
-            <View style={{ paddingVertical: 100, paddingHorizontal: 0 }}>
-              <Text
-                style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}
-              >
-                Sorry, No custom content was provided!
-              </Text>
-              <Button title="REQUEST TO VOLUNTEER" raised color="white" />
-            </View>
-          );
-        }}
-      />
-      // </View>
+      <SafeAreaView>
+        <Text>Hello! Data was Loaded!</Text>
+        <Text>{JSON.stringify(this.state.reliefCenters)}</Text>
+      </SafeAreaView>
     );
   }
 }
@@ -234,5 +94,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     justifyContent: "center"
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff"
   }
 });

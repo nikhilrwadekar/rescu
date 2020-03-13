@@ -11,7 +11,6 @@ export class AddressInput extends React.Component {
 
   _storeData = async () => {
     try {
-      console.log("Trying to store data..");
       await AsyncStorage.setItem("AddressInput", JSON.stringify(this.state));
     } catch (error) {
       // Error saving data
@@ -21,11 +20,9 @@ export class AddressInput extends React.Component {
 
   _retrieveData = async () => {
     try {
-      console.log("Trying to retrieve data..");
       const AddressInputState = await AsyncStorage.getItem("AddressInput");
       if (AddressInputState !== null) {
         // We have data!!
-        console.log(AddressInputState);
         this.setState(JSON.parse(AddressInputState));
       }
     } catch (error) {

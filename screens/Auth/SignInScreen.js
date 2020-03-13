@@ -1,7 +1,14 @@
 import React, { Component } from "react";
-import { Text, View, TextInput, StyleSheet, Image } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Image,
+  AsyncStorage
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Button, Divider, SocialIcon } from "react-native-elements";
+import { Button, Divider, SocialIcon, Input } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -32,11 +39,12 @@ export class SignInScreen extends Component {
       });
 
       if (result.type === "success") {
-        // If success, Navigate to Home Screen with user's information
-        this.props.navigation.navigate("Home", {
-          username: result.user.givenName,
-          user: result.user
-        });
+        await AsyncStorage.setItem(
+          "googleSignInDetails",
+          JSON.stringify(result)
+        );
+
+        this.props.navigation.navigate("Home");
 
         // Return the Access Token
         return result.accessToken;
@@ -111,6 +119,8 @@ export class SignInScreen extends Component {
           </View>
 
           <View style={styles.socialButtonContainer}>
+            {/* <SocialIcon onPress={this.signInWithGoogle} raised type="google" />
+            <SocialIcon raised type="facebook" /> */}
             <Button
               icon={<Icon name="google" size={25} color="#3a3a3a" />}
               style={styles.socialSignInButton}
@@ -123,12 +133,12 @@ export class SignInScreen extends Component {
               onPress={this.signInWithGoogle}
               type="outline"
             />
-            <Button
+            {/* <Button
               icon={<Icon name="twitter" size={25} color="#3a3a3a" />}
               style={styles.socialSignInButton}
               onPress={this.signInWithGoogle}
               type="outline"
-            />
+            /> */}
           </View>
           {/* Social Login Buttons - End */}
         </View>
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
   socialButtonContainer: {
     // flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     marginTop: 25,
     marginBottom: 25
   },
