@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import CardList from "react-native-card-animated-modal";
+import { SearchBar } from "react-native-elements";
 
 // Sign Out!
 _signOutAsync = async () => {
@@ -118,6 +119,7 @@ export default class HomeScreen extends Component {
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 Volunteering Options Near You
               </Text>
+              <SearchBar platform="ios" />
             </View>
           )
         }}

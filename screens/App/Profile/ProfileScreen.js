@@ -1,9 +1,17 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Button, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  Alert,
+  ToastAndroid
+} from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 const profilePicture = require("../../../assets/images/young-lady.jpg");
+
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -47,10 +55,18 @@ export default class ProfileScreen extends Component {
 
         <AvailabilityToggleComponent
           availabilityText="Availability"
-          onToggleChange={isAvailable => this.setState({ isAvailable })}
+          onToggleChange={isAvailable => {
+            ToastAndroid.showWithGravityAndOffset(
+              "A wild toast appeared!",
+              ToastAndroid.LONG,
+              ToastAndroid.BOTTOM,
+              25,
+              50
+            );
+            this.setState({ isAvailable });
+          }}
           switchValue={isAvailable}
         />
-
         {/* Removed after discussion as it is redundant */}
         {/* <ProfileOption
           buttonText="Assigned Volunteerings"
@@ -68,7 +84,6 @@ export default class ProfileScreen extends Component {
           buttonText="Terms & Conditions"
           onOptionPressed={this.handleTermsAndConditionsPress}
         />
-
         {/* Logout */}
         <Button
           title="Logout"
