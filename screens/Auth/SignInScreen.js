@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, TextInput, StyleSheet, Image } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Image,
+  AsyncStorage
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -32,11 +39,12 @@ export class SignInScreen extends Component {
       });
 
       if (result.type === "success") {
-        // If success, Navigate to Home Screen with user's information
-        this.props.navigation.navigate("Home", {
-          username: result.user.givenName,
-          user: result.user
-        });
+        await AsyncStorage.setItem(
+          "googleSignInDetails",
+          JSON.stringify(result)
+        );
+
+        this.props.navigation.navigate("Home");
 
         // Return the Access Token
         return result.accessToken;

@@ -5,7 +5,8 @@ import {
   View,
   Button,
   ActivityIndicator,
-  SafeAreaView
+  SafeAreaView,
+  AsyncStorage
 } from "react-native";
 import CardLayout from "./CardLayout";
 
@@ -20,7 +21,7 @@ export default class HomeScreen extends Component {
   }
 
   // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
-  componentDidMount() {
+  async componentDidMount() {
     fetch(`${API_URL}/user/opportunities`)
       .then(response => response.json())
       .then(responseJson => {
@@ -39,6 +40,16 @@ export default class HomeScreen extends Component {
         });
       })
       .catch(error => console.log(error)); //to catch the errors if any
+
+    await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+
+      if (result) {
+        this.setState({ googleDetails: result });
+      }
+    });
   }
 
   render() {

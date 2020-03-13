@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Button,
   Alert,
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
 } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
@@ -17,7 +18,8 @@ export default class ProfileScreen extends Component {
     super(props);
 
     this.state = {
-      isAvailable: true
+      isAvailable: true,
+      user: {}
     };
   }
 
@@ -40,6 +42,21 @@ export default class ProfileScreen extends Component {
   handleTermsAndConditionsPress = () => {
     this.props.navigation.navigate("Terms");
   };
+
+  async componentDidMount() {
+    const google = await AsyncStorage.getItem("googleSignInDetails");
+
+    let googleDetails = JSON.parse(google);
+
+    this.setState({ user: googleDetails.user });
+  }
+
+  // Sign Out!
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate("SignIn");
+  };
+
   render() {
     const { isAvailable } = this.state;
     const { navigation } = this.props;
@@ -47,10 +64,10 @@ export default class ProfileScreen extends Component {
       <View>
         <ProfileHeader
           buttonText="Edit Profile"
-          imageUrl={profilePicture}
+          imageUrl={{ uri: this.state.user.photoUrl }}
           onPressEditProfile={this.handleEditProfile}
           key="1"
-          fName="Someone Here"
+          fName={this.state.user.name}
         />
 
         <AvailabilityToggleComponent
@@ -67,11 +84,7 @@ export default class ProfileScreen extends Component {
           }}
           switchValue={isAvailable}
         />
-        {/* Removed after discussion as it is redundant */}
-        {/* <ProfileOption
-          buttonText="Assigned Volunteerings"
-          onOptionPressed={this.handleAssignedVolunteeringsPress}
-        /> */}
+
         <ProfileOption
           buttonText="Edit Preferences"
           onOptionPressed={this.handleEditPreferencesPress}
@@ -94,7 +107,7 @@ export default class ProfileScreen extends Component {
               [
                 {
                   text: "Yes, please.",
-                  onPress: () => navigation.navigate("SignIn")
+                  onPress: () => this._signOutAsync()
                 },
                 {
                   text: "Cancel",

@@ -30,9 +30,7 @@ export class ProfileScreen extends Component {
     }
   };
 
-  handleShareDonate = () => {
-    console.log("Profile Screen: handleShareDonate() was called");
-  };
+  handleShareDonate = () => {};
 
   render() {
     return (

@@ -49,9 +49,7 @@ export class DonationSuccessScreen extends Component {
     }
   };
 
-  handleShareDonate = () => {
-    console.log("Profile Screen: handleShareDonate() was called");
-  };
+  handleShareDonate = () => {};
 
   render() {
     const {

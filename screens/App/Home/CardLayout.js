@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, AsyncStorage } from "react-native";
 import CardList from "react-native-card-animated-modal";
 import { Button, SearchBar } from "react-native-elements";
+
+import axios from "axios";
 
 const now = new Date();
 const CARDS = [
@@ -79,14 +81,15 @@ const CARDS = [
   }
 ];
 
+const API_URL = "http://localhost:4000/api/";
 // Sign Out!
 _signOutAsync = async () => {
   await AsyncStorage.clear();
-  this.props.navigation.navigate("Auth");
+  this.props.navigation.navigate("SignIn");
 };
 
 // Top Header for Home
-const Header = () => {
+const Header = ({ name }) => {
   return (
     <View style={{ padding: 16, paddingBottom: 0 }}>
       <Text
@@ -95,18 +98,16 @@ const Header = () => {
           color: "rgba(0, 0, 0, 0.5)"
         }}
       >
-        Hello, USER_NAME
+        Hello, {name}
       </Text>
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        Volunteering Options Near You
+        Volunteering Opportunities For You
       </Text>
-      <SearchBar platform="ios" />
     </View>
   );
 };
 
 // OpportunityTaskCard Component
-
 const OpportunityTaskCard = ({ opportunity }) => {
   return (
     <View
@@ -161,29 +162,61 @@ const OpportunityTaskCard = ({ opportunity }) => {
 // OpportunityTaskCard's Single View - When you click on a card
 const OpportunitySingleView = ({ opportunity }) => {
   return (
-    <View style={{ paddingVertical: 100, paddingHorizontal: 50 }}>
+    <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
+      <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
+        <Button
+          title={
+            !opportunity.opportunity_requested.includes(
+              "nikhilrwadekar@gmail.com"
+            )
+              ? "Request to Volunteer"
+              : "Requested"
+          }
+          disabled={opportunity.opportunity_requested.includes(
+            "nikhilrwadekar@gmail.com"
+          )}
+          raised
+          color="white"
+          onPress={() => {
+            axios
+              .put(
+                `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
+              )
+              .then(response => {
+                opportunity.opportunity_requested.push(
+                  "nikhilrwadekar@gmail.com"
+                );
+              });
+          }}
+        />
+      </View>
       <Text style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}>
         {opportunity.description}
       </Text>
-
-      <View>
-        <Button title="REQUEST TO VOLUNTEER" raised color="white" />
-      </View>
     </View>
   );
 };
+
 // Main Component
 export default class CardLayout extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      googleDetails: {}
+    };
+  }
+
+  async componentDidMount() {
+    const google = await AsyncStorage.getItem("googleSignInDetails");
+
+    let googleDetails = JSON.parse(google);
+
+    this.setState({ googleDetails });
+  }
+
   render() {
-    // const { navigation } = this.props;
-    // const username =
-    //   this.props.navigation.getParam("username") || "Anonymous User";
-    // const user = this.props.navigation.getParam("user") || {
-    //   name: "Anonymous User"
-    // };
     const { reliefCenters } = this.props;
-    const user = { name: "Anonymous User" };
-    const username = "Anonymous User";
     return (
       <CardList
         // Indivual OpportunityTaskCard Styles
@@ -196,7 +229,15 @@ export default class CardLayout extends Component {
         safeAreaStyle={{ backgroundColor: "rgb(250,250,250)" }}
         // Header Is Rendered Here
         listProps={{
-          ListHeaderComponent: () => <Header />
+          ListHeaderComponent: () => (
+            <Header
+              name={
+                this.state.googleDetails.user
+                  ? this.state.googleDetails.user.name
+                  : "Unknown User"
+              }
+            />
+          )
         }}
         data={reliefCenters}
         renderItem={({ item, index }) => {
