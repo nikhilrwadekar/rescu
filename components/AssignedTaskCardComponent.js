@@ -8,9 +8,10 @@ const AssignedTaskCardComponent = ({
   location,
   time,
   buttonText,
-  onPressOptOut
+  onPressOptOut,
+  newKey
 }) => (
-  <View style={styles.header}>
+  <View key={newKey} style={styles.header}>
     <Text>{jobType}</Text>
     <Text>{date}</Text>
     <Text>{location}</Text>
