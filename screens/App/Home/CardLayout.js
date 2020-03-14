@@ -81,7 +81,7 @@ const CARDS = [
   }
 ];
 
-const API_URL = "http://localhost:4000/api/";
+const API_URL = "https://outreach.nikhilwadekar.com/api/";
 // Sign Out!
 _signOutAsync = async () => {
   await AsyncStorage.clear();
@@ -203,7 +203,7 @@ export default class CardLayout extends Component {
     super(props);
 
     this.state = {
-      googleDetails: {}
+      googleDetails: null
     };
   }
 
@@ -232,7 +232,7 @@ export default class CardLayout extends Component {
           ListHeaderComponent: () => (
             <Header
               name={
-                this.state.googleDetails.user
+                this.state.googleDetails
                   ? this.state.googleDetails.user.name
                   : "Unknown User"
               }

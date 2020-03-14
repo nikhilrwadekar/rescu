@@ -4,7 +4,7 @@ export const prodUrl = "https://outreach.nikhilwadekar.com/api";
 
 const ENV = {
   dev: {
-    apiUrl: "http://localhost:4000/api"
+    apiUrl: "https://outreach.nikhilwadekar.com/api"
   },
   staging: {
     apiUrl: prodUrl

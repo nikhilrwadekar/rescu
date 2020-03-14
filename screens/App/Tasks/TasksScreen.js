@@ -38,8 +38,9 @@ class UpcomingTasksComponent extends Component {
           reliefCenterGroupedTasks.map(reliefCenter => {
             const { name, location } = reliefCenter;
             return reliefCenter.tasks.map(
-              task => (
+              (task, taskIndex) => (
                 <AssignedTaskCardComponent
+                  newKey={taskIndex}
                   buttonText="Opt Out"
                   date={
                     new Date(task.date).toDateString() +
@@ -87,7 +88,7 @@ const renderScene = SceneMap({
   second: HistoryComponent
 });
 
-const API_URL = "http://localhost:4000/api/";
+const API_URL = "https://outreach.nikhilwadekar.com/api/";
 
 export default class TasksScreen extends Component {
   constructor(props) {
