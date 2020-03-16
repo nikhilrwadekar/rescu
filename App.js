@@ -1,7 +1,9 @@
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
+import socketIO from "socket.io-client";
+
 import {
   Platform,
   StatusBar,
@@ -21,26 +23,61 @@ library.add(faTasks);
 
 import AppNavigator from "./navigation/AppNavigator";
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+export default class App extends Component {
+  constructor(props) {
+    super(props);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      // <DismissKeyboard>
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-      // </DismissKeyboard>
-    );
+    this.state = {
+      isLoadingComplete: false
+    };
+  }
+
+  componentDidMount() {
+    const socket = socketIO("http://localhost:5000", {
+      transports: ["websocket"],
+      jsonp: false
+    });
+    socket.connect();
+    socket.on("connect", () => {
+      console.log("connected to socket server");
+    });
+
+    socket.on("connect", function() {
+      socket.emit("message", "Mobile: connected to Mobile!");
+
+      socket.on("message1", function(m) {
+        console.log(m);
+      });
+
+      socket.on("message2", function(m) {
+        console.log(m);
+      });
+    });
+  }
+
+  setLoadingComplete = () => {
+    this.setState({ isLoadingComplete: true });
+  };
+  render() {
+    const { isLoadingComplete } = this.state;
+    if (!isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={loadResourcesAsync}
+          onError={handleLoadingError}
+          onFinish={() => handleFinishLoading(this.setLoadingComplete)}
+        />
+      );
+    } else {
+      return (
+        // <DismissKeyboard>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+        // </DismissKeyboard>
+      );
+    }
   }
 }
 

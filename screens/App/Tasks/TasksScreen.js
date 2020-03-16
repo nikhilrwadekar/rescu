@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+
+// React Native
 import {
   View,
   StyleSheet,
@@ -6,12 +8,17 @@ import {
   Alert,
   AsyncStorage
 } from "react-native";
-import { TabView, SceneMap } from "react-native-tab-view";
-import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
-import { ScrollView } from "react-native-gesture-handler";
-import axios from "axios";
-// Left Tab: Upcoming
 
+// Third Party Components/Libraries
+import io from "socket.io-client"; // Socket.io
+import axios from "axios"; // Axios
+import { TabView, SceneMap } from "react-native-tab-view";
+import { ScrollView } from "react-native-gesture-handler";
+
+// Custom Outreach Components
+import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
+
+// Left Tab: Upcoming
 class UpcomingTasksComponent extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +26,11 @@ class UpcomingTasksComponent extends Component {
     this.state = {
       reliefCenterGroupedTasks: []
     };
+
+    // Connect to that Username's namespace
+    var socket = io("http://127.0.0.1:5000", {
+      transports: ["websocket", "polling", "flashsocket"]
+    });
   }
 
   async componentDidMount() {
@@ -28,6 +40,8 @@ class UpcomingTasksComponent extends Component {
     this.setState({
       reliefCenterGroupedTasks: JSON.parse(tasks)
     });
+
+    socket.on("taskUpdate", this.getTasks);
   }
 
   render() {
@@ -88,7 +102,7 @@ const renderScene = SceneMap({
   second: HistoryComponent
 });
 
-const API_URL = "https://outreach.nikhilwadekar.com/api/";
+const API_URL = "http://10.0.0.11:4000/api/";
 
 export default class TasksScreen extends Component {
   constructor(props) {

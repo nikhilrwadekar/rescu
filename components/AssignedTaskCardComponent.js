@@ -38,4 +38,5 @@ const styles = StyleSheet.create({
     borderColor: "#d6d7da"
   }
 });
+
 export default AssignedTaskCardComponent;

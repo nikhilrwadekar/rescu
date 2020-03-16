@@ -4,7 +4,7 @@ import CardList from "react-native-card-animated-modal";
 import { Button, SearchBar } from "react-native-elements";
 
 import axios from "axios";
-
+import io from "socket.io-client";
 const now = new Date();
 const CARDS = [
   {
@@ -81,7 +81,34 @@ const CARDS = [
   }
 ];
 
-const API_URL = "https://outreach.nikhilwadekar.com/api/";
+var socket = io.connect("localhost:5000", {
+  transports: ["websocket"] // you need to explicitly tell it to use websockets
+});
+
+socket.on("connect", function() {
+  socket.emit("message", "Mobile: connected to Mobile!");
+
+  socket.on("message1", function(m) {
+    console.log(m);
+  });
+
+  socket.on("message2", function(m) {
+    console.log(m);
+  });
+});
+
+socket.emit("connect", { msg: 1 });
+
+socket.on("volunteerToAdminRequest", () => {
+  console.log("Request has been sent and captured successfully by Socket.io!");
+  socket.emit("hello", "can you hear me?", 1, 2, "abc");
+});
+
+socket.on("approveVolunteerRequest", () => {
+  console.log("Deteceted ON MOBILE -- Admin trying to accept request!");
+});
+
+const API_URL = "http://10.0.0.11:4000/api/";
 // Sign Out!
 _signOutAsync = async () => {
   await AsyncStorage.clear();
@@ -160,7 +187,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
 };
 
 // OpportunityTaskCard's Single View - When you click on a card
-const OpportunitySingleView = ({ opportunity }) => {
+const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   return (
     <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
       <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
@@ -168,26 +195,28 @@ const OpportunitySingleView = ({ opportunity }) => {
           title={
             !opportunity.opportunity_requested.includes(
               "nikhilrwadekar@gmail.com"
+            ) &&
+            !opportunity.opportunity_assigned.includes(
+              "nikhilrwadekar@gmail.com"
             )
               ? "Request to Volunteer"
+              : opportunity.opportunity_assigned.includes(
+                  "nikhilrwadekar@gmail.com"
+                )
+              ? "Assigned"
               : "Requested"
           }
-          disabled={opportunity.opportunity_requested.includes(
-            "nikhilrwadekar@gmail.com"
-          )}
+          // disabled={
+          //   opportunity.opportunity_requested.includes(
+          //     "nikhilrwadekar@gmail.com"
+          //   ) ||
+          //   opportunity.opportunity_assigned.includes(
+          //     "nikhilrwadekar@gmail.com"
+          //   )
+          // }
           raised
           color="white"
-          onPress={() => {
-            axios
-              .put(
-                `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
-              )
-              .then(response => {
-                opportunity.opportunity_requested.push(
-                  "nikhilrwadekar@gmail.com"
-                );
-              });
-          }}
+          onPress={onRequestPressed}
         />
       </View>
       <Text style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}>
@@ -202,6 +231,18 @@ export default class CardLayout extends Component {
   constructor(props) {
     super(props);
 
+    socket.on("connect", function() {
+      socket.emit("message", "Message: sent by socket.emit");
+    });
+
+    socket.on("message1", function(m) {
+      console.log(m);
+    });
+
+    socket.on("message2", function(m) {
+      console.log(m);
+    });
+
     this.state = {
       googleDetails: null
     };
@@ -214,6 +255,28 @@ export default class CardLayout extends Component {
 
     this.setState({ googleDetails });
   }
+
+  handleRequestPressed = async opportunity => {
+    console.log("Request was pressed!");
+
+    socket.emit("message2");
+    // await axios
+    //   .put(
+    //     `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
+    //   )
+    //   .then(response => {
+    //     opportunity.opportunity_requested.push("nikhilrwadekar@gmail.com");
+    //     socket.emit(
+    //       "volunteerToAdminRequest",
+    //       "Sent a request to volunteer to the Admin.. let's see if it does get detected!"
+    //     );
+
+    //     console.log("It did go through..");
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+  };
 
   render() {
     const { reliefCenters } = this.props;
@@ -246,7 +309,14 @@ export default class CardLayout extends Component {
         }}
         renderDetails={({ item, index }) => {
           /* You can also provide custom content per item */
-          return <OpportunitySingleView opportunity={item.reliefCenter} />;
+          return (
+            <OpportunitySingleView
+              opportunity={item.reliefCenter}
+              onRequestPressed={() =>
+                this.handleRequestPressed(item.reliefCenter)
+              }
+            />
+          );
         }}
       />
     );
