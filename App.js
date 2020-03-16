@@ -33,23 +33,19 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const socket = socketIO("http://localhost:5000", {
+    // Client Socket was moved into CardLayout.
+
+    // Admin Namespace
+    const adminSocket = socketIO("http://localhost:5000/admin", {
       transports: ["websocket"],
       jsonp: false
     });
-    socket.connect();
-    socket.on("connect", () => {
-      console.log("connected to socket server");
-    });
 
-    socket.on("connect", function() {
-      socket.emit("message", "Mobile: connected to Mobile!");
+    adminSocket.connect();
+    adminSocket.on("connect", () => {
+      console.log("Mobile Connected to Admin Socket Server");
 
-      socket.on("message1", function(m) {
-        console.log(m);
-      });
-
-      socket.on("message2", function(m) {
+      adminSocket.on("message1", function(m) {
         console.log(m);
       });
     });

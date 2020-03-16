@@ -4,109 +4,7 @@ import CardList from "react-native-card-animated-modal";
 import { Button, SearchBar } from "react-native-elements";
 
 import axios from "axios";
-import io from "socket.io-client";
-const now = new Date();
-const CARDS = [
-  {
-    // image source for Image component
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1560252829-804f1aedf1be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    // Height for the card
-    height: 0,
-    // Will be used when you want to render different contents per card.
-    renderDetails: ({ item, index }) => (
-      <View style={{ paddingTop: 35 }}>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-      </View>
-    )
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1557660559-42497f78035b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1541532108062-73f2181a08c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  }
-];
-
-var socket = io.connect("localhost:5000", {
-  transports: ["websocket"] // you need to explicitly tell it to use websockets
-});
-
-socket.on("connect", function() {
-  socket.emit("message", "Mobile: connected to Mobile!");
-
-  socket.on("message1", function(m) {
-    console.log(m);
-  });
-
-  socket.on("message2", function(m) {
-    console.log(m);
-  });
-});
-
-socket.emit("connect", { msg: 1 });
-
-socket.on("volunteerToAdminRequest", () => {
-  console.log("Request has been sent and captured successfully by Socket.io!");
-  socket.emit("hello", "can you hear me?", 1, 2, "abc");
-});
-
-socket.on("approveVolunteerRequest", () => {
-  console.log("Deteceted ON MOBILE -- Admin trying to accept request!");
-});
+import socketIO from "socket.io-client";
 
 const API_URL = "http://10.0.0.11:4000/api/";
 // Sign Out!
@@ -226,22 +124,12 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   );
 };
 
+var clientSocket, adminSocket;
+
 // Main Component
 export default class CardLayout extends Component {
   constructor(props) {
     super(props);
-
-    socket.on("connect", function() {
-      socket.emit("message", "Message: sent by socket.emit");
-    });
-
-    socket.on("message1", function(m) {
-      console.log(m);
-    });
-
-    socket.on("message2", function(m) {
-      console.log(m);
-    });
 
     this.state = {
       googleDetails: null
@@ -249,33 +137,47 @@ export default class CardLayout extends Component {
   }
 
   async componentDidMount() {
+    // Google Sign In
     const google = await AsyncStorage.getItem("googleSignInDetails");
-
     let googleDetails = JSON.parse(google);
-
     this.setState({ googleDetails });
+
+    // Socket
+    clientSocket = socketIO("http://localhost:5000", {
+      transports: ["websocket"],
+      jsonp: false
+    });
+
+    adminSocket = socketIO("http://localhost:5000/admin", {
+      transports: ["websocket"],
+      jsonp: false
+    });
+    adminSocket.connect();
+    clientSocket.connect();
+    clientSocket.on("connect", currentClientSocket => {
+      console.log("Mobile Connected to Client Socket" + currentClientSocket);
+    });
+
+    adminSocket.on("connect", () => {
+      console.log("Mobile Connected to Admin Socket");
+    });
   }
 
   handleRequestPressed = async opportunity => {
     console.log("Request was pressed!");
 
-    socket.emit("message2");
-    // await axios
-    //   .put(
-    //     `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
-    //   )
-    //   .then(response => {
-    //     opportunity.opportunity_requested.push("nikhilrwadekar@gmail.com");
-    //     socket.emit(
-    //       "volunteerToAdminRequest",
-    //       "Sent a request to volunteer to the Admin.. let's see if it does get detected!"
-    //     );
+    await axios
+      .put(
+        `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
+      )
+      .then(response => {
+        opportunity.opportunity_requested.push("nikhilrwadekar@gmail.com");
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-    //     console.log("It did go through..");
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    adminSocket.emit("getRequests", opportunity);
   };
 
   render() {
