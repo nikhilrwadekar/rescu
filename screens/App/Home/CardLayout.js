@@ -1,92 +1,15 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, AsyncStorage } from "react-native";
 import CardList from "react-native-card-animated-modal";
-import { Button, SearchBar } from "react-native-elements";
+import { Button } from "react-native-elements";
 
+// Initializing the socket variables on a global Level
+import { clientSocket, adminSocket } from "../../../web-sockets";
+
+// Connections!
 import axios from "axios";
 
-const now = new Date();
-const CARDS = [
-  {
-    // image source for Image component
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1560252829-804f1aedf1be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    // Height for the card
-    height: 0,
-    // Will be used when you want to render different contents per card.
-    renderDetails: ({ item, index }) => (
-      <View style={{ paddingTop: 35 }}>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-        <Text style={{ flex: 1, padding: 10 }}>
-          Tonari Gumi is a grassroots community organization serving Japanese
-          Canadian seniors and other members of the community. A home-away-from
-          home, a place to meet friends, and a place to find support, Tonari
-          Gumi serves the Metro Vancouver area. Visit us today!
-        </Text>
-      </View>
-    )
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1557660559-42497f78035b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  },
-  {
-    image: {
-      uri:
-        "https://images.unsplash.com/photo-1541532108062-73f2181a08c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-    },
-    height: 0
-  }
-];
-
-const API_URL = "https://outreach.nikhilwadekar.com/api/";
-// Sign Out!
-_signOutAsync = async () => {
-  await AsyncStorage.clear();
-  this.props.navigation.navigate("SignIn");
-};
+const API_URL = "http://localhost:4000/api/";
 
 // Top Header for Home
 const Header = ({ name }) => {
@@ -160,7 +83,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
 };
 
 // OpportunityTaskCard's Single View - When you click on a card
-const OpportunitySingleView = ({ opportunity }) => {
+const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   return (
     <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
       <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
@@ -168,26 +91,28 @@ const OpportunitySingleView = ({ opportunity }) => {
           title={
             !opportunity.opportunity_requested.includes(
               "nikhilrwadekar@gmail.com"
+            ) &&
+            !opportunity.opportunity_assigned.includes(
+              "nikhilrwadekar@gmail.com"
             )
               ? "Request to Volunteer"
+              : opportunity.opportunity_assigned.includes(
+                  "nikhilrwadekar@gmail.com"
+                )
+              ? "Assigned"
               : "Requested"
           }
-          disabled={opportunity.opportunity_requested.includes(
-            "nikhilrwadekar@gmail.com"
-          )}
+          // disabled={
+          //   opportunity.opportunity_requested.includes(
+          //     "nikhilrwadekar@gmail.com"
+          //   ) ||
+          //   opportunity.opportunity_assigned.includes(
+          //     "nikhilrwadekar@gmail.com"
+          //   )
+          // }
           raised
           color="white"
-          onPress={() => {
-            axios
-              .put(
-                `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
-              )
-              .then(response => {
-                opportunity.opportunity_requested.push(
-                  "nikhilrwadekar@gmail.com"
-                );
-              });
-          }}
+          onPress={onRequestPressed}
         />
       </View>
       <Text style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}>
@@ -208,12 +133,41 @@ export default class CardLayout extends Component {
   }
 
   async componentDidMount() {
+    // Google Sign In
     const google = await AsyncStorage.getItem("googleSignInDetails");
-
     let googleDetails = JSON.parse(google);
-
     this.setState({ googleDetails });
+
+    // Connecting to Sockets
+    adminSocket.connect();
+    clientSocket.connect();
+
+    // Logging when connected to Sockets
+    clientSocket.on("connect", () => {
+      console.log("Mobile Connected to Client Socket");
+    });
+
+    adminSocket.on("connect", () => {
+      console.log("Mobile Connected to Admin Socket");
+    });
   }
+
+  handleRequestPressed = async opportunity => {
+    // Asking admin to get requests! via Web Sockets
+    adminSocket.emit("getRequests", opportunity);
+
+    // Do the usual updates
+    await axios
+      .put(
+        `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
+      )
+      .then(response => {
+        opportunity.opportunity_requested.push("nikhilrwadekar@gmail.com");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     const { reliefCenters } = this.props;
@@ -246,7 +200,14 @@ export default class CardLayout extends Component {
         }}
         renderDetails={({ item, index }) => {
           /* You can also provide custom content per item */
-          return <OpportunitySingleView opportunity={item.reliefCenter} />;
+          return (
+            <OpportunitySingleView
+              opportunity={item.reliefCenter}
+              onRequestPressed={() =>
+                this.handleRequestPressed(item.reliefCenter)
+              }
+            />
+          );
         }}
       />
     );

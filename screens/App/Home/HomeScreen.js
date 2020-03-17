@@ -6,11 +6,13 @@ import {
   Button,
   ActivityIndicator,
   SafeAreaView,
-  AsyncStorage
+  AsyncStorage,
+  TextInput
 } from "react-native";
+
 import CardLayout from "./CardLayout";
 
-const API_URL = "https://outreach.nikhilwadekar.com/api";
+const API_URL = "http://localhost:4000/api";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -62,13 +64,6 @@ export default class HomeScreen extends Component {
     }
 
     return <CardLayout reliefCenters={this.state.reliefCenters} />;
-
-    return (
-      <SafeAreaView>
-        <Text>Hello! Data was Loaded!</Text>
-        <Text>{JSON.stringify(this.state.reliefCenters)}</Text>
-      </SafeAreaView>
-    );
   }
 }
 
@@ -80,8 +75,9 @@ HomeScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
+    height: 400,
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#F5FCFF"
   },
   user: {
     fontSize: 25,
