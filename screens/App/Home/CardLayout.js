@@ -3,9 +3,11 @@ import { Text, StyleSheet, View, AsyncStorage } from "react-native";
 import CardList from "react-native-card-animated-modal";
 import { Button } from "react-native-elements";
 
+// Initializing the socket variables on a global Level
+import { clientSocket, adminSocket } from "../../../web-sockets";
+
 // Connections!
 import axios from "axios";
-import socketIO from "socket.io-client";
 
 const API_URL = "http://localhost:4000/api/";
 
@@ -120,9 +122,6 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   );
 };
 
-// Initializing the socket variables on a global Level
-var clientSocket, adminSocket;
-
 // Main Component
 export default class CardLayout extends Component {
   constructor(props) {
@@ -139,17 +138,6 @@ export default class CardLayout extends Component {
     let googleDetails = JSON.parse(google);
     this.setState({ googleDetails });
 
-    // Configuring Sockets
-    clientSocket = socketIO("http://localhost:5000", {
-      transports: ["websocket"],
-      jsonp: false
-    });
-
-    adminSocket = socketIO("http://localhost:5000/admin", {
-      transports: ["websocket"],
-      jsonp: false
-    });
-
     // Connecting to Sockets
     adminSocket.connect();
     clientSocket.connect();
@@ -165,9 +153,10 @@ export default class CardLayout extends Component {
   }
 
   handleRequestPressed = async opportunity => {
-    console.log("Request was pressed!");
+    // Asking admin to get requests! via Web Sockets
     adminSocket.emit("getRequests", opportunity);
 
+    // Do the usual updates
     await axios
       .put(
         `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`

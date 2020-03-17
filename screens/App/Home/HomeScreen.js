@@ -25,13 +25,6 @@ export default class HomeScreen extends Component {
 
   // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
   async componentDidMount() {
-    this.socket = io("http://127.0.0.1:5000");
-    this.socket.on("volunteerToAdminRequest", () => {
-      console.log(
-        "Request has been sent and captured successfully by Socket.io!"
-      );
-    });
-
     fetch(`${API_URL}/user/opportunities`)
       .then(response => response.json())
       .then(responseJson => {

@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 // Third Party Components/Libraries
-import io from "socket.io-client"; // Socket.io
 import axios from "axios"; // Axios
 import { TabView, SceneMap } from "react-native-tab-view";
 import { ScrollView } from "react-native-gesture-handler";
@@ -26,11 +25,6 @@ class UpcomingTasksComponent extends Component {
     this.state = {
       reliefCenterGroupedTasks: []
     };
-
-    // Connect to that Username's namespace
-    var socket = io("http://127.0.0.1:5000", {
-      transports: ["websocket", "polling", "flashsocket"]
-    });
   }
 
   async componentDidMount() {
@@ -40,8 +34,6 @@ class UpcomingTasksComponent extends Component {
     this.setState({
       reliefCenterGroupedTasks: JSON.parse(tasks)
     });
-
-    socket.on("taskUpdate", this.getTasks);
   }
 
   render() {

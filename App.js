@@ -2,7 +2,6 @@ import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import React, { useState, Component } from "react";
-import socketIO from "socket.io-client";
 
 import {
   Platform,
@@ -33,22 +32,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // Client Socket was moved into CardLayout.
-
-    // Admin Namespace
-    const adminSocket = socketIO("http://localhost:5000/admin", {
-      transports: ["websocket"],
-      jsonp: false
-    });
-
-    adminSocket.connect();
-    adminSocket.on("connect", () => {
-      console.log("Mobile Connected to Admin Socket Server");
-
-      adminSocket.on("message1", function(m) {
-        console.log(m);
-      });
-    });
+    // Import Sockets and MAKE SURE to connect!
   }
 
   setLoadingComplete = () => {
