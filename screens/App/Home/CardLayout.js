@@ -9,7 +9,7 @@ import { clientSocket, adminSocket } from "../../../web-sockets";
 // Connections!
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/api/";
+const API_URL = "http://10.0.0.11:4000/api/";
 
 // Top Header for Home
 const Header = ({ name }) => {

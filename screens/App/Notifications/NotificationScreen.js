@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Text, View, AsyncStorage, Button } from "react-native";
 import axios from "axios";
-
+import { adminSocket, clientSocket } from "../../../web-sockets";
+import { TrackingStateReason } from "expo/build/AR";
 // API_URL
 const API_URL = "http://10.0.0.11:4000/api";
 export default class NotificationScreen extends Component {
@@ -9,11 +10,13 @@ export default class NotificationScreen extends Component {
     super(props);
 
     this.state = {
-      receivedRequests: null
+      receivedRequests: null,
+      tasks: []
     };
   }
 
   async componentDidMount() {
+    this.getNotifications();
     const response = await axios.get(
       `${API_URL}/user/nikhilrwadekar@gmail.com/requests/received`
     );
@@ -25,11 +28,34 @@ export default class NotificationScreen extends Component {
 
     const receivedRequests = await AsyncStorage.getItem("receivedRequests");
     this.setState({ reliefCentersWithRequests: JSON.parse(receivedRequests) });
+
+    // Connect to Sockets
+    clientSocket.connected
+      ? console.log("Already Connected..")
+      : clientSocket.connect();
+
+    adminSocket.connected
+      ? console.log("Already Connected..")
+      : adminSocket.connect();
+
+    adminSocket.on("acceptRequest", this.getNotifications);
   }
+
+  // Get Notifications!
+  getNotifications = async () => {
+    const tasks = axios.get(`${API_URL}/user/nikhilrwadekar@gmail.com/tasks`);
+    this.setState({ tasks: tasks.data });
+  };
 
   render() {
     // Deconstruct State!
-    const { reliefCentersWithRequests } = this.state;
+    const { reliefCentersWithRequests, tasks } = this.state;
+
+    return (
+      <View>
+        <Text>{JSON.stringify(tasks)}</Text>
+      </View>
+    );
 
     return (
       <View>

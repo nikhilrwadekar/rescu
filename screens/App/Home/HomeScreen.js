@@ -12,7 +12,7 @@ import {
 
 import CardLayout from "./CardLayout";
 
-const API_URL = "http://localhost:4000/api";
+const API_URL = "http://10.0.0.11:4000/api";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
