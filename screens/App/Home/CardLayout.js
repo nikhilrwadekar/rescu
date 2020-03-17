@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, AsyncStorage } from "react-native";
 import CardList from "react-native-card-animated-modal";
-import { Button, SearchBar } from "react-native-elements";
+import { Button } from "react-native-elements";
 
+// Connections!
 import axios from "axios";
 import socketIO from "socket.io-client";
 
-const API_URL = "http://10.0.0.11:4000/api/";
-// Sign Out!
-_signOutAsync = async () => {
-  await AsyncStorage.clear();
-  this.props.navigation.navigate("SignIn");
-};
+const API_URL = "http://localhost:4000/api/";
 
 // Top Header for Home
 const Header = ({ name }) => {
@@ -124,6 +120,7 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   );
 };
 
+// Initializing the socket variables on a global Level
 var clientSocket, adminSocket;
 
 // Main Component
@@ -142,7 +139,7 @@ export default class CardLayout extends Component {
     let googleDetails = JSON.parse(google);
     this.setState({ googleDetails });
 
-    // Socket
+    // Configuring Sockets
     clientSocket = socketIO("http://localhost:5000", {
       transports: ["websocket"],
       jsonp: false
@@ -152,10 +149,14 @@ export default class CardLayout extends Component {
       transports: ["websocket"],
       jsonp: false
     });
+
+    // Connecting to Sockets
     adminSocket.connect();
     clientSocket.connect();
-    clientSocket.on("connect", currentClientSocket => {
-      console.log("Mobile Connected to Client Socket" + currentClientSocket);
+
+    // Logging when connected to Sockets
+    clientSocket.on("connect", () => {
+      console.log("Mobile Connected to Client Socket");
     });
 
     adminSocket.on("connect", () => {
@@ -165,6 +166,7 @@ export default class CardLayout extends Component {
 
   handleRequestPressed = async opportunity => {
     console.log("Request was pressed!");
+    adminSocket.emit("getRequests", opportunity);
 
     await axios
       .put(
@@ -176,8 +178,6 @@ export default class CardLayout extends Component {
       .catch(err => {
         console.log(err);
       });
-
-    adminSocket.emit("getRequests", opportunity);
   };
 
   render() {
