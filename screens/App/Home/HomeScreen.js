@@ -9,7 +9,6 @@ import {
   AsyncStorage,
   TextInput
 } from "react-native";
-import io from "socket.io-client";
 
 import CardLayout from "./CardLayout";
 
