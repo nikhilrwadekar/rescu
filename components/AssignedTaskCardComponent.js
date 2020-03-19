@@ -15,10 +15,9 @@ const AssignedTaskCardComponent = ({
     <Text>{date}</Text>
     <Text>{location}</Text>
     <Text>{time}</Text>
-    <Text>ckboughoucbob</Text>
 
     <View style={styles.editButton}>
-      <Button title={date} onPress={onPressOptOut} />
+      <Button title={buttonText} onPress={onPressOptOut} />
     </View>
   </View>
 );

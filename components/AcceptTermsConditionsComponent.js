@@ -1,24 +1,24 @@
 import React from "react";
-import { Text, View, CheckBox, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import { CheckBox } from "react-native-elements";
 
 const AcceptTermsConditionsComponent = ({
   textAcceptTermsConditions,
   checkboxValue,
-  onCheckboxButton
+  onCheckboxValueChange
 }) => (
   <View style={styles.container}>
-    <CheckBox value={checkboxValue} onChange={onCheckboxButton} />
+    <CheckBox checked={checkboxValue} onPress={onCheckboxValueChange} />
     <Text style={styles.textLabel}>{textAcceptTermsConditions}</Text>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    marginRight: 40,
-    marginLeft: 40
+    justifyContent: "center"
+    // marginRight: 40,
+    // marginLeft: 40
   },
   textLabel: {
     fontSize: 20
