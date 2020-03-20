@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import RNPickerSelect from "react-native-picker-select";
+import styles from "react-native-card-animated-modal/src/styles";
 
 export class ProvinceSelector extends React.Component {
   constructor() {
@@ -69,16 +70,24 @@ export class ProvinceSelector extends React.Component {
     return (
       <View
         style={{
-          marginTop: 30,
+          marginTop: 35,
           justifyContent: "center",
-          alignItems: "center",
+          // alignItems: "center",
           height: 50
         }}
       >
-        <Text>Province</Text>
+        <Text
+          style={{
+            fontFamily: "OpenSans-Light",
+            fontSize: 17,
+            textAlign: "left"
+          }}
+        >
+          Province
+        </Text>
         <RNPickerSelect
           placeholder={{
-            label: "Select province",
+            label: "Select Province",
             value: null
           }}
           items={this.state.items}
@@ -115,10 +124,14 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 12,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#F27821",
     borderRadius: 10,
     backgroundColor: "white",
     color: "black"
+  },
+  provinceLabel: {
+    fontFamily: "OpenSans-Light",
+    fontSize: 30
   }
 });
 
