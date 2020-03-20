@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, StyleSheet, Image } from "react-native";
+import { View, Button, StyleSheet, Image, Text } from "react-native";
 // Test Comment
 const ProfileHeader = ({ imageUrl, buttonText, onPressEditProfile, fName }) => (
   <View style={styles.header}>

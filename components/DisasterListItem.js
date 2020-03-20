@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 
-const DisasterListItem = ({ imgDLIUrl, location, itemExcerpt }) => (
+const DisasterListItem = ({ imgDLIUrl, location, itemExcerpt, name }) => (
   <View style={styles.mDLIContainer}>
     <View style={styles.imgDLI}>
       <Image style={{ width: "100%", height: 100 }} source={imgDLIUrl}></Image>
     </View>
     <View style={styles.DisasterListItem}>
-      <Text style={styles.DisasterListItemHeader}>{location}</Text>
+      <Text>{location}</Text>
+
+      <Text style={styles.DisasterListItemHeader}>{name}</Text>
+
       <Text style={{ flexWrap: "wrap" }}>{itemExcerpt}</Text>
     </View>
   </View>

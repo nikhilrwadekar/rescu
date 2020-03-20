@@ -18,7 +18,7 @@ export default class NotificationScreen extends Component {
         {/* <AvailabilityTimePreferenceComponent
           timeLabel={"Start Time"}
           timeTextPlaceHolder={"8.00"}
-          onPressTime={"vv"}
+          onPressTime={"vv"}  
         /> */}
       </View>
     );

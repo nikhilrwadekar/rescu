@@ -3,6 +3,8 @@ import { Text, View, Share, Button, StyleSheet } from "react-native";
 import DonationSuccess from "../../../components/DonationSuccess";
 import ShareDonationComponent from "../../../components/ShareDonationComponent";
 
+// Lottie
+import LottieView from "lottie-react-native";
 export class DonationSuccessScreen extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,17 @@ export class DonationSuccessScreen extends Component {
       donationCmfText: "Your donation was successful!"
     };
   }
+
+  componentDidMount() {
+    this.animation.play();
+    // Or set a specific startFrame and endFrame with:
+    // this.animation.play(30, 120);
+  }
+
+  resetAnimation = () => {
+    this.animation.reset();
+    this.animation.play();
+  };
 
   onShare = async () => {
     try {
@@ -36,9 +49,7 @@ export class DonationSuccessScreen extends Component {
     }
   };
 
-  handleShareDonate = () => {
-    console.log("Profile Screen: handleShareDonate() was called");
-  };
+  handleShareDonate = () => {};
 
   render() {
     const {
@@ -51,6 +62,20 @@ export class DonationSuccessScreen extends Component {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
+        <LottieView
+          ref={animation => {
+            this.animation = animation;
+          }}
+          style={{
+            width: 400,
+            height: 400,
+            backgroundColor: ""
+          }}
+          source={require("../../../assets/lottie-animations/piggyDonation.json")}
+          // OR find more Lottie files @ https://lottiefiles.com/featured
+          // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+        />
+
         <DonationSuccess
           thankingText={thanksText}
           currency={currency}
@@ -76,7 +101,7 @@ export class DonationSuccessScreen extends Component {
 }
 
 DonationSuccessScreen.navigationOptions = {
-  title: "Sucess"
+  title: "Success"
 };
 
 const styles = StyleSheet.create({
