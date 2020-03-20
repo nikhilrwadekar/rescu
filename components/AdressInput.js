@@ -1,5 +1,5 @@
 import React from "react";
-import { View, AsyncStorage } from "react-native";
+import { View, AsyncStorage, StyleSheet } from "react-native";
 import AppInput from "./AppInput";
 import ProvinceSelector from "./ProvinceSelector";
 
@@ -42,20 +42,35 @@ export class AddressInput extends React.Component {
     const { streetName, cityName } = this.state;
     return (
       <View style={{ paddingRight: 40, paddingLeft: 40 }}>
-        <AppInput
-          label="StreetName"
-          value={streetName}
-          onChange={streetName => this.setState({ streetName })}
-        />
-        <AppInput
-          label="City"
-          value={cityName}
-          onChange={cityName => this.setState({ cityName })}
-        />
+        <View style={styles.addressLabel}>
+          <AppInput
+            label="Address Line"
+            placeholderValue="66 63rd Avenue"
+            value={streetName}
+            onChange={streetName => this.setState({ streetName })}
+          />
+        </View>
+
+        <View style={styles.addressLabel}>
+          <AppInput
+            label="City"
+            placeholderValue="Vancouver"
+            value={cityName}
+            onChange={cityName => this.setState({ cityName })}
+          />
+        </View>
 
         <ProvinceSelector />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  addressLabel: {
+    marginTop: 22,
+    fontFamily: "OpenSans-Light"
+  }
+});
+
 export default AddressInput;

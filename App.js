@@ -73,7 +73,10 @@ async function loadResourcesAsync() {
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
-      "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf")
+      "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
+      "Quicksand-Medium": require("./assets/fonts/Quicksand-Medium.ttf"),
+      "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
+      "Quicksand-SemiBold": require("./assets/fonts/Quicksand-SemiBold.ttf")
     })
   ]);
 }

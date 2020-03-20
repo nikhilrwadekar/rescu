@@ -5,11 +5,12 @@ import { View, StyleSheet, TextInput, Text } from "react-native";
 const styles = StyleSheet.create({
   inputStyle: {
     borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 15,
+    borderColor: "#F27821",
+    borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    height: 45
   }
 });
 
@@ -34,9 +35,17 @@ export class PostalCode extends React.Component {
 
   render() {
     return (
-      <View style={{ paddingRight: 40, paddingLeft: 40, marginTop: 20 }}>
-        <Text>Postal Code</Text>
+      <View style={{ paddingRight: 40, paddingLeft: 40, marginTop: 24 }}>
+        <Text
+          style={{
+            fontFamily: "OpenSans-Light",
+            fontSize: 17
+          }}
+        >
+          Postal Code
+        </Text>
         <UselessTextInput
+          placeholder={this.state.placeholderPostalCode}
           onChangeText={value => {
             this.setState({
               PostalCode: value
