@@ -6,17 +6,26 @@ import BaseInput from "./BaseInput";
 const styles = StyleSheet.create({
   inputStyle: {
     borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 15,
+    borderColor: "#F27821",
+    borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    marginTop: 5,
+    fontFamily: "OpenSans-Light"
   }
 });
 
-const AppInput = ({ children, value, onChange, ...props }) => (
+const AppInput = ({
+  children,
+  value,
+  onChange,
+  placeholderValue,
+  ...props
+}) => (
   <BaseInput {...props}>
     <TextInput
+      placeholder={placeholderValue}
       value={value}
       onChangeText={onChange}
       style={styles.inputStyle}

@@ -8,7 +8,12 @@ const AcceptTermsConditionsComponent = ({
   onCheckboxValueChange
 }) => (
   <View style={styles.container}>
-    <CheckBox checked={checkboxValue} onPress={onCheckboxValueChange} />
+    <CheckBox
+      checked={checkboxValue}
+      onPress={onCheckboxValueChange}
+      checkedColor="#F27821"
+      uncheckedColor="#F27821"
+    />
     <Text style={styles.textLabel}>{textAcceptTermsConditions}</Text>
   </View>
 );
@@ -16,12 +21,13 @@ const AcceptTermsConditionsComponent = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "center"
-    // marginRight: 40,
-    // marginLeft: 40
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginTop: 0
   },
   textLabel: {
-    fontSize: 20
+    fontSize: 15,
+    fontFamily: "OpenSans-Light"
   }
 });
 

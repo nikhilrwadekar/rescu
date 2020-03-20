@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-// import { RadioButtons } from "react-native-radio-buttons";
 import {
   Container,
   Header,
@@ -14,7 +13,6 @@ import {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    // backgroundColor: "red",
     height: 200
   },
   cont: {
@@ -22,14 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const TimeAvailability = ({ OnSelectOption }) => (
-  // export class TimeAvailability extends React.Component {
-  // state = {
-  //   selectedOption: "anytime"
-  // };
-
-  // render() {
-  //   return (
+const TimeAvailability = ({ setPreference, preference }) => (
   <View style={styles.inputStyle}>
     <Text>Choose your availability</Text>
     <Container>
@@ -37,11 +28,8 @@ const TimeAvailability = ({ OnSelectOption }) => (
       <Content>
         <ListItem
           onPress={() => {
-            this.setState({ selectedOption: "anytime" });
-            var val = this.state.selectedOption;
-            OnSelectOption(val);
+            setPreference("anytime");
           }}
-          // onPress={() => this.setState({ selectedOption: "anytime" })}
         >
           <Left>
             <Text>Anytime</Text>
@@ -50,26 +38,23 @@ const TimeAvailability = ({ OnSelectOption }) => (
             <Radio
               color={"#f0ad4e"}
               selectedColor={"#f27821"}
-              selected={this.state.selectedOption == "anytime"}
+              selected={preference == "anytime"}
             />
           </Right>
         </ListItem>
         <ListItem
           onPress={() => {
-            this.setState({ selectedOption: "anytime" });
-            var val = this.state.selectedOption;
-            OnSelectOption(val);
+            setPreference("preferred");
           }}
-          // onPress={() => this.setState({ selectedOption: "preferred" })}
         >
           <Left>
-            <Text>Discussion with Client</Text>
+            <Text>Preferred</Text>
           </Left>
           <Right>
             <Radio
               color={"#f0ad4e"}
               selectedColor={"#f27821"}
-              selected={this.state.selectedOption == "preferred"}
+              selected={preference == "preferred"}
             />
           </Right>
         </ListItem>

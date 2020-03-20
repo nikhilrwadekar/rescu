@@ -72,6 +72,14 @@
 
 import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
+import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
+import ExpirationCVVComponent from "../../../components/credit_card_details/ExpirationCVVComponent";
+import CardHolderNameComponent from "../../../components/credit_card_details/CardHolderNameComponent";
+import DateComponent from "../../../components/AvailabilityDateComponent";
+import ModalTester from "../../../components/DateModal";
+// import DateTest from "../../../components/credit_card_details/DateTest";
+// import AvailabilityDatePreferenceComponent from "../../../components/AvailabilityDatePreferenceComponent";
+// import DateTestingComponent from "../../../components/DateTestingComponent";
 
 export default class DonateScreen extends Component {
   constructor(props) {
@@ -82,6 +90,14 @@ export default class DonateScreen extends Component {
       question: "How much would you like to Donate?",
       currency: "$"
     };
+
+    // check = () => {
+    //   console.log("Hello");
+    // };
+
+    // displayDate = () => {
+    //   console.log("Hello");
+    // };
   }
 
   render() {
@@ -94,6 +110,22 @@ export default class DonateScreen extends Component {
             this.props.navigation.navigate("DonationSuccess");
           }}
         />
+
+        {/* <CardNumberComponent /> */}
+        {/* <ExpirationCVVComponent /> */}
+        {/* <CardHolderNameComponent /> */}
+        {/* <AvailabilityDatePreferenceComponent
+          textStatement={"Date"}
+          dateTextPlaceholder={"Choose a date"}
+          onPressshowDate={this.check}
+          // onGetText={this}
+          // onShareButtonPress={this.check}
+        /> */}
+        {/* <DateTest /> */}
+        {/* <DateTestingComponent /> */}
+        {/* <Text>Hi</Text> */}
+        {/* <DateComponent /> */}
+        <ModalTester />
       </View>
     );
   }
