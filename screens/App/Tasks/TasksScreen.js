@@ -47,6 +47,14 @@ class UpcomingTasksComponent extends Component {
     this.setState({ reliefCenterGroupedTasks: tasks.data });
   };
 
+  // Handle Opt Out
+  handleOptOut = async taskID => {
+    console.log(`${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`);
+    await axios.post(
+      `${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`
+    );
+  };
+
   render() {
     const { reliefCenterGroupedTasks } = this.state;
     return (
@@ -72,7 +80,7 @@ class UpcomingTasksComponent extends Component {
                       [
                         {
                           text: "Yes, please.",
-                          onPress: () => console.log("Yes, please. pressed")
+                          onPress: () => this.handleOptOut(task._id)
                         },
                         {
                           text: "Cancel",
@@ -105,7 +113,7 @@ const renderScene = SceneMap({
   second: HistoryComponent
 });
 
-const API_URL = "http://10.0.0.11:4000/api/";
+const API_URL = "http://localhost:4000/api";
 
 export default class TasksScreen extends Component {
   constructor(props) {

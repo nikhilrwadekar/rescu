@@ -7,12 +7,15 @@ import {
   ActivityIndicator,
   SafeAreaView,
   AsyncStorage,
-  TextInput
+  TextInput,
+  Alert
 } from "react-native";
 
 import CardLayout from "./CardLayout";
 
-const API_URL = "http://10.0.0.11:4000/api";
+import { clientSocket, adminSocket } from "../../../web-sockets";
+
+const API_URL = "http://localhost:4000/api";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -22,8 +25,7 @@ export default class HomeScreen extends Component {
     };
   }
 
-  // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
-  async componentDidMount() {
+  getTasks = async () => {
     fetch(`${API_URL}/user/opportunities`)
       .then(response => response.json())
       .then(responseJson => {
@@ -42,7 +44,10 @@ export default class HomeScreen extends Component {
         });
       })
       .catch(error => console.log(error)); //to catch the errors if any
+  };
 
+  // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
+  async componentDidMount() {
     await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
       if (err) {
         console.log(err);
@@ -52,6 +57,19 @@ export default class HomeScreen extends Component {
         this.setState({ googleDetails: result });
       }
     });
+
+    // Logging when connected to Sockets
+    clientSocket.on("connect", () => {
+      console.log("Mobile Connected to Client Socket");
+    });
+
+    // Alert with Broadcast
+    clientSocket.on("broadcastMessage", message =>
+      Alert.alert("New Update from Admin", message.broadcast)
+    );
+
+    // Get Tasks
+    this.getTasks();
   }
 
   render() {

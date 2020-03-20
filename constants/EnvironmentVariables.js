@@ -1,10 +1,10 @@
 import Constants from "expo-constants";
 
-export const prodUrl = "http://10.0.0.11:4000/api";
+export const prodUrl = "http://localhost:4000/api";
 
 const ENV = {
   dev: {
-    apiUrl: "http://10.0.0.11:4000/api"
+    apiUrl: "http://localhost:4000/api"
   },
   staging: {
     apiUrl: prodUrl
