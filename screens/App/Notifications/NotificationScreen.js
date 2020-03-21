@@ -48,6 +48,21 @@ export default class NotificationScreen extends Component {
   };
 
   render() {
+<<<<<<< HEAD
+    return (
+      <View style={styles.carouselContainer}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <ImageCarousel txt={"jkk"} imageUri={pic} />
+          <ImageCarousel txt={"jkk"} imageUri={pic} />
+          <ImageCarousel txt={"jkk"} imageUri={pic} />
+        </ScrollView>
+
+        {/* <AvailabilityTimePreferenceComponent
+          timeLabel={"Start Time"}
+          timeTextPlaceHolder={"8.00"}
+          onPressTime={"vv"}  
+        /> */}
+=======
     // Deconstruct State!
     const { reliefCentersWithRequests, tasks } = this.state;
 
@@ -81,11 +96,17 @@ export default class NotificationScreen extends Component {
               { name, location }
             );
           })}
+>>>>>>> 86351bdbc0d0df4f54be96d740ce28ac896d50be
       </View>
     );
   }
 }
-
+const styles = StyleSheet.create({
+  carouselConatiner: {
+    height: 130,
+    marginTop: 20
+  }
+});
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
   title: "Your Notifications"
