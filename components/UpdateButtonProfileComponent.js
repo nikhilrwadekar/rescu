@@ -11,15 +11,19 @@ const UpdateButtonProfileComponent = ({ buttonText, onPressUpdate }) => (
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 20,
+    marginTop: 18,
     borderRadius: 10,
     paddingVertical: 14,
-    paddingHorizontal: 10,
-    backgroundColor: "black"
+    // paddingHorizontal: 10,
+    backgroundColor: "#F27821",
+    width: 150,
+    alignSelf: "center",
+    marginBottom: 30
   },
   btnText: {
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "Quicksand-SemiBold"
   }
 });
 

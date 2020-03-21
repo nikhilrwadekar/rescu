@@ -1,7 +1,8 @@
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
+
 import {
   Platform,
   StatusBar,
@@ -21,26 +22,42 @@ library.add(faTasks);
 
 import AppNavigator from "./navigation/AppNavigator";
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+export default class App extends Component {
+  constructor(props) {
+    super(props);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      // <DismissKeyboard>
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-      // </DismissKeyboard>
-    );
+    this.state = {
+      isLoadingComplete: false
+    };
+  }
+
+  componentDidMount() {
+    // Import Sockets and MAKE SURE to connect!
+  }
+
+  setLoadingComplete = () => {
+    this.setState({ isLoadingComplete: true });
+  };
+  render() {
+    const { isLoadingComplete } = this.state;
+    if (!isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={loadResourcesAsync}
+          onError={handleLoadingError}
+          onFinish={() => handleFinishLoading(this.setLoadingComplete)}
+        />
+      );
+    } else {
+      return (
+        // <DismissKeyboard>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+        // </DismissKeyboard>
+      );
+    }
   }
 }
 
@@ -56,7 +73,10 @@ async function loadResourcesAsync() {
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
-      "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf")
+      "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
+      "Quicksand-Medium": require("./assets/fonts/Quicksand-Medium.ttf"),
+      "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
+      "Quicksand-SemiBold": require("./assets/fonts/Quicksand-SemiBold.ttf")
     })
   ]);
 }

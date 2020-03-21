@@ -10,7 +10,8 @@ const AssignedTaskCardComponent = ({
   location,
   time,
   buttonText,
-  onPressOptOut
+  onPressOptOut,
+  newKey
 }) => (
   <View style={styles.container}>
     <View style={styles.Rone}>
@@ -76,4 +77,5 @@ const styles = StyleSheet.create({
   //   borderColor: "#d6d7da"
   // }
 });
+
 export default AssignedTaskCardComponent;
