@@ -16,7 +16,11 @@ import AddressInput from "../../components/AdressInput";
 import PostalCode from "../../components/PostalCode";
 import ButtonLink from "../../components/ButtonLink";
 import TimeAvailability from "../../components/TimeAvailability";
-import DateTimeModal from "../../components/DateModal";
+// import DateTimeModal from "../../components/DateModal";
+
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Modal from "react-native-modal";
+import { Card } from "react-native-elements";
 
 export default class PreferencesScreenOne extends Component {
   constructor(props) {
@@ -31,39 +35,26 @@ export default class PreferencesScreenOne extends Component {
       // State Variables from Jasmine's DateModal
       isModalVisible: false,
       dateSelected: new Date(),
-      lastPressedPreference: ""
+      currentModalLabel: "",
+      currentKey: 1
     };
   }
 
   // When one of the preferences change.. update those!
   onChange = (event, date) => {
-    // Get the Key for the Preference
-    const key = this.state.lastPressedPreference.split(" ")[0];
+    const { timePreferences, currentKey, currentModalLabel } = this.state;
 
-    // Get which part of the Preference to update
-    const keyToUpdate = this.state.lastPressedPreference.split(" ")[1];
-
-    // Get the Preferences array from the state
-    let timePreferences = this.state.timePreferences;
+    const keyToUpdate =
+      currentModalLabel == "Date"
+        ? "date"
+        : currentModalLabel == "Start Time"
+        ? "start_time"
+        : "end_time";
 
     // Find the preference concerned in the Array
-    var foundIndex = timePreferences.findIndex(x => x.key == key);
+    var foundIndex = timePreferences.findIndex(x => x.key == currentKey);
 
-    // If it's time we're updating, convert it to a human readable text first.
-    // if (keyToUpdate != "date")
-    //   timePreferences[foundIndex][keyToUpdate] = new Date(date)
-    // .toLocaleString(
-    //     "en-US",
-    //     {
-    //       hour: "numeric",
-    //       minute: "numeric",
-    //       hour12: true
-    //     }
-    //   );
-    // Else just store the entire Data string
-    // else
     timePreferences[foundIndex][keyToUpdate] = date;
-
     // Lastly.. update the set with the updated Array!
     this.setState({ timePreferences });
   };
@@ -73,13 +64,13 @@ export default class PreferencesScreenOne extends Component {
   };
 
   // Toggle Modal Function  from Jasmine's DateModal
-  toggleModal = key => {
+  toggleModal = (key, label) => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-      lastPressedPreference: key
+      currentModalLabel: label,
+      currentKey: key
     });
   };
-
   // ENDS
   // ======================
   // Handle Set Preference
@@ -130,9 +121,79 @@ export default class PreferencesScreenOne extends Component {
           {preference == "preferred" && (
             <View>
               {/* Map Date Modal */}
-              {timePreferences.map(timePreference => (
+              {timePreferences.map((timePreference, index) => (
                 // Preference - Date & Time
-                <View key={timePreference.key}></View>
+                <View key={timePreference.key}>
+                  {/* Buttons for Date, Start Time, and End Time */}
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Button
+                      title={
+                        timePreference.date
+                          ? `${new Date(timePreference.date).toDateString()} `
+                          : new Date().toDateString()
+                      }
+                      onPress={() =>
+                        this.toggleModal(timePreference.key, "Date")
+                      }
+                    />
+                    <Button
+                      title={new Date(
+                        timePreference.start_time
+                      ).toLocaleTimeString()}
+                      onPress={() =>
+                        this.toggleModal(timePreference.key, "Start Time")
+                      }
+                    />
+                    <Button
+                      title={new Date(
+                        timePreference.end_time
+                      ).toLocaleTimeString()}
+                      onPress={() =>
+                        this.toggleModal(timePreference.key, "End Time")
+                      }
+                    />
+                  </View>
+
+                  {/* The Modal that Conditionally Renders based on which Button is clicked */}
+                  <Modal
+                    onBackdropPress={this.toggleModal}
+                    isVisible={this.state.isModalVisible}
+                    style={{ flex: 1 }}
+                  >
+                    {/* View inside the Modal! */}
+                    <View>
+                      <Card>
+                        {/* Dynamic Label - Date, Start Time OR End Time */}
+                        <Text>{this.state.currentModalLabel}</Text>
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={
+                            new Date(
+                              this.state.currentModalLabel == "Date"
+                                ? timePreference.date
+                                : this.state.currentModalLabel == "Start Time"
+                                ? timePreference.start_time
+                                : timePreference.end_time
+                            )
+                          }
+                          mode={
+                            this.state.currentModalLabel == "Date"
+                              ? "date"
+                              : "time"
+                          }
+                          display="default"
+                          onChange={this.onChange}
+                        />
+                      </Card>
+                    </View>
+                  </Modal>
+                </View>
               ))}
 
               {/* Button to Add More Preferences */}

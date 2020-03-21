@@ -14,8 +14,8 @@ import {
 import CardLayout from "./CardLayout";
 
 import { clientSocket, adminSocket } from "../../../web-sockets";
+import { API_URL } from "../../../API";
 
-const API_URL = "http://localhost:4000/api";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -58,15 +58,19 @@ export default class HomeScreen extends Component {
       }
     });
 
-    // Logging when connected to Sockets
-    clientSocket.on("connect", () => {
-      console.log("Mobile Connected to Client Socket");
-    });
+    try {
+      // Logging when connected to Sockets
+      clientSocket.on("connect", () => {
+        console.log("Mobile Connected to Client Socket");
+      });
 
-    // Alert with Broadcast
-    clientSocket.on("broadcastMessage", message =>
-      Alert.alert("New Update from Admin", message.broadcast)
-    );
+      // Alert with Broadcast
+      clientSocket.on("broadcastMessage", message =>
+        Alert.alert("New Update from Admin", message.broadcast)
+      );
+    } catch (error) {
+      console.log("Client Socket Error:", error);
+    }
 
     // Get Tasks
     this.getTasks();

@@ -4,7 +4,8 @@ import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import { TrackingStateReason } from "expo/build/AR";
 // API_URL
-const API_URL = "http://localhost:4000/api";
+import { API_URL } from "../../../API";
+
 export default class NotificationScreen extends Component {
   constructor(props) {
     super(props);

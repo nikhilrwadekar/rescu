@@ -16,6 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 // Import Sockets
 import { clientSocket } from "../../../web-sockets";
+import { API_URL } from "../../../API";
 
 // Custom Outreach Components
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
@@ -112,8 +113,6 @@ const renderScene = SceneMap({
   first: UpcomingTasksComponent,
   second: HistoryComponent
 });
-
-const API_URL = "http://localhost:4000/api";
 
 export default class TasksScreen extends Component {
   constructor(props) {
