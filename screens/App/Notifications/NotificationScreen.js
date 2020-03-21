@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, Button } from "react-native";
+import { Text, View, AsyncStorage, Button, StyleSheet } from "react-native";
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import { TrackingStateReason } from "expo/build/AR";
