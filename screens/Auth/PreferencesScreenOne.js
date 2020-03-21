@@ -132,58 +132,7 @@ export default class PreferencesScreenOne extends Component {
               {/* Map Date Modal */}
               {timePreferences.map(timePreference => (
                 // Preference - Date & Time
-                <View key={timePreference.key}>
-                  <DateTimeModal
-                    key={`${timePreference.key} start_time`}
-                    label="Start Time"
-                    onChange={this.onChange}
-                    toggleModal={() =>
-                      this.toggleModal(`${timePreference.key} start_time`)
-                    }
-                    mode="time"
-                    dateSelected={new Date(timePreference.start_time)}
-                    displayText={timePreference.start_time.toLocaleString(
-                      "en-US",
-                      {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: true
-                      }
-                    )}
-                    isModalVisible={this.state.isModalVisible}
-                  />
-                  <DateTimeModal
-                    key={`${timePreference.key} end_time`}
-                    label="End Time"
-                    onChange={this.onChange}
-                    toggleModal={() =>
-                      this.toggleModal(`${timePreference.key} end_time`)
-                    }
-                    mode="time"
-                    dateSelected={new Date(timePreference.end_time)}
-                    displayText={timePreference.end_time.toLocaleString(
-                      "en-US",
-                      {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: true
-                      }
-                    )}
-                    isModalVisible={this.state.isModalVisible}
-                  />
-                  <DateTimeModal
-                    key={`${timePreference.key} date`}
-                    label="Choose a Date"
-                    onChange={this.onChange}
-                    toggleModal={() =>
-                      this.toggleModal(`${timePreference.key} date`)
-                    }
-                    mode="date"
-                    dateSelected={new Date(timePreference.date)}
-                    displayText={timePreference.date}
-                    isModalVisible={this.state.isModalVisible}
-                  />
-                </View>
+                <View key={timePreference.key}></View>
               ))}
 
               {/* Button to Add More Preferences */}
