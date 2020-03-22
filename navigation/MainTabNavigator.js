@@ -12,6 +12,7 @@ import NotificationScreen from "../screens/App/Notifications/NotificationScreen"
 
 // Profile & Following Screens
 import ProfileScreen from "../screens/App/Profile/ProfileScreen";
+import EditProfileScreen from "../screens/App/Profile/EditProfileScreen";
 import EditPreferencesScreen from "../screens/App/Profile/EditPreferencesScreen";
 import TermsScreen from "../screens/App/Profile/TermsScreen";
 // Config for something
@@ -47,6 +48,7 @@ HomeStack.path = "";
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen,
+    EditProfile: EditProfileScreen,
     EditPreferences: EditPreferencesScreen,
     Terms: TermsScreen
   },
