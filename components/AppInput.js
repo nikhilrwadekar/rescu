@@ -21,10 +21,12 @@ const AppInput = ({
   children,
   value,
   onChange,
+  baseInputCustomStyle,
   placeholderValue,
+
   ...props
 }) => (
-  <BaseInput {...props}>
+  <BaseInput {...props} baseInputCustomStyle={baseInputCustomStyle}>
     <TextInput
       placeholder={placeholderValue}
       value={value}

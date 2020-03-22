@@ -8,9 +8,7 @@ import { clientSocket, adminSocket } from "../../../web-sockets";
 
 // Connections!
 import axios from "axios";
-
-const API_URL = "http://localhost:4000/api/";
-
+import { API_URL } from "../../../API";
 // Top Header for Home
 const Header = ({ name }) => {
   return (
@@ -102,14 +100,14 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
               ? "Assigned"
               : "Requested"
           }
-          // disabled={
-          //   opportunity.opportunity_requested.includes(
-          //     "nikhilrwadekar@gmail.com"
-          //   ) ||
-          //   opportunity.opportunity_assigned.includes(
-          //     "nikhilrwadekar@gmail.com"
-          //   )
-          // }
+          disabled={
+            opportunity.opportunity_requested.includes(
+              "nikhilrwadekar@gmail.com"
+            ) ||
+            opportunity.opportunity_assigned.includes(
+              "nikhilrwadekar@gmail.com"
+            )
+          }
           raised
           color="white"
           onPress={onRequestPressed}
