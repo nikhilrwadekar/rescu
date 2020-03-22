@@ -28,14 +28,21 @@ const styles = StyleSheet.create({
   touchable: {
     marginRight: 40,
     marginLeft: 40,
-    marginTop: 10,
+    marginTop: 3,
     marginBottom: 10,
     paddingTop: 15,
     paddingBottom: 15,
     backgroundColor: "white",
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: "black",
-    borderRadius: 15
+    borderRadius: 10,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.4
   },
   touchableView: {
     display: "flex",
@@ -45,14 +52,16 @@ const styles = StyleSheet.create({
     // alignContent:"center"
   },
   buttonText: {
-    color: "black",
-    fontSize: 22,
-    marginLeft: 15
+    color: "#383940",
+    fontSize: 19,
+    marginLeft: 15,
+    fontFamily: "OpenSans-Regular"
   },
   nextIcon: {
     width: 20,
     height: 20,
     marginRight: 25,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
+    color: "#383940"
   }
 });

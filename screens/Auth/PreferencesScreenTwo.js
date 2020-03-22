@@ -58,6 +58,7 @@ export default class PreferencesScreenTwo extends Component {
 
           {/* Multiple Select for Volunteering Types */}
           <SelectMultiple
+            labelStyle={styles.label}
             items={volunteeringTypes}
             selectedItems={this.state.selectedVolunteeringTypes}
             onSelectionsChange={this.onSelectionsChange}
@@ -107,5 +108,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: "OpenSans-Light",
     marginLeft: 22
+  },
+  label: {
+    fontFamily: "OpenSans-Light",
+    fontSize: 15
   }
 });
