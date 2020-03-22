@@ -2,8 +2,12 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const UpdateButtonProfileComponent = ({ buttonText, onPressUpdate }) => (
-  <TouchableOpacity onPress={onPressUpdate}>
+const UpdateButtonProfileComponent = ({
+  buttonText,
+  onPressUpdate,
+  customStyle
+}) => (
+  <TouchableOpacity onPress={onPressUpdate} style={customStyle}>
     <LinearGradient colors={["#F16908", "#E7281F"]} style={styles.button}>
       <Text style={styles.btnText}>{buttonText}</Text>
     </LinearGradient>

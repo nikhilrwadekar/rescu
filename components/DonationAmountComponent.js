@@ -10,11 +10,15 @@ const DonationAmountComponent = ({
   onChangeDonationValue
 }) => (
   <View style={styles.mainContainer}>
-    <Text>{question}</Text>
+    <Text style={{ fontFamily: "OpenSans-Light", fontSize: 18 }}>
+      {question}
+    </Text>
 
     <View style={styles.donationContainer}>
-      <Button title="-" onPress={onPressDecrement} />
-      <Text>{currency}</Text>
+      {/* <Button title="-" onPress={onPressDecrement} /> */}
+      <Text style={{ fontFamily: "OpenSans-Light", fontSize: 40 }}>
+        {currency}
+      </Text>
       <TextInput
         style={styles.donationInput}
         editable
@@ -22,7 +26,7 @@ const DonationAmountComponent = ({
         defaultValue={initialAmount}
         onChangeText={newValue => onChangeDonationValue(newValue)}
       />
-      <Button title="+" onPress={onPressIncrement} />
+      {/* <Button title="+" onPress={onPressIncrement} /> */}
     </View>
   </View>
 );
@@ -30,18 +34,20 @@ const DonationAmountComponent = ({
 const styles = StyleSheet.create({
   donationContainer: {
     flexDirection: "row",
-    backgroundColor: "#0f0",
+
     width: "100%",
     justifyContent: "center"
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: "#f00",
+
     justifyContent: "center",
     alignItems: "center"
   },
   donationInput: {
-    width: 200
+    borderBottomWidth: 1,
+    fontFamily: "OpenSans-Light",
+    fontSize: 40
   }
 });
 export default DonationAmountComponent;

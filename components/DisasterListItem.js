@@ -17,10 +17,11 @@ const DisasterListItem = ({ imgDLIUrl, location, itemExcerpt, name }) => (
         <EvilIcons name="location" size={18} color="#F27821" />
         <Text
           style={{
-            fontFamily: "OpenSans-Light",
+            fontFamily: "OpenSans-LightItalic",
             fontSize: 13,
             alignSelf: "center",
-            color: "#383940"
+            color: "#383940",
+            fontSize: 14
           }}
         >
           {location}
