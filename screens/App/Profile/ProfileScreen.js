@@ -10,6 +10,9 @@ import {
   ScrollView
 } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
+import pic from "../../../assets/images/profile.png";
+import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
+
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
