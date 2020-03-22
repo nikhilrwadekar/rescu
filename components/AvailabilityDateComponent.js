@@ -10,7 +10,6 @@ const AvailabilityDateComponent = ({ date, mode, onChange }) => {
     <View>
       <DateTimePicker
         testID="dateTimePicker"
-        timeZoneOffsetInMinutes={0}
         value={date}
         mode={mode}
         display="default"

@@ -1,12 +1,12 @@
 import socketIO from "socket.io-client";
-
+import { SOCKET_URL } from "../API";
 // Configuring Sockets
-const clientSocket = socketIO("http://localhost:5000", {
+const clientSocket = socketIO(`${SOCKET_URL}`, {
   transports: ["websocket"],
   jsonp: false
 });
 
-const adminSocket = socketIO("http://localhost:5000/admin", {
+const adminSocket = socketIO(`${SOCKET_URL}/admin`, {
   transports: ["websocket"],
   jsonp: false
 });

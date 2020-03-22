@@ -1,56 +1,43 @@
 import React, { Component } from "react";
-import { Button, Text, View, StyleSheet } from "react-native";
+import { Button, Text, View, StyleSheet, SafeAreaView } from "react-native";
 import Modal from "react-native-modal";
 import AvailabilityDateComponent from "./AvailabilityDateComponent";
 
 export default class DateModal extends Component {
-  // Component State
-  state = {
-    isModalVisible: false,
-    dateSelected: new Date()
-  };
-
-  onChange = (event, selectedDate) => {
-    // Get Selected Date & Save it in the State
-    const currentDate = selectedDate || date;
-    this.setState({ dateSelected: currentDate });
-
-    // If iOS, show DatePicker
-    let showDatePicker = Platform.OS === "ios";
-    this.setState({ show: showDatePicker });
-  };
-
-  // Toggle Modal Function
-  toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
-  };
-
   render() {
+    const {
+      toggleModal,
+      dateSelected,
+      label,
+      show,
+      onButtonPress,
+      isModalVisible,
+      onChange,
+      displayText,
+      mode
+    } = this.props;
     return (
       <View style={styles.container}>
         {/* Label to Choose Date */}
-        <Text style={styles.chooseDateText}>Choose Date</Text>
+        <Text style={styles.chooseDateText}>{label}</Text>
 
         {/* Button - Showing Current OR Selected Date */}
-        <Button
-          title={this.state.dateSelected.toDateString()}
-          onPress={this.toggleModal}
-        />
+        <Button title={displayText} onPress={toggleModal} />
 
         {/* Modal: Visible only after above button is clicked */}
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Modal isVisible={isModalVisible}>
+          <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             {/* Custom Component for selecting Date */}
             <AvailabilityDateComponent
-              onChange={this.onChange}
-              date={this.state.dateSelected}
-              mode="date"
-              show={this.state.show}
+              onChange={onChange}
+              date={dateSelected}
+              mode={mode}
+              show={show}
             />
 
             {/* Button to close the Modal */}
-            <Button title="Done" onPress={this.toggleModal} />
-          </View>
+            <Button title="Done" onPress={toggleModal} />
+          </SafeAreaView>
         </Modal>
       </View>
     );

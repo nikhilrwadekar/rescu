@@ -29,6 +29,10 @@ export default class ProfileScreen extends Component {
     };
   }
 
+  // Handle Edit Profile Press
+  handleEditProfile = () => {
+    this.props.navigation.navigate("EditProfile");
+  };
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
     this.props.navigation.navigate("Tasks");
@@ -70,13 +74,17 @@ export default class ProfileScreen extends Component {
       <View>
         <ScrollView>
           <ProfileHeader
+            customHeadStyle={styles.header}
             imageUrl={{ uri: this.state.user.photoUrl }}
             onPressEditProfile={this.handleEditProfile}
             key="1"
             fName={this.state.user.name}
           />
 
-          <UpdateButtonProfileComponent buttonText="Edit Profile" />
+          <UpdateButtonProfileComponent
+            onPressUpdate={this.handleEditProfile}
+            buttonText="Edit Profile"
+          />
 
           <AvailabilityToggleComponent
             availabilityText="Availability"
@@ -139,4 +147,8 @@ ProfileScreen.navigationOptions = {
   title: "Your Profile"
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    marginBottom: 20
+  }
+});

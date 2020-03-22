@@ -14,6 +14,10 @@ import axios from "axios"; // Axios
 import { TabView, SceneMap } from "react-native-tab-view";
 import { ScrollView } from "react-native-gesture-handler";
 
+// Import Sockets
+import { clientSocket } from "../../../web-sockets";
+import { API_URL } from "../../../API";
+
 // Custom Outreach Components
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
 
@@ -27,14 +31,30 @@ class UpcomingTasksComponent extends Component {
     };
   }
 
-  async componentDidMount() {
-    console.log("Upcoming was mounted.");
-    const tasks = await AsyncStorage.getItem("tasks");
-
-    this.setState({
-      reliefCenterGroupedTasks: JSON.parse(tasks)
+  componentDidMount() {
+    // Listen to changes in Relief Centers
+    clientSocket.on("reliefCenterDataChange", data => {
+      // Get the latest tasks
+      this.getTasks();
     });
+
+    this.getTasks();
   }
+
+  getTasks = async () => {
+    const tasks = await axios.get(
+      `${API_URL}/user/nikhilrwadekar@gmail.com/tasks`
+    );
+    this.setState({ reliefCenterGroupedTasks: tasks.data });
+  };
+
+  // Handle Opt Out
+  handleOptOut = async taskID => {
+    console.log(`${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`);
+    await axios.post(
+      `${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`
+    );
+  };
 
   render() {
     const { reliefCenterGroupedTasks } = this.state;
@@ -61,7 +81,7 @@ class UpcomingTasksComponent extends Component {
                       [
                         {
                           text: "Yes, please.",
-                          onPress: () => console.log("Yes, please. pressed")
+                          onPress: () => this.handleOptOut(task._id)
                         },
                         {
                           text: "Cancel",
@@ -93,8 +113,6 @@ const renderScene = SceneMap({
   first: UpcomingTasksComponent,
   second: HistoryComponent
 });
-
-const API_URL = "http://10.0.0.11:4000/api/";
 
 export default class TasksScreen extends Component {
   constructor(props) {
