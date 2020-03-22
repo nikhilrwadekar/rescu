@@ -15,6 +15,7 @@ export default class ExpirationCVVComponent extends Component {
         <View style={styles.expiryLabel}>
           <AppInput
             label="Expiry Date"
+            placeholderValue="MM/YY"
             value={expiryDate}
             onChange={expiryDate => this.setState({ expiryDate })}
           />
@@ -23,6 +24,7 @@ export default class ExpirationCVVComponent extends Component {
         <View style={styles.cvvLabel}>
           <AppInput
             label="CVV"
+            placeholderValue="CVV"
             value={cvv}
             onChange={cvv => this.setState({ cvv })}
           />
@@ -34,11 +36,12 @@ export default class ExpirationCVVComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     paddingRight: 40,
     paddingLeft: 40,
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginTop: 15
   },
   expiryLabel: {
     width: 180

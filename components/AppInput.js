@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingTop: 10,
     paddingBottom: 10,
+    // height: 40,
     paddingLeft: 10,
     marginTop: 5,
     fontFamily: "OpenSans-Light"

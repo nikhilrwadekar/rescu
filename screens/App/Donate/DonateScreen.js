@@ -75,11 +75,8 @@ import { Text, View, Button, StyleSheet } from "react-native";
 import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
 import ExpirationCVVComponent from "../../../components/credit_card_details/ExpirationCVVComponent";
 import CardHolderNameComponent from "../../../components/credit_card_details/CardHolderNameComponent";
-import DateComponent from "../../../components/AvailabilityDateComponent";
-import ModalTester from "../../../components/DateModal";
-// import DateTest from "../../../components/credit_card_details/DateTest";
-// import AvailabilityDatePreferenceComponent from "../../../components/AvailabilityDatePreferenceComponent";
-// import DateTestingComponent from "../../../components/DateTestingComponent";
+import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
+import DonationAmountComponent from "../../../components/DonationAmountComponent";
 
 export default class DonateScreen extends Component {
   constructor(props) {
@@ -101,34 +98,53 @@ export default class DonateScreen extends Component {
   }
 
   render() {
+    // Destructuring the State
+    const { initialAmount, question, currency } = this.state;
     return (
-      <View>
-        <Text> Donate </Text>
-        <Button
-          title="Go To Donation Success"
-          onPress={() => {
+      <View style={styles.container}>
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 25,
+            marginBottom: 20,
+            fontSize: 25,
+            fontFamily: "Quicksand-Medium",
+            color: "#383940"
+          }}
+        >
+          Donate
+        </Text>
+
+        <DonationAmountComponent
+          question={question}
+          initialAmount={initialAmount.toString()}
+          currency={currency}
+          // onPressIncrement={this.handleIncrementDonation}
+          // onPressDecrement={this.handleDecrementDonation}
+          // onChangeDonationValue={this.handleDonationChange}
+        />
+        <CardNumberComponent />
+        <ExpirationCVVComponent />
+        <CardHolderNameComponent />
+        <UpdateButtonProfileComponent
+          buttonText="Confirm"
+          customStyle={styles.test}
+          onPressUpdate={() => {
             this.props.navigation.navigate("DonationSuccess");
           }}
         />
-
-        {/* <CardNumberComponent /> */}
-        {/* <ExpirationCVVComponent /> */}
-        {/* <CardHolderNameComponent /> */}
-        {/* <AvailabilityDatePreferenceComponent
-          textStatement={"Date"}
-          dateTextPlaceholder={"Choose a date"}
-          onPressshowDate={this.check}
-          // onGetText={this}
-          // onShareButtonPress={this.check}
-        /> */}
-        {/* <DateTest /> */}
-        {/* <DateTestingComponent /> */}
-        {/* <Text>Hi</Text> */}
-        {/* <DateComponent /> */}
-        <ModalTester />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  test: {
+    marginTop: 20
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+    textAlign: "center"
+  }
+});
