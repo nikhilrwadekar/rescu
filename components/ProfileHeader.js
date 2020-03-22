@@ -1,14 +1,14 @@
 import React from "react";
-import { View, Button, StyleSheet, Image, Text } from "react-native";
+
+import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
+import UpdateButtonProfileComponent from "./UpdateButtonProfileComponent";
+
 // Test Comment
 const ProfileHeader = ({ imageUrl, buttonText, onPressEditProfile, fName }) => (
   <View style={styles.header}>
     <Image style={styles.profileImage} source={imageUrl} />
 
     <Text style={styles.fName}>{fName}</Text>
-    <View style={styles.editButton}>
-      <Button title={buttonText} onPress={onPressEditProfile} />
-    </View>
   </View>
 );
 
@@ -27,12 +27,6 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 150
-  },
-  editButton: {
-    marginTop: 30,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da"
   }
 });
 export default ProfileHeader;
