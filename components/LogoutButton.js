@@ -13,7 +13,6 @@ export default function LogoutButton({ text, onPress }) {
 
 const styles = StyleSheet.create({
   item: {
-    marginRight: 42,
     marginTop: 20,
     flexDirection: "row",
     justifyContent: "center",

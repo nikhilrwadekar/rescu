@@ -1,15 +1,9 @@
 import React from "react";
-import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
-import UpdateButtonProfileComponent from "./UpdateButtonProfileComponent";
-
+import { View, Button, StyleSheet, Image, Text } from "react-native";
 // Test Comment
 const ProfileHeader = ({ imageUrl, buttonText, onPressEditProfile, fName }) => (
   <View style={styles.header}>
-    <Image
-      style={styles.profileImage}
-      source={imageUrl}
-      style={styles.profileImage}
-    />
+    <Image style={styles.profileImage} source={imageUrl} />
 
     <Text style={styles.fName}>{fName}</Text>
   </View>

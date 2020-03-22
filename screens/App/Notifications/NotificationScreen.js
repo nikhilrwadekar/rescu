@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, Button } from "react-native";
+import { Text, View, AsyncStorage, Button, StyleSheet } from "react-native";
 import axios from "axios";
 
 // API_URL
@@ -59,7 +59,12 @@ export default class NotificationScreen extends Component {
     );
   }
 }
-
+const styles = StyleSheet.create({
+  carouselConatiner: {
+    height: 130,
+    marginTop: 20
+  }
+});
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
   title: "Your Notifications"

@@ -1,5 +1,7 @@
 import React from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
+// import { LinearGradient } from "react-native-svg";
+// import GradientButton from "react-native-gradient-buttons";
 
 // Test Comment
 const AssignedTaskCardComponent = ({
@@ -11,32 +13,69 @@ const AssignedTaskCardComponent = ({
   onPressOptOut,
   newKey
 }) => (
-  <View key={newKey} style={styles.header}>
-    <Text>{jobType}</Text>
-    <Text>{date}</Text>
-    <Text>{location}</Text>
-    <Text>{time}</Text>
+  <View style={styles.container}>
+    <View style={styles.Rone}>
+      <Text style={styles.jobType}>{jobType}</Text>
+      <Text style={styles.date}>{date}</Text>
+    </View>
 
-    <View style={styles.editButton}>
-      <Button title={buttonText} onPress={onPressOptOut} />
+    <Text style={styles.location}>{location}</Text>
+
+    <View style={styles.RTwo}>
+      <Text style={styles.time}>{time}</Text>
+      <View style={styles.optOutButton}>
+        {/* <GradientButton
+          gradientBegin="#f27821"
+          gradientEnd="#ef3830"
+          gradientDirection="diagonal"
+          text={buttonText}
+          onPress={onPressOptOut}
+          style={styles.btn}
+          textStyle={{ fontSize: 15 }}
+          radius={15}
+        /> */}
+      </View>
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: 20,
+  container: {
     width: "100%",
-    alignItems: "center",
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da"
+    padding: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "gray",
+    margin: 5
   },
-  editButton: {
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da"
+  Rone: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 10
+  },
+  RTwo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 10
+  },
+  jobType: {
+    // fontFamily: "Segoe UI"
+    // color:"red"
+  },
+  date: {
+    color: "#3672BC"
+  },
+  btn: {
+    color: "white",
+
+    height: 40,
+    width: 80
   }
+  // optOutButton: {
+  //   borderRadius: 10,
+  //   borderWidth: 0.5,
+  //   borderColor: "#d6d7da"
+  // }
 });
 
 export default AssignedTaskCardComponent;
