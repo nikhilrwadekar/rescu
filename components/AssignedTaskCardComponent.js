@@ -24,7 +24,7 @@ const AssignedTaskCardComponent = ({
     <View style={styles.RTwo}>
       <Text style={styles.time}>{time}</Text>
       <View style={styles.optOutButton}>
-        <GradientButton
+        {/* <GradientButton
           gradientBegin="#f27821"
           gradientEnd="#ef3830"
           gradientDirection="diagonal"
@@ -33,7 +33,7 @@ const AssignedTaskCardComponent = ({
           style={styles.btn}
           textStyle={{ fontSize: 15 }}
           radius={15}
-        />
+        /> */}
       </View>
     </View>
   </View>

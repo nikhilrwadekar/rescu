@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  Image,
-  StyleSheet
-} from "react-native";
+import { Text, View, TouchableHighlight, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 const AssignedVolunteerings = ({ buttonText, onOptionPressed }) => {
   return (
@@ -13,8 +8,10 @@ const AssignedVolunteerings = ({ buttonText, onOptionPressed }) => {
       <TouchableHighlight style={styles.touchable} onPress={onOptionPressed}>
         <View style={styles.touchableView}>
           <Text style={styles.buttonText}>{buttonText}</Text>
-          <Image
-            source={require("../assets/images/next.png")}
+          <AntDesign
+            name="right"
+            size={18}
+            color="#F27821"
             style={styles.nextIcon}
           />
         </View>
@@ -33,7 +30,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     backgroundColor: "white",
-    // borderWidth: 1,
     borderColor: "black",
     borderRadius: 10,
     shadowColor: "#000000",
@@ -45,11 +41,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4
   },
   touchableView: {
-    display: "flex",
+    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between"
-    // alignContent:"center"
   },
   buttonText: {
     color: "#383940",
@@ -58,10 +53,10 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans-Regular"
   },
   nextIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 25,
-    alignSelf: "flex-end",
-    color: "#383940"
+    width: 25,
+    height: 25,
+    marginRight: 15,
+    alignSelf: "center",
+    color: "#F27821"
   }
 });

@@ -42,12 +42,6 @@ export default class NotificationScreen extends Component {
     adminSocket.on("acceptRequest", this.getNotifications);
   }
 
-  // Get Notifications!
-  getNotifications = async () => {
-    const tasks = axios.get(`${API_URL}/user/nikhilrwadekar@gmail.com/tasks`);
-    this.setState({ tasks: tasks.data });
-  };
-
   render() {
     // Deconstruct State!
     const { reliefCentersWithRequests, tasks } = this.state;
