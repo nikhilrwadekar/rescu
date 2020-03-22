@@ -200,7 +200,17 @@ export class DisasterListScreen extends Component {
     const { navigation } = this.props;
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Donate to a cause</Text>
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 25,
+            fontSize: 25,
+            fontFamily: "Quicksand-Medium",
+            color: "#383940"
+          }}
+        >
+          Donate to a cause
+        </Text>
 
         <FlatList
           style={{ flex: 1 }}
@@ -214,8 +224,8 @@ export class DisasterListScreen extends Component {
               }}
             >
               <DisasterListItem
-                name={"List Two"}
-                itemExcerpt={item.description.substring(0, 140).concat("...")}
+                name={item.name}
+                itemExcerpt={item.description.substring(0, 90).concat("...")}
                 imgDLIUrl={{ uri: item.image_url }}
                 location={`${item.city}, ${item.country}`}
               />
