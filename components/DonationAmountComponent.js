@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Button, TextInput, StyleSheet } from "react-native";
+import DonationValueButtonComponent from "./DonationValueButtonComponent";
 
 const DonationAmountComponent = ({
   currency,
@@ -16,7 +17,13 @@ const DonationAmountComponent = ({
 
     <View style={styles.donationContainer}>
       {/* <Button title="-" onPress={onPressDecrement} /> */}
-      <Text style={{ fontFamily: "OpenSans-Light", fontSize: 40 }}>
+      <Text
+        style={{
+          fontFamily: "OpenSans-Light",
+          fontSize: 40,
+          marginTop: 30
+        }}
+      >
         {currency}
       </Text>
       <TextInput
@@ -26,8 +33,10 @@ const DonationAmountComponent = ({
         defaultValue={initialAmount}
         onChangeText={newValue => onChangeDonationValue(newValue)}
       />
+
       {/* <Button title="+" onPress={onPressIncrement} /> */}
     </View>
+    {/* <DonationValueButtonComponent buttonText="$10" /> */}
   </View>
 );
 
@@ -39,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   mainContainer: {
-    flex: 1,
+    // flex: 1,
 
     justifyContent: "center",
     alignItems: "center"
@@ -47,7 +56,9 @@ const styles = StyleSheet.create({
   donationInput: {
     borderBottomWidth: 1,
     fontFamily: "OpenSans-Light",
-    fontSize: 40
+    fontSize: 40,
+    marginTop: 30
+    // marginBottom: 30
   }
 });
 export default DonationAmountComponent;
