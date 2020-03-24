@@ -75,6 +75,7 @@ async function loadResourcesAsync() {
       "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
       "Rubik-Regular": require("./assets/fonts/Rubik-Regular.ttf"),
       "Quicksand-Medium": require("./assets/fonts/Quicksand-Medium.ttf"),
+      "Quicksand-Bold": require("./assets/fonts/Quicksand-Bold.ttf"),
       "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
       "OpenSans-LightItalic": require("./assets/fonts/OpenSans-LightItalic.ttf"),
       "Quicksand-SemiBold": require("./assets/fonts/Quicksand-SemiBold.ttf"),

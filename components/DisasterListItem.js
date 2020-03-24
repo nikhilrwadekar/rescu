@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
 
   mDLIContainer: {
     flexDirection: "row",
-    // borderWidth: 1,
     marginTop: 0,
     marginBottom: 0,
     marginRight: 20,

@@ -71,7 +71,7 @@
 // });
 
 import React, { Component } from "react";
-import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
 import ExpirationCVVComponent from "../../../components/credit_card_details/ExpirationCVVComponent";
 import CardHolderNameComponent from "../../../components/credit_card_details/CardHolderNameComponent";
@@ -91,20 +91,20 @@ export default class DonateScreen extends Component {
       // An array of values of buttons
       values: [
         {
-          text: "$10",
-          action: () => console.log("pressed button one")
+          text: "$5",
+          value: "5"
         },
         {
           text: "$20",
-          action: () => console.log("pressed button two")
+          value: "20"
         },
         {
-          text: "$30",
-          action: () => console.log("pressed button three")
+          text: "$50",
+          value: "50"
         },
         {
-          text: "$40",
-          action: () => console.log("pressed button four")
+          text: "$100",
+          value: "100"
         }
       ]
     };
@@ -115,6 +115,7 @@ export default class DonateScreen extends Component {
     this.setState({
       initialAmount: parseInt(newValue)
     });
+    console.log(newValue);
   };
 
   render() {
@@ -126,7 +127,10 @@ export default class DonateScreen extends Component {
         <DonationValueButtonComponent
           key={b.text}
           buttonText={b.text}
-          onPressUpdate={b.action}
+          onPressUpdate={() => {
+            this.setState({ initialAmount: b.value });
+            console.log(b.value);
+          }}
         />
       );
     });
@@ -138,7 +142,7 @@ export default class DonateScreen extends Component {
           <Text
             style={{
               textAlign: "center",
-              marginTop: 25,
+              marginTop: 12,
               marginBottom: 20,
               fontSize: 25,
               fontFamily: "Quicksand-Medium",
@@ -153,8 +157,6 @@ export default class DonateScreen extends Component {
             question={question}
             initialAmount={initialAmount.toString()}
             currency={currency}
-            // onPressIncrement={this.handleIncrementDonation}
-            // onPressDecrement={this.handleDecrementDonation}
             onChangeDonationValue={this.handleDonationChange}
           />
 
@@ -186,7 +188,9 @@ export default class DonateScreen extends Component {
             buttonText="Confirm"
             customStyle={styles.test}
             onPressUpdate={() => {
-              this.props.navigation.navigate("DonationSuccess");
+              this.props.navigation.navigate("DonationSuccess", {
+                data: { amount: initialAmount }
+              });
             }}
           />
         </ScrollView>
