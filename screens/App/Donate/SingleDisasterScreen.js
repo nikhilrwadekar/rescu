@@ -72,7 +72,7 @@ export default class SingleDisasterScreen extends Component {
             style={{ width: 300, height: 300 }}
           />
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
+          {/* <Text style={styles.subtitle}>{item.subtitle}</Text> */}
         </View>
         {/* <Text
           style={{
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
     // paddingBottom: 12,
     paddingLeft: 15,
     fontFamily: "Quicksand-Medium",
-    fontSize: 19
+    fontSize: 19,
+    paddingBottom: 12
   },
   slide: {
     // backgroundColor: "red"
@@ -175,12 +176,12 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 2,
     shadowOpacity: 0.4
-  },
-  subtitle: {
-    fontFamily: "OpenSans-LightItalic",
-    paddingLeft: 15,
-    fontSize: 14,
-    paddingBottom: 12,
-    paddingRight: 20
   }
+  // subtitle: {
+  //   fontFamily: "OpenSans-LightItalic",
+  //   paddingLeft: 15,
+  //   fontSize: 14,
+  //   paddingBottom: 12,
+  //   paddingRight: 20
+  // }
 });

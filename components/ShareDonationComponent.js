@@ -1,26 +1,33 @@
 import React from "react";
-import { Text, View, Button, TextInput, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import ShareDonationLinkComponent from "./ShareDonationLinkButton";
 
 const ShareDonationComponent = ({
   textButton,
   textStatement,
-  onShareButtonPress
+  onShareButtonPress,
+  customStyle
 }) => (
-  <View>
+  <View style={{ marginTop: 22 }}>
+    {/* Text to display the message */}
     <Text style={styles.text}>{textStatement}</Text>
-    <View style={styles.button}>
-      <Button title={textButton} onPress={onShareButtonPress} color="#ec4714" />
-    </View>
+
+    {/* Button for share */}
+    <ShareDonationLinkComponent
+      buttonText={textButton}
+      onPressUpdate={onShareButtonPress}
+      customButtonStyle={customStyle}
+    />
   </View>
 );
 
+// Styles
 const styles = StyleSheet.create({
   text: {
-    fontSize: 22,
-    textAlign: "center"
-  },
-  button: {
-    marginTop: 20
+    fontSize: 18,
+    textAlign: "center",
+    fontFamily: "OpenSans-Light",
+    color: "#383940"
   }
 });
 
