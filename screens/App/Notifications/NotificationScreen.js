@@ -45,7 +45,7 @@ export default class NotificationScreen extends Component {
         {
           jobType: "Grocery shopping for elderly",
           notificationTime: "1 day ago",
-          location: "1055 Canarvon, Burnaby, BC, Canada, V5X6R4",
+          location: "1055 Homer St, Vancouver, BC, Canada, V5X6R4",
           date: "March 31, 2020",
           jobTime: "9:00 A.M. - 2:30 P.M.",
           declineButtonText: "Decline",
@@ -54,7 +54,7 @@ export default class NotificationScreen extends Component {
         {
           jobType: "Cooking",
           notificationTime: "2 weeks ago",
-          location: "1055 Canada Place, Vancouver, BC, Canada, V5V4J2",
+          location: "326 Main St, Vancouver, BC, Canada, V5V4J2",
           date: "March 20, 2020",
           jobTime: "10:00 A.M. - 2:00 P.M.",
           declineButtonText: "Decline",
@@ -63,7 +63,7 @@ export default class NotificationScreen extends Component {
         {
           jobType: "Driving",
           notificationTime: "3 weeks ago",
-          location: "426 West Georgia St, Vancouver, BC, Canada, V5V4J2",
+          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
           date: "March 15, 2020",
           jobTime: "10:00 A.M. - 2:00 P.M.",
           declineButtonText: "Decline",
@@ -72,7 +72,7 @@ export default class NotificationScreen extends Component {
         {
           jobType: "Babysitting",
           notificationTime: "3 weeks ago",
-          location: "426 West Georgia St, Vancouver, BC, Canada, V5V4J2",
+          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
           date: "March 10, 2020",
           jobTime: "11:00 A.M. - 2:30 P.M.",
           declineButtonText: "Decline",
