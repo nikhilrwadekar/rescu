@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, Button } from "react-native";
+import { Text, View, AsyncStorage, Button, StyleSheet } from "react-native";
 import axios from "axios";
 
 // API_URL
@@ -28,21 +28,6 @@ export default class NotificationScreen extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-    return (
-      <View style={styles.carouselContainer}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <ImageCarousel txt={"jkk"} imageUri={pic} />
-          <ImageCarousel txt={"jkk"} imageUri={pic} />
-          <ImageCarousel txt={"jkk"} imageUri={pic} />
-        </ScrollView>
-
-        {/* <AvailabilityTimePreferenceComponent
-          timeLabel={"Start Time"}
-          timeTextPlaceHolder={"8.00"}
-          onPressTime={"vv"}  
-        /> */}
-=======
     // Deconstruct State!
     const { reliefCentersWithRequests } = this.state;
 
@@ -70,7 +55,6 @@ export default class NotificationScreen extends Component {
               { name, location }
             );
           })}
->>>>>>> 86351bdbc0d0df4f54be96d740ce28ac896d50be
       </View>
     );
   }

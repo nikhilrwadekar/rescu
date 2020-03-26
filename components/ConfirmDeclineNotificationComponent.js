@@ -40,8 +40,8 @@ const ConfirmDeclineNotificationComponent = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    padding: 10
+    width: "90%"
+    // padding: 10
   },
   Rone: {
     flexDirection: "row",
