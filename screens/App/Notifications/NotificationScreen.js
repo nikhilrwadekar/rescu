@@ -127,7 +127,7 @@ export default class NotificationScreen extends Component {
     });
 
     return (
-      <View style={{ marginTop: 20 }}>
+      <View style={{ paddingTop: 20, backgroundColor: "#f7f7f7" }}>
         <ScrollView>{renderedNotifications}</ScrollView>
       </View>
     );
@@ -160,12 +160,7 @@ export default class NotificationScreen extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  carouselConatiner: {
-    height: 130,
-    marginTop: 20
-  }
-});
+const styles = StyleSheet.create({});
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
   title: "Your Notifications"
