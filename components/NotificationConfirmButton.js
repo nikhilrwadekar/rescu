@@ -2,7 +2,7 @@ import React from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const UpdateButtonProfileComponent = ({
+const NotificationConfirmButton = ({
   buttonText,
   onPressUpdate,
   customStyle
@@ -18,8 +18,9 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
     paddingVertical: 10,
+    paddingHorizontal: 14,
     backgroundColor: "#F27821",
-    width: 150,
+    width: 100,
     alignSelf: "center"
   },
   btnText: {
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Quicksand-SemiBold",
     textTransform: "uppercase",
-    fontSize: 19
+    fontSize: 16
   }
 });
 
-export default UpdateButtonProfileComponent;
+export default NotificationConfirmButton;
