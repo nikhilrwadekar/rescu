@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Text, View, Button, TextInput, StyleSheet, Image } from "react-native";
-import UpdateButtonProfileComponent from "./UpdateButtonProfileComponent";
 
 // Test Comment
 const ProfileHeader = ({

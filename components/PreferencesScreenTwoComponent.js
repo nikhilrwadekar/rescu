@@ -28,34 +28,37 @@ const PreferencesScreenTwoComponent = ({
 }) => {
   return (
     <View>
-      <Text style={styles.typestextLabel}>Types of Volunteering</Text>
+      <ScrollView>
+        <Text style={styles.typestextLabel}>Types of Volunteering</Text>
 
-      {/* Multiple Select for Volunteering Types */}
-      <SelectMultiple
-        labelStyle={styles.label}
-        items={volunteeringTypes}
-        selectedItems={selectedVolunteeringTypes}
-        onSelectionsChange={onSelectionsChange}
-      />
+        {/* Multiple Select for Volunteering Types */}
+        <SelectMultiple
+          labelStyle={styles.label}
+          items={volunteeringTypes}
+          selectedItems={selectedVolunteeringTypes}
+          onSelectionsChange={onSelectionsChange}
+        />
 
-      {/* Additional Skill Section */}
-      <AdditionalSkillComponent
-        additionalSkillTextLabel="Additional Skill or Service"
-        onGetText={handleAdditionalSkillOrService}
-      />
+        {/* Additional Skill Section */}
+        <AdditionalSkillComponent
+          additionalSkillTextLabel="Additional Skill or Service"
+          onGetText={handleAdditionalSkillOrService}
+        />
 
-      {/* Accept Terms And Conditions */}
-      <AcceptTermsConditionsComponent
-        textAcceptTermsConditions="I agree to the terms and conditions"
-        checkboxValue={termsCheck}
-        onCheckboxValueChange={handleTermsAndConditionsCheckChange}
-      />
+        {/* Accept Terms And Conditions */}
+        <AcceptTermsConditionsComponent
+          textAcceptTermsConditions="I agree to the terms and conditions"
+          checkboxValue={termsCheck}
+          onCheckboxValueChange={handleTermsAndConditionsCheckChange}
+        />
 
-      {/* Save and Continue */}
-      <UpdateButtonProfileComponent
-        buttonText="Save"
-        onPressUpdate={onPressUpdate}
-      />
+        {/* Save and Continue */}
+        <UpdateButtonProfileComponent
+          buttonText="Save"
+          customStyle={{ marginTop: 10, marginBottom: 50 }}
+          onPressUpdate={onPressUpdate}
+        />
+      </ScrollView>
     </View>
   );
 };

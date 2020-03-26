@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     color: "#F27821"
   },
   buttonConfirm: {
-    marginTop: 10
+    marginTop: 30
   },
   buttonShare: {
     marginTop: 10

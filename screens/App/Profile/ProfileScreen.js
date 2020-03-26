@@ -84,6 +84,7 @@ export default class ProfileScreen extends Component {
           <UpdateButtonProfileComponent
             onPressUpdate={this.handleEditProfile}
             buttonText="Edit Profile"
+            customStyle={{ marginTop: 20, marginBottom: 30 }}
           />
 
           <AvailabilityToggleComponent

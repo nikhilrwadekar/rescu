@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View, TextInput, StyleSheet, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider } from "react-native-elements";
+import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
 
 // Google Sign-In Imports
 import * as Google from "expo-google-app-auth";
@@ -69,69 +70,111 @@ export class SignInScreen extends Component {
         {/* Vertically Centered Container - Starts */}
         <View style={styles.middleContainer}>
           <View>
-            <TextInput
-              style={{ height: 40 }}
-              placeholder="Firstname Lastname"
-              autoCompleteType="name"
-              onChangeText={text => this.setState({ name })}
-              value={this.state.text}
-            />
-            <TextInput
-              style={{ height: 40 }}
-              placeholder="Email"
-              autoCompleteType="username"
-              keyboardType="email-address"
-              onChangeText={text => this.setState({ email })}
-              value={this.state.text}
-            />
-            <TextInput
-              style={{ height: 40 }}
-              placeholder="Password"
-              autoCompleteType="password"
-              secureTextEntry={isPasswordHidden}
-              onChangeText={text => this.setState({ password })}
-              value={this.state.text}
-            />
+            <View style={styles.textWithNameIconPlaceholder}>
+              <Icon
+                style={styles.iconPlaceHolder}
+                size={20}
+                name="user"
+                color="#383940"
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  width: 320,
+                  fontFamily: "OpenSans-Regular",
+                  fontSize: 15,
+                  alignSelf: "center",
+                  paddingLeft: 10,
+                  color: "#383940"
+                }}
+                placeholder="Monica Geller"
+                autoCompleteType="name"
+                onChangeText={text => this.setState({ name })}
+                value={this.state.text}
+              />
+            </View>
 
-            {/* <TextInput
-              style={{ height: 40 }}
-              placeholder="Password"
-              autoCompleteType="password"
-              secureTextEntry={isPasswordHidden}
-              onChangeText={text => this.setState({ password })}
-              value={this.state.text}
-            /> */}
-            <Button
-              title="Sign Up"
-              onPress={() => {
+            <View style={styles.textWithEmailIconPlaceholder}>
+              <Icon
+                style={styles.iconPlaceHolder}
+                size={20}
+                name="envelope"
+                color="#383940"
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  width: 320,
+                  paddingLeft: 10,
+                  alignSelf: "center",
+                  fontFamily: "OpenSans-Regular",
+                  fontSize: 15
+                }}
+                placeholder="monicageller@example.com"
+                autoCompleteType="username"
+                keyboardType="email-address"
+                onChangeText={text => this.setState({ email })}
+                value={this.state.text}
+              />
+            </View>
+
+            <View style={styles.textWithPasswordIconPlaceholder}>
+              <Icon
+                style={styles.iconPlaceHolder}
+                size={20}
+                name="lock"
+                color="#383940"
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  width: 320,
+                  fontFamily: "OpenSans-Regular",
+                  paddingLeft: 10,
+                  fontSize: 15
+                }}
+                placeholder="Password"
+                autoCompleteType="password"
+                secureTextEntry={isPasswordHidden}
+                onChangeText={text => this.setState({ password })}
+                value={this.state.text}
+              />
+            </View>
+
+            {/* Button for Sign Up */}
+            <UpdateButtonProfileComponent
+              buttonText="Sign Up"
+              customStyle={{ marginTop: 40, marginBottom: 30 }}
+              onPressUpdate={() => {
                 navigation.navigate("PreferencesScreenOne");
               }}
             />
-            <Divider style={{ backgroundColor: "blue" }} />
           </View>
 
           <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>or continue with</Text>
+            <Text style={styles.continueText}>or login with</Text>
           </View>
           {/* Social Sign Up Buttons - Start */}
           <View style={styles.socialButtonContainer}>
             <Button
-              icon={<Icon name="google" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+              icon={
+                <Icon name="google" size={25} color="white" style={styles.b} />
+              }
+              style={styles.socialGoogleSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
+              type="filled"
             />
             <Button
-              icon={<Icon name="facebook" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+              icon={<Icon name="facebook" size={25} color="white" />}
+              style={styles.socialFacebookSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
+              type="filled"
             />
             <Button
-              icon={<Icon name="twitter" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+              icon={<Icon name="twitter" size={25} color="white" />}
+              style={styles.socialTwitterSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
+              type="filled"
             />
           </View>
           {/* Social Login Buttons - End */}
@@ -147,7 +190,15 @@ export class SignInScreen extends Component {
             }}
           >
             <View style={styles.underLineTextContainer}>
-              <Text style={{ fontSize: 16 }}>Already have an account? </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "#383940",
+                  fontFamily: "OpenSans-Regular"
+                }}
+              >
+                Already have an account?{" "}
+              </Text>
               <Text style={styles.underLineText}>Login</Text>
             </View>
           </TouchableOpacity>
@@ -158,7 +209,13 @@ export class SignInScreen extends Component {
               navigation.navigate("DisasterList");
             }}
           >
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 25
+              }}
+            >
               <Text style={styles.underLineText}>Skip to Donate</Text>
             </View>
           </TouchableOpacity>
@@ -177,46 +234,117 @@ SignInScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
-    // backgroundColor: "#f00"
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 10
   },
+
   socialButtonContainer: {
-    // flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 25,
-    marginBottom: 25
+    justifyContent: "space-around"
   },
-  socialSignInButton: {
-    // flex: 1,
+  socialGoogleSignInButton: {
     width: 75,
-    height: 75
+    height: 45,
+    backgroundColor: "#D0422A",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+  socialFacebookSignInButton: {
+    width: 75,
+    height: 45,
+    backgroundColor: "#3B5998",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+  socialTwitterSignInButton: {
+    width: 75,
+    height: 45,
+    backgroundColor: "#3995C6",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+
+  socialSignInButton: {
+    width: 75,
+    height: 40,
+    backgroundColor: "red",
+    borderRadius: 10
   },
   middleContainer: {
     flex: 1,
-    justifyContent: "center"
+    marginTop: 25
   },
   bottomContainer: {
-    marginBottom: 36,
-    height: 200,
-    justifyContent: "space-around"
+    height: 200
   },
   topContainer: {
     alignItems: "center"
   },
-  continueTextContainer: {
-    marginTop: 30
-  },
+
   continueText: {
-    fontSize: 20,
-    textAlign: "center"
+    fontSize: 14,
+    textAlign: "center",
+    fontFamily: "OpenSans-Regular",
+    color: "#383940",
+    marginBottom: 8
   },
   underLineText: {
-    fontSize: 16,
+    fontSize: 18,
     textDecorationLine: "underline",
-    textAlign: "center"
+    textAlign: "center",
+    color: "#383940",
+    fontFamily: "Quicksand-Bold",
+    color: "#F27821"
   },
-  underLineTextContainer: { flexDirection: "row", justifyContent: "center" }
+
+  underLineTextContainer: {
+    flexDirection: "row",
+    marginTop: 40
+  },
+
+  textWithIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F27821"
+  },
+
+  textWithNameIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F27821",
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 50
+  },
+
+  textWithEmailIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F27821",
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 50,
+    marginTop: 18
+  },
+
+  textWithPasswordIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F27821",
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 50,
+    marginTop: 18
+  }
 });
 
+// Exporting
 export default SignInScreen;
