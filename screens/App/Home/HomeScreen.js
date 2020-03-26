@@ -21,7 +21,8 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      reliefCenters: []
+      reliefCenters: [],
+      userDetails: {}
     };
   }
 
@@ -48,15 +49,29 @@ export default class HomeScreen extends Component {
 
   // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
   async componentDidMount() {
-    await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
-      if (err) {
-        console.log(err);
-      }
+    // Email Login Details
+    if ((await AsyncStorage.getItem("loginType")) == "email") {
+      await AsyncStorage.getItem("userDetails", (err, result) => {
+        if (err) {
+          console.log(err);
+        }
 
-      if (result) {
-        this.setState({ googleDetails: result });
-      }
-    });
+        if (result) {
+          this.setState({ userDetails: JSON.parse(result) });
+        }
+      });
+    }
+    // Google Login Details
+    if (this.props.navigation.state.params.loginType == "google")
+      await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+
+        if (result) {
+          this.setState({ userDetails: result });
+        }
+      });
 
     try {
       // Logging when connected to Sockets
@@ -85,7 +100,11 @@ export default class HomeScreen extends Component {
       );
     }
 
-    return <CardLayout reliefCenters={this.state.reliefCenters} />;
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <CardLayout reliefCenters={this.state.reliefCenters} />
+      </SafeAreaView>
+    );
   }
 }
 

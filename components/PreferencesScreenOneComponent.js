@@ -22,6 +22,16 @@ import Modal from "react-native-modal";
 import { Card } from "react-native-elements";
 
 const PreferencesScreenOneComponent = ({
+  addressLine,
+  onAddressLineChange,
+  city,
+  onCityChange,
+  province,
+  onProvinceChange,
+  postalCode,
+  onPostalCodeChange,
+  country,
+  onCountryChange,
   isModalVisible,
   handleSetPreference,
   timePreferences,
@@ -37,8 +47,20 @@ const PreferencesScreenOneComponent = ({
       {/* PreferencesScreenOne */}
       <Text style={styles.textHeader}> Preferences </Text>
 
-      <AddressInput />
-      <PostalCode />
+      <AddressInput
+        addressLine={addressLine}
+        onAddressLineChange={onAddressLineChange}
+        city={city}
+        onCityChange={onCityChange}
+        province={province}
+        onProvinceChange={onProvinceChange}
+        country={country}
+        onCountryChange={onCountryChange}
+      />
+      <PostalCode
+        postalCode={postalCode}
+        onPostalCodeChange={onPostalCodeChange}
+      />
 
       <ButtonLink text="Next" onPress={onPressNext} />
 

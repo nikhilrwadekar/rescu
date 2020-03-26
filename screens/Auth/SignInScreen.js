@@ -5,7 +5,8 @@ import {
   TextInput,
   StyleSheet,
   Image,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
@@ -15,6 +16,7 @@ import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileCo
 
 // Google Sign-In Imports
 import * as Google from "expo-google-app-auth";
+import Axios from "axios";
 
 const IOS_CLIENT_ID =
   "458548322242-e39hntvdf192d6n9d34eei2p6lror4gl.apps.googleusercontent.co";
@@ -24,12 +26,12 @@ const ANDROID_CLIENT_ID =
 export class SignInScreen extends Component {
   // Sign In Screen
   state = {
-    email: "",
-    password: "",
+    email: "volunteer@test.com",
+    password: "secret",
     isPasswordHidden: true
   };
 
-  // Google + Expo - OAuth
+  // Google + Expo - OAuth (Please Implement Passport)
   signInWithGoogle = async () => {
     try {
       const result = await Google.logInAsync({
@@ -55,6 +57,39 @@ export class SignInScreen extends Component {
     } catch (e) {
       console.log("Error! - ", e);
       return { error: true };
+    }
+  };
+
+  // Handle Log In
+  handleEmailLogin = async () => {
+    // Get Email Password from the State
+    const { email, password } = this.state;
+
+    if (!!email && !!password)
+      // Post a login request to the Backend
+      await Axios.post("http://localhost:4000/api/auth/login", {
+        email: email,
+        password: password
+      })
+        .then(res => res.data)
+        .then(data => {
+          if (data.role === "admin")
+            Alert.alert(
+              "Admin Account",
+              "This is an admin account. Please use a volunteer account to use the mobile application."
+            );
+          else if (data.role === "volunteer") {
+            AsyncStorage.setItem("userDetails", JSON.stringify(data));
+            AsyncStorage.setItem("loginType", "email");
+            this.props.navigation.navigate("Home", { loginType: "email" });
+          }
+        })
+        .catch(err => console.log("error!: ", err));
+    else {
+      Alert.alert(
+        "Invalid Details",
+        "Please ensure the details entered are correct."
+      );
     }
   };
 
@@ -90,10 +125,11 @@ export class SignInScreen extends Component {
                   fontSize: 15
                 }}
                 placeholder="monicageller@example.com"
-                autoCompleteType="username"
+                autoCompleteType="email"
+                autoCapitalize="none"
                 keyboardType="email-address"
-                onChangeText={text => this.setState({ email })}
-                value={this.state.text}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
             <View style={styles.textWithPasswordIconPlaceholder}>
@@ -111,8 +147,8 @@ export class SignInScreen extends Component {
                 placeholder="Password"
                 autoCompleteType="password"
                 secureTextEntry={isPasswordHidden}
-                onChangeText={text => this.setState({ password })}
-                value={this.state.text}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
               />
             </View>
 
@@ -120,9 +156,7 @@ export class SignInScreen extends Component {
             <UpdateButtonProfileComponent
               buttonText="Log In"
               customStyle={{ marginTop: 35, marginBottom: 40 }}
-              onPressUpdate={() => {
-                navigation.navigate("Home");
-              }}
+              onPressUpdate={this.handleEmailLogin}
             />
           </View>
           {/* Social Login Buttons - Start */}

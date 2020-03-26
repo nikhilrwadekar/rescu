@@ -67,6 +67,11 @@ export class ProvinceSelector extends React.Component {
   }
 
   render() {
+    // Values
+    const { province } = this.props;
+
+    // Handlers
+    const { onProvinceChange } = this.props;
     return (
       <View
         style={{
@@ -91,11 +96,7 @@ export class ProvinceSelector extends React.Component {
             value: null
           }}
           items={this.state.items}
-          onValueChange={value => {
-            this.setState({
-              provinceValue: value
-            });
-          }}
+          onValueChange={onProvinceChange}
           onUpArrow={() => {
             this.inputRefs.name.focus();
           }}
@@ -103,7 +104,7 @@ export class ProvinceSelector extends React.Component {
             this.inputRefs.picker2.togglePicker();
           }}
           style={{ ...pickerSelectStyles }}
-          value={this.state.provinceValue}
+          value={province}
           ref={el => {
             this.inputRefs.picker = el;
           }}
