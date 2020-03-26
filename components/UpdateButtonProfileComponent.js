@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const UpdateButtonProfileComponent = ({
@@ -16,20 +16,18 @@ const UpdateButtonProfileComponent = ({
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 18,
     borderRadius: 10,
     paddingVertical: 10,
-    // paddingHorizontal: 10,
     backgroundColor: "#F27821",
     width: 150,
-    alignSelf: "center",
-    marginBottom: 30
+    alignSelf: "center"
   },
   btnText: {
     color: "white",
     textAlign: "center",
     fontFamily: "Quicksand-SemiBold",
-    fontSize: 15
+    textTransform: "uppercase",
+    fontSize: 19
   }
 });
 

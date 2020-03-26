@@ -186,7 +186,7 @@ export default class DonateScreen extends Component {
           {/* Button to confirm the donation */}
           <UpdateButtonProfileComponent
             buttonText="Confirm"
-            customStyle={styles.test}
+            customStyle={{ marginTop: 30, marginBottom: 40 }}
             onPressUpdate={() => {
               this.props.navigation.navigate("DonationSuccess", {
                 data: { amount: initialAmount }
@@ -201,9 +201,9 @@ export default class DonateScreen extends Component {
 
 // Styles
 const styles = StyleSheet.create({
-  test: {
-    marginTop: 20
-  },
+  // test: {
+  //   marginTop: 20
+  // },
   container: {
     flex: 1,
     padding: 10,

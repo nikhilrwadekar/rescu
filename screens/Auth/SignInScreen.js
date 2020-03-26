@@ -11,6 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
 
 // Google Sign-In Imports
 import * as Google from "expo-google-app-auth";
@@ -77,26 +78,36 @@ export class SignInScreen extends Component {
         {/* Vertically Centered Container - Starts */}
         <View style={styles.middleContainer}>
           <View>
-            <View style={styles.textWithIconPlaceholder}>
+            <View style={styles.textWithEmailIconPlaceholder}>
               <Icon style={styles.iconPlaceHolder} size={20} name="envelope" />
               <TextInput
-                style={{ height: 40 }}
-                placeholder="Email"
+                style={{
+                  height: 40,
+                  width: 320,
+                  paddingLeft: 10,
+                  alignSelf: "center",
+                  fontFamily: "OpenSans-Regular",
+                  fontSize: 15
+                }}
+                placeholder="monicageller@example.com"
                 autoCompleteType="username"
                 keyboardType="email-address"
                 onChangeText={text => this.setState({ email })}
                 value={this.state.text}
               />
             </View>
-            <View style={styles.textWithIconPlaceholder}>
-              <Icon
-                style={styles.iconPlaceHolder}
-                size={25}
-                name="unlock-alt"
-              />
+            <View style={styles.textWithPasswordIconPlaceholder}>
+              <Icon style={styles.iconPlaceHolder} size={25} name="lock" />
 
               <TextInput
-                style={{ height: 40 }}
+                style={{
+                  height: 40,
+                  width: 320,
+                  alignSelf: "center",
+                  fontFamily: "OpenSans-Regular",
+                  paddingLeft: 10,
+                  fontSize: 15
+                }}
                 placeholder="Password"
                 autoCompleteType="password"
                 secureTextEntry={isPasswordHidden}
@@ -104,13 +115,15 @@ export class SignInScreen extends Component {
                 value={this.state.text}
               />
             </View>
-            <Button
-              title="Login with Email"
-              onPress={() => {
+
+            {/* Login button */}
+            <UpdateButtonProfileComponent
+              buttonText="Log In"
+              customStyle={{ marginTop: 35, marginBottom: 40 }}
+              onPressUpdate={() => {
                 navigation.navigate("Home");
               }}
             />
-            <Divider style={{ backgroundColor: "blue" }} />
           </View>
           {/* Social Login Buttons - Start */}
 
@@ -121,24 +134,27 @@ export class SignInScreen extends Component {
           <View style={styles.socialButtonContainer}>
             {/* <SocialIcon onPress={this.signInWithGoogle} raised type="google" />
             <SocialIcon raised type="facebook" /> */}
+
             <Button
-              icon={<Icon name="google" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+              icon={
+                <Icon name="google" size={25} color="white" style={styles.b} />
+              }
+              style={styles.socialGoogleSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
+              type="filled"
             />
             <Button
-              icon={<Icon name="facebook" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+              icon={<Icon name="facebook" size={25} color="white" />}
+              style={styles.socialFacebookSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
+              type="filled"
             />
-            {/* <Button
-              icon={<Icon name="twitter" size={25} color="#3a3a3a" />}
-              style={styles.socialSignInButton}
+            <Button
+              icon={<Icon name="twitter" size={25} color="white" />}
+              style={styles.socialTwitterSignInButton}
               onPress={this.signInWithGoogle}
-              type="outline"
-            /> */}
+              type="filled"
+            />
           </View>
           {/* Social Login Buttons - End */}
         </View>
@@ -151,8 +167,17 @@ export class SignInScreen extends Component {
               navigation.navigate("SignUp");
             }}
           >
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
-              <Text style={styles.underLineText}>Create account</Text>
+            <View style={styles.underLineTextContainer}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "#383940",
+                  fontFamily: "OpenSans-Regular"
+                }}
+              >
+                Don't have an account?{" "}
+              </Text>
+              <Text style={styles.underLineText}>Sign Up</Text>
             </View>
           </TouchableOpacity>
 
@@ -162,7 +187,14 @@ export class SignInScreen extends Component {
               navigation.navigate("DisasterList");
             }}
           >
-            <View style={styles.underLineTextContainer}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 25
+                // marginBottom: 45
+              }}
+            >
               <Text style={styles.underLineText}>Skip to Donate</Text>
             </View>
           </TouchableOpacity>
@@ -181,17 +213,15 @@ SignInScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    paddingTop: 10,
+    justifyContent: "center",
+    alignItems: "center"
   },
   socialButtonContainer: {
-    // flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: 25,
-    marginBottom: 25
+    justifyContent: "space-around"
   },
   socialSignInButton: {
-    // flex: 1,
     width: 75,
     height: 75
   },
@@ -199,39 +229,80 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   middleContainer: {
-    flex: 1,
-    justifyContent: "center"
+    flex: 1
   },
   bottomContainer: {
-    marginBottom: 36,
-
-    height: 200,
-    justifyContent: "space-around"
+    height: 200
   },
   underLineTextContainer: {
-    alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 0
   },
   underLineText: {
-    fontSize: 16,
+    fontSize: 18,
     textDecorationLine: "underline",
-    textAlign: "center"
+    textAlign: "center",
+    color: "#383940",
+    fontFamily: "Quicksand-Bold",
+    color: "#F27821"
   },
-  continueTextContainer: {
-    marginTop: 30
-  },
+
   continueText: {
-    fontSize: 20,
-    textAlign: "center"
+    fontSize: 14,
+    textAlign: "center",
+    fontFamily: "OpenSans-Regular",
+    color: "#383940",
+    marginBottom: 8
   },
-  textWithIconPlaceholder: {
+  textWithEmailIconPlaceholder: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F27821",
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 50,
+    marginTop: 25
+  },
+  textWithPasswordIconPlaceholder: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#F27821",
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 50,
+    marginTop: 18
   },
   iconPlaceHolder: {
     width: 30
+  },
+  socialGoogleSignInButton: {
+    width: 75,
+    height: 45,
+    backgroundColor: "#D0422A",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+  socialFacebookSignInButton: {
+    width: 75,
+    height: 45,
+    backgroundColor: "#3B5998",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+  socialTwitterSignInButton: {
+    width: 75,
+    height: 45,
+    backgroundColor: "#3995C6",
+    borderRadius: 12,
+    paddingTop: 2,
+    paddingBottom: 2
   }
 });
 
+// Exporting
 export default SignInScreen;
