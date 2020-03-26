@@ -1,16 +1,15 @@
 import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
 
-const UpdateButtonProfileComponent = ({
+const NotificationDeclineButton = ({
   buttonText,
   onPressUpdate,
   customStyle
 }) => (
   <TouchableOpacity onPress={onPressUpdate} style={customStyle}>
-    <LinearGradient colors={["#F27821", "#FF512F"]} style={styles.button}>
+    <View style={styles.button}>
       <Text style={styles.btnText}>{buttonText}</Text>
-    </LinearGradient>
+    </View>
   </TouchableOpacity>
 );
 
@@ -18,17 +17,19 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
     paddingVertical: 10,
-    backgroundColor: "#F27821",
-    width: 150,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: "#707070",
+    width: 95,
     alignSelf: "center"
   },
   btnText: {
-    color: "white",
     textAlign: "center",
     fontFamily: "Quicksand-SemiBold",
+    color: "#707070",
     textTransform: "uppercase",
-    fontSize: 19
+    fontSize: 16
   }
 });
 
-export default UpdateButtonProfileComponent;
+export default NotificationDeclineButton;

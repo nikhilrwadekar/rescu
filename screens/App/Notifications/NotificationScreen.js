@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, Button, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  AsyncStorage,
+  Button,
+  StyleSheet,
+  ScrollView
+} from "react-native";
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import { TrackingStateReason } from "expo/build/AR";
+import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 // API_URL
 import { API_URL } from "../../../API";
 
@@ -12,7 +20,65 @@ export default class NotificationScreen extends Component {
 
     this.state = {
       receivedRequests: null,
-      tasks: []
+      tasks: [],
+
+      // An array having the values of notification
+      values: [
+        {
+          jobType: "Babysitting",
+          notificationTime: "10 mins ago",
+          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
+          date: "April 2, 2020",
+          jobTime: "10:00 A.M. - 2:00 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        },
+        {
+          jobType: "Eldery Help",
+          notificationTime: "15 mins ago",
+          location: "502 W Pender St, Vancouver, BC, Canada, V5W1Y4",
+          date: "April 10, 2020",
+          jobTime: "5:30 A.M. - 1:00 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        },
+        {
+          jobType: "Grocery shopping for elderly",
+          notificationTime: "1 day ago",
+          location: "1055 Canarvon, Burnaby, BC, Canada, V5X6R4",
+          date: "March 31, 2020",
+          jobTime: "9:00 A.M. - 2:30 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        },
+        {
+          jobType: "Cooking",
+          notificationTime: "2 weeks ago",
+          location: "1055 Canada Place, Vancouver, BC, Canada, V5V4J2",
+          date: "March 20, 2020",
+          jobTime: "10:00 A.M. - 2:00 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        },
+        {
+          jobType: "Driving",
+          notificationTime: "3 weeks ago",
+          location: "426 West Georgia St, Vancouver, BC, Canada, V5V4J2",
+          date: "March 15, 2020",
+          jobTime: "10:00 A.M. - 2:00 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        },
+        {
+          jobType: "Babysitting",
+          notificationTime: "3 weeks ago",
+          location: "426 West Georgia St, Vancouver, BC, Canada, V5V4J2",
+          date: "March 10, 2020",
+          jobTime: "11:00 A.M. - 2:30 P.M.",
+          declineButtonText: "Decline",
+          confirmButtonText: "Confirm"
+        }
+      ]
     };
   }
 
@@ -45,10 +111,24 @@ export default class NotificationScreen extends Component {
   render() {
     // Deconstruct State!
     const { reliefCentersWithRequests, tasks } = this.state;
+    const { values } = this.state;
+    const renderedNotifications = values.map(notification => {
+      return (
+        <ConfirmDeclineNotificationComponent
+          jobType={notification.jobType}
+          notificationTime={notification.notificationTime}
+          location={notification.location}
+          date={notification.date}
+          jobTime={notification.jobTime}
+          declineButtonText={notification.declineButtonText}
+          confirmButtonText={notification.confirmButtonText}
+        />
+      );
+    });
 
     return (
-      <View>
-        <Text>{JSON.stringify(tasks)}</Text>
+      <View style={{ marginTop: 20 }}>
+        <ScrollView>{renderedNotifications}</ScrollView>
       </View>
     );
 
