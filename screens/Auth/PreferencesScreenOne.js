@@ -2,12 +2,20 @@ import React, { Component } from "react";
 
 // Custom Components
 import PreferencesScreenOneComponent from "../../components/PreferencesScreenOneComponent";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Text, Alert } from "react-native";
 export default class PreferencesScreenOne extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      name: "",
+      email: "",
+      password: "",
+      addressLine: "",
+      city: "",
+      province: "",
+      postalCode: "",
+      country: "Canada",
       preference: "anytime",
       preferenceCount: 1,
       timePreferences: [
@@ -44,7 +52,7 @@ export default class PreferencesScreenOne extends Component {
     console.log(key);
   };
 
-  // Toggle Modal Function  from Jasmine's DateModal
+  // Toggle Modal Function from Jasmine's DateModal
   toggleModal = (key, label) => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
@@ -71,10 +79,62 @@ export default class PreferencesScreenOne extends Component {
     });
   };
 
+  // Handle Address Change -- START
+  handleAddressLineChange = addressLine => this.setState({ addressLine });
+  handleCityChange = city => this.setState({ city });
+  handleProvinceChange = province => this.setState({ province });
+  handlePostalCodeChange = postalCode => this.setState({ postalCode });
+  handleCountryChange = country => this.setState({ country });
+
+  // Handle Address Change -- END
+
+  // Handle Second Screen Navigation
+  handleGoToFinalSignUpScreen = () => {
+    if (
+      !!this.state.addressLine &&
+      !!this.state.city &&
+      !!this.state.province &&
+      !!this.state.postalCode
+    ) {
+      this.props.navigation.navigate("PreferencesScreenTwo", {
+        // This is structured the way Mongo anticipates it
+        email: this.state.email,
+        password: this.state.password,
+        name: this.state.name,
+        availability: {
+          type: this.state.preference,
+          schedule: this.state.timePreferences
+        },
+        address: {
+          street: this.state.addressLine,
+          city: this.state.city,
+          country: this.state.country,
+          province: this.state.province,
+          postal_code: this.state.postalCode
+        }
+      });
+    } else {
+      Alert.alert("Incomplete Details", "Please fill in all fields.");
+    }
+  };
+
+  // When it mounts, check if it has data from navigation params (While Signing Up)
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    const { name, email, password } = params;
+    if (!!name && !!email && !!password) {
+      this.setState({ name, email, password });
+    }
+  }
   // Render Function
   render() {
     const { navigation } = this.props;
     const {
+      addressLine,
+      city,
+      province,
+      country,
+      postalCode,
       preference,
       timePreferences,
       isModalVisible,
@@ -83,7 +143,18 @@ export default class PreferencesScreenOne extends Component {
 
     return (
       <SafeAreaView>
+        {/* <Text>{JSON.stringify(this.state.timePreferences)}</Text> */}
         <PreferencesScreenOneComponent
+          addressLine={addressLine}
+          onAddressLineChange={this.handleAddressLineChange}
+          city={city}
+          onCityChange={this.handleCityChange}
+          province={province}
+          onProvinceChange={this.handleProvinceChange}
+          postalCode={postalCode}
+          onPostalCodeChange={this.handlePostalCodeChange}
+          country={country}
+          onCountryChange={this.handleCountryChange}
           addMorePreferences={this.addMorePreferences}
           preference={preference}
           isModalVisible={isModalVisible}
@@ -92,9 +163,7 @@ export default class PreferencesScreenOne extends Component {
           toggleModal={this.toggleModal}
           currentModalLabel={currentModalLabel}
           onChange={this.onChange}
-          onPressNext={() => {
-            this.props.navigation.navigate("PreferencesScreenTwo");
-          }}
+          onPressNext={this.handleGoToFinalSignUpScreen}
         />
       </SafeAreaView>
     );

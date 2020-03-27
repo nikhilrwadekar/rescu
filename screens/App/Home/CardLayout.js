@@ -9,6 +9,7 @@ import { clientSocket, adminSocket } from "../../../web-sockets";
 // Connections!
 import axios from "axios";
 import { API_URL } from "../../../API";
+
 // Top Header for Home
 const Header = ({ name }) => {
   return (
@@ -126,11 +127,17 @@ export default class CardLayout extends Component {
     super(props);
 
     this.state = {
-      googleDetails: null
+      googleDetails: null,
+      userDetails: null
     };
   }
 
   async componentDidMount() {
+    // Email Sign In
+    const email = await AsyncStorage.getItem("userDetails");
+    let userDetails = JSON.parse(email);
+    this.setState({ userDetails });
+
     // Google Sign In
     const google = await AsyncStorage.getItem("googleSignInDetails");
     let googleDetails = JSON.parse(google);
@@ -184,8 +191,8 @@ export default class CardLayout extends Component {
           ListHeaderComponent: () => (
             <Header
               name={
-                this.state.googleDetails
-                  ? this.state.googleDetails.user.name
+                this.state.userDetails
+                  ? this.state.userDetails.name
                   : "Unknown User"
               }
             />
