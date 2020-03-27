@@ -134,7 +134,10 @@ export default class SingleDisasterScreen extends Component {
 
           <UpdateButtonProfileComponent
             buttonText="Donate"
-            customStyle={{ marginTop: 25, paddingBottom: 50 }}
+            customStyle={{
+              marginTop: 25,
+              paddingBottom: 50
+            }}
             onPressUpdate={() => {
               navigation.navigate("Donate");
             }}
