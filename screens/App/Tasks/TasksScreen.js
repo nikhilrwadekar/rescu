@@ -36,7 +36,6 @@ class UpcomingTasksComponent extends Component {
     // Get User Data
     if ((await AsyncStorage.getItem("loginType")) === "email") {
       const userDetails = await AsyncStorage.getItem("userDetails");
-
       this.setState({ userDetails: JSON.parse(userDetails) });
     }
 

@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  AsyncStorage,
-  Button,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { View, Text, AsyncStorage, ScrollView, Alert } from "react-native";
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
-import { TrackingStateReason } from "expo/build/AR";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 // API_URL
 import { API_URL } from "../../../API";
@@ -19,109 +11,99 @@ export default class NotificationScreen extends Component {
     super(props);
 
     this.state = {
-      receivedRequests: null,
-      tasks: [],
-
-      // An array having the values of notification
-      values: [
-        {
-          jobType: "Babysitting",
-          notificationTime: "10 mins ago",
-          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
-          date: "April 2, 2020",
-          jobTime: "10:00 A.M. - 2:00 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        },
-        {
-          jobType: "Eldery Help",
-          notificationTime: "15 mins ago",
-          location: "502 W Pender St, Vancouver, BC, Canada, V5W1Y4",
-          date: "April 10, 2020",
-          jobTime: "5:30 A.M. - 1:00 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        },
-        {
-          jobType: "Grocery shopping for elderly",
-          notificationTime: "1 day ago",
-          location: "1055 Homer St, Vancouver, BC, Canada, V5X6R4",
-          date: "March 31, 2020",
-          jobTime: "9:00 A.M. - 2:30 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        },
-        {
-          jobType: "Cooking",
-          notificationTime: "2 weeks ago",
-          location: "326 Main St, Vancouver, BC, Canada, V5V4J2",
-          date: "March 20, 2020",
-          jobTime: "10:00 A.M. - 2:00 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        },
-        {
-          jobType: "Driving",
-          notificationTime: "3 weeks ago",
-          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
-          date: "March 15, 2020",
-          jobTime: "10:00 A.M. - 2:00 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        },
-        {
-          jobType: "Babysitting",
-          notificationTime: "3 weeks ago",
-          location: "426 W Georgia St, Vancouver, BC, Canada, V5V4J2",
-          date: "March 10, 2020",
-          jobTime: "11:00 A.M. - 2:30 P.M.",
-          declineButtonText: "Decline",
-          confirmButtonText: "Confirm"
-        }
-      ]
+      receivedRequests: []
     };
   }
 
   async componentDidMount() {
+    // Get User Data
+    if ((await AsyncStorage.getItem("loginType")) === "email") {
+      const userDetails = await AsyncStorage.getItem("userDetails");
+      this.setState({ userDetails: JSON.parse(userDetails) });
+    }
+
     this.getNotifications();
-    const response = await axios.get(
-      `${API_URL}/user/nikhilrwadekar@gmail.com/requests/received`
-    );
 
-    await AsyncStorage.setItem(
-      "receivedRequests",
-      JSON.stringify(response.data)
-    );
+    // // Connect to Sockets
+    // clientSocket.connected
+    //   ? console.log("Already Connected..")
+    //   : clientSocket.connect();
 
-    const receivedRequests = await AsyncStorage.getItem("receivedRequests");
-    this.setState({ reliefCentersWithRequests: JSON.parse(receivedRequests) });
+    // adminSocket.connected
+    //   ? console.log("Already Connected..")
+    //   : adminSocket.connect();
 
-    // Connect to Sockets
-    clientSocket.connected
-      ? console.log("Already Connected..")
-      : clientSocket.connect();
-
-    adminSocket.connected
-      ? console.log("Already Connected..")
-      : adminSocket.connect();
-
-    adminSocket.on("acceptRequest", this.getNotifications);
+    // adminSocket.on("acceptRequest", this.getNotifications);
   }
+
+  getNotifications = () => {
+    // Get Notifications? Why are you getting requests :P
+    axios
+      // https://outreach.nikhilwadekar.com/api/user/mkelso@tss.com/requests/received
+      .get(`${API_URL}/user/${this.state.userDetails.email}/requests/received`)
+      .then(res => {
+        this.setState({ receivedRequests: res.data });
+      });
+  };
+
+  // Handle Decline
+  handleDeclineRequest = () => {
+    Alert.alert("Decline Request", "Are you sure?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      {
+        text: "Decline",
+        onPress: () => console.log("OK Pressed"),
+        style: "destructive"
+      }
+    ]);
+  };
+
+  // Handle Opt In
+  handleAcceptRequest = async taskID => {
+    Alert.alert("Accept Request", "Are you sure?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      {
+        text: "Accept",
+        onPress: () => console.log("OK Pressed"),
+        style: "default"
+      }
+    ]);
+    // axios
+    //   .post(`${API_URL}/user/${this.state.userDetails.email}/optin/${taskID}`)
+    //   .then(res => {
+    //     if (res.status == 200) {
+    //       const { receivedRequests } = this.state;
+    //       const updatedRequests = receivedRequests.filter(
+    //         request => request.job_id != taskID
+    //       );
+
+    //       this.setState({ receivedRequests: updatedRequests });
+    //     }
+    //   });
+  };
 
   render() {
     // Deconstruct State!
-    const { reliefCentersWithRequests, tasks } = this.state;
-    const { values } = this.state;
-    const renderedNotifications = values.map(notification => {
+    const { receivedRequests } = this.state;
+
+    const renderedNotifications = receivedRequests.map(notification => {
       return (
         <ConfirmDeclineNotificationComponent
-          jobType={notification.jobType}
+          jobType={notification.job_type}
           notificationTime={notification.notificationTime}
           location={notification.location}
-          date={notification.date}
-          jobTime={notification.jobTime}
-          declineButtonText={notification.declineButtonText}
-          confirmButtonText={notification.confirmButtonText}
+          date={new Date(notification.job_date).toDateString()}
+          jobTime={`${notification.job_start_time} to ${notification.job_end_time}`}
+          onPressConfirm={() => this.handleAcceptRequest(notification.job_id)}
+          onPressDecline={() => this.handleDeclineRequest(notification.job_id)}
         />
       );
     });
@@ -131,36 +113,9 @@ export default class NotificationScreen extends Component {
         <ScrollView>{renderedNotifications}</ScrollView>
       </View>
     );
-
-    return (
-      <View>
-        {/* <Text>{JSON.stringify(this.state.reliefCentersWithRequests)}</Text> */}
-        {reliefCentersWithRequests &&
-          reliefCentersWithRequests.map(reliefCenter => {
-            const { name, location } = reliefCenter;
-            return reliefCenter.requests.map(
-              (request, requestIndex) => (
-                <>
-                  <Text>{request.type}</Text>
-                  <Text>{name}</Text>
-                  <Text>{location}</Text>
-                  <Text>
-                    {new Date(request.date).toDateString()} from{" "}
-                    {request.time.start} to {request.time.end}
-                  </Text>
-                  <Button title="Confirm" />
-                  <Button title="Decline" />
-                </>
-              ),
-              // Pass First Map's Data Into the Other Map
-              { name, location }
-            );
-          })}
-      </View>
-    );
   }
 }
-const styles = StyleSheet.create({});
+
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
   title: "Your Notifications"
