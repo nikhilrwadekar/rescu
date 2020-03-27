@@ -247,7 +247,8 @@ export class DisasterListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50
+    padding: 50,
+    backgroundColor: "#f7f7f7"
     // textAlign: "center"
   },
   DisasterItem: {

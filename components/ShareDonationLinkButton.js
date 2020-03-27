@@ -16,7 +16,15 @@ const ShareDonationLinkButton = ({
 // Styles
 const styles = StyleSheet.create({
   button: {
-    justifyContent: "center"
+    justifyContent: "center",
+    // backgroundColor: "#F27821",
+    borderWidth: 1,
+    borderColor: "#3672BC",
+    width: 150,
+    height: 40,
+    borderRadius: 10,
+    textAlign: "center",
+    alignSelf: "center"
   },
   btnText: {
     color: "#3672BC",

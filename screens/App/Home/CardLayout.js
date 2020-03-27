@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, StyleSheet, View, AsyncStorage } from "react-native";
 import CardList from "react-native-card-animated-modal";
 import { Button } from "react-native-elements";
+import RequestVolunteerButton from "../../../components/RequestVolunteerButton";
 
 // Initializing the socket variables on a global Level
 import { clientSocket, adminSocket } from "../../../web-sockets";
@@ -85,7 +86,34 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
   return (
     <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
       <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
-        <Button
+        <RequestVolunteerButton
+          buttonText={
+            !opportunity.opportunity_requested.includes(
+              "nikhilrwadekar@gmail.com"
+            ) &&
+            !opportunity.opportunity_assigned.includes(
+              "nikhilrwadekar@gmail.com"
+            )
+              ? "Request to Volunteer"
+              : opportunity.opportunity_assigned.includes(
+                  "nikhilrwadekar@gmail.com"
+                )
+              ? "Assigned"
+              : "Requested"
+          }
+          disabled={
+            opportunity.opportunity_requested.includes(
+              "nikhilrwadekar@gmail.com"
+            ) ||
+            opportunity.opportunity_assigned.includes(
+              "nikhilrwadekar@gmail.com"
+            )
+          }
+          raised
+          color="white"
+          onPressUpdate={onRequestPressed}
+        />
+        {/* <Button
           title={
             !opportunity.opportunity_requested.includes(
               "nikhilrwadekar@gmail.com"
@@ -111,7 +139,7 @@ const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
           raised
           color="white"
           onPress={onRequestPressed}
-        />
+        /> */}
       </View>
       <Text style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}>
         {opportunity.description}

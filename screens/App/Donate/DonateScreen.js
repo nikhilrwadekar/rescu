@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor: "#f7f7f7"
   },
   btnStyle: {
     marginLeft: 40,

@@ -75,12 +75,18 @@ const ConfirmDeclineNotificationComponent = ({
     >
       {/* Decline button */}
       <View style={styles.button}>
-        <NotificationDeclineButton buttonText="Decline" />
+        <NotificationDeclineButton
+          buttonText="Decline"
+          onPressUpdate={onPressDecline}
+        />
       </View>
 
       {/* Confirm button */}
       <View style={styles.button}>
-        <NotificationConfirmButton buttonText="Confirm" />
+        <NotificationConfirmButton
+          buttonText="Confirm"
+          onPressUpdate={onPressConfirm}
+        />
       </View>
     </View>
   </View>
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8
   },
   jobType: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "OpenSans-Regular",
     color: "#383940"
   },

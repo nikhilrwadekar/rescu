@@ -59,7 +59,9 @@ class UpcomingTasksComponent extends Component {
   render() {
     const { reliefCenterGroupedTasks } = this.state;
     return (
-      <ScrollView style={[styles.scene, { backgroundColor: "#fff" }]}>
+      <ScrollView
+        style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
+      >
         {reliefCenterGroupedTasks &&
           reliefCenterGroupedTasks.map(reliefCenter => {
             const { name, location } = reliefCenter;
@@ -68,11 +70,9 @@ class UpcomingTasksComponent extends Component {
                 <AssignedTaskCardComponent
                   newKey={taskIndex}
                   buttonText="Opt Out"
-                  date={
-                    new Date(task.date).toDateString() +
-                    ` from ${task.time.start} to ${task.time.end} `
-                  }
-                  jobType={`${task.type} at ${name}`}
+                  date={new Date(task.date).toDateString()}
+                  time={`${task.time.start} - ${task.time.end} `}
+                  jobType={`${task.type}`}
                   location={location}
                   onPressOptOut={() => {
                     Alert.alert(
@@ -105,7 +105,9 @@ class UpcomingTasksComponent extends Component {
 
 // Right Tab: History
 const HistoryComponent = () => (
-  <View style={[styles.scene, { backgroundColor: "#fff" }]} />
+  <View
+    style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
+  />
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -139,16 +141,14 @@ export default class TasksScreen extends Component {
   render() {
     const { index, routes } = this.state;
     return (
-      <>
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={index => {
-            this.setState({ index });
-          }}
-          initialLayout={initialLayout}
-        />
-      </>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={index => {
+          this.setState({ index });
+        }}
+        initialLayout={initialLayout}
+      />
     );
   }
 }

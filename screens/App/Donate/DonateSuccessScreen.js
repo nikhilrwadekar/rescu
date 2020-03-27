@@ -91,6 +91,10 @@ export class DonationSuccessScreen extends Component {
           customStyle={styles.buttonShare}
         />
 
+        <View>
+          <Text style={styles.encouragingText}>Let's all come together to help the people in need.</Text>
+        </View>
+
         {/* Component for sign up button */}
         <UpdateButtonProfileComponent
           buttonText="Sign Up"
@@ -112,7 +116,8 @@ DonationSuccessScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor: "#f7f7f7"
   },
   thankyouText: {
     textAlign: "center",
@@ -125,7 +130,11 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   buttonShare: {
-    marginTop: 10
+    marginTop: 20
+  },
+  encouragingText: {
+    textAlign: "center",
+    
   }
 });
 export default DonationSuccessScreen;

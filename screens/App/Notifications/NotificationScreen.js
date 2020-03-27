@@ -5,7 +5,8 @@ import {
   AsyncStorage,
   Button,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
@@ -122,6 +123,44 @@ export default class NotificationScreen extends Component {
           jobTime={notification.jobTime}
           declineButtonText={notification.declineButtonText}
           confirmButtonText={notification.confirmButtonText}
+          onPressDecline={() => {
+            Alert.alert(
+              "Decline?",
+              "You're about to decline",
+              [
+                {
+                  text: "Yes, please.",
+                  onPress: () => console.log("Yes Pressed"),
+                  style: "cancel"
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                }
+              ],
+              { cancelable: false }
+            );
+          }}
+          onPressConfirm={() => {
+            Alert.alert(
+              "Confirm?",
+              "You're about to confirm",
+              [
+                {
+                  text: "Yes, please.",
+                  onPress: () => console.log("Yes Pressed"),
+                  style: "cancel"
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                }
+              ],
+              { cancelable: false }
+            );
+          }}
         />
       );
     });
