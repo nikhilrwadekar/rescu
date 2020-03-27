@@ -14,26 +14,17 @@ const styles = StyleSheet.create({
   }
 });
 
-function UselessTextInput(props) {
-  return (
-    <TextInput
-      {...props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-      editable
-      autoCompleteType="postal-code"
-      textContentType="postalCode"
-      maxLength={8}
-    />
-  );
-}
-
 export class PostalCode extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      postalCodePlaceholder: "V5Y2Z7"
+    };
   }
 
   render() {
+    const { postalCode, onPostalCodeChange } = this.props;
     return (
       <View style={{ paddingRight: 40, paddingLeft: 40, marginTop: 24 }}>
         <Text
@@ -44,15 +35,15 @@ export class PostalCode extends React.Component {
         >
           Postal Code
         </Text>
-        <UselessTextInput
-          placeholder={this.state.placeholderPostalCode}
-          onChangeText={value => {
-            this.setState({
-              PostalCode: value
-            });
-          }}
-          value={this.state.PostalCode}
+        <TextInput
+          value={postalCode}
+          onChangeText={onPostalCodeChange}
+          placeholder={this.state.postalCodePlaceholder}
           style={styles.inputStyle}
+          editable
+          autoCompleteType="postal-code"
+          textContentType="postalCode"
+          maxLength={8}
         />
       </View>
     );

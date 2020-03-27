@@ -1,22 +1,18 @@
 import React, { Component } from "react";
 import {
-  Text,
   View,
   StyleSheet,
-  Button,
   Alert,
   ToastAndroid,
   AsyncStorage,
   ScrollView
 } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
-import pic from "../../../assets/images/profile.png";
 
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 import LogoutButton from "../../../components/LogoutButton";
-const profilePicture = require("../../../assets/images/young-lady.jpg");
 
 export default class ProfileScreen extends Component {
   constructor(props) {
@@ -53,6 +49,11 @@ export default class ProfileScreen extends Component {
   };
 
   async componentDidMount() {
+    // Email Sign In
+    const email = await AsyncStorage.getItem("userDetails");
+    let userDetails = JSON.parse(email);
+    this.setState({ user: userDetails });
+
     const google = await AsyncStorage.getItem("googleSignInDetails");
 
     let googleDetails = JSON.parse(google);
@@ -74,7 +75,10 @@ export default class ProfileScreen extends Component {
         <ScrollView>
           <ProfileHeader
             customHeadStyle={styles.header}
-            imageUrl={{ uri: this.state.user.photoUrl }}
+            imageUrl={{
+              uri:
+                this.state.user.photoUrl || this.state.user.profile_picture_url
+            }}
             onPressEditProfile={this.handleEditProfile}
             key="1"
             fName={this.state.user.name}

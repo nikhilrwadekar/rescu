@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 
 // React Native
-import { Text, StyleSheet, View, Alert, ScrollView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  Alert,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
 
 // Custom Components
 import AppInput from "../../../components/AppInput";
@@ -13,11 +20,25 @@ export default class EditProfileScreen extends Component {
     super(props);
 
     this.state = {
-      fullName: "Angel Augustine",
-      email: "angelaugustine@example.com",
-      phoneNumber: "1237892233"
+      fullName: "Anonymous User",
+      email: "example@example.com",
+      phoneNumber: "1234567890"
     };
   }
+
+  componentDidMount = async () => {
+    // Get User Data
+
+    // Email Sign In
+    const email = await AsyncStorage.getItem("userDetails");
+    let userDetails = JSON.parse(email);
+    this.setState({
+      fullName: userDetails.name,
+      email: userDetails.email,
+      phoneNumber: userDetails.contact_number.toString(),
+      photoURL: userDetails.profile_picture_url
+    });
+  };
 
   // Handle Change - Full Name
   handleFullNameChange = fullName => {
@@ -36,7 +57,7 @@ export default class EditProfileScreen extends Component {
           {/* Profile Photo */}
           <View style={{ marginBottom: 30 }}>
             <ProfileHeader
-              imageUrl={{ uri: "https://i.pravatar.cc/300" }}
+              imageUrl={{ uri: this.state.photoURL }}
               // onPressEditProfile={this.handleEditProfile}
               key="1"
               fName={this.state.fullName}
@@ -66,7 +87,7 @@ export default class EditProfileScreen extends Component {
             label="Phone Number"
             value={this.state.phoneNumber}
             placeholderValue="1236127388"
-            onChange={this.handleFullNameChange}
+            onChange={this.handlePhoneNumberChange}
           />
 
           {/* Update Profile Settings */}
