@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Text, View, TextInput, StyleSheet, Image } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Image,
+  Alert,
+  AsyncStorage
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider } from "react-native-elements";
 import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
@@ -7,6 +15,7 @@ import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileCo
 // Google Sign-In Imports
 import * as Google from "expo-google-app-auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Axios from "axios";
 
 const IOS_CLIENT_ID =
   "458548322242-e39hntvdf192d6n9d34eei2p6lror4gl.apps.googleusercontent.co";
@@ -16,8 +25,9 @@ const ANDROID_CLIENT_ID =
 export class SignInScreen extends Component {
   // Sign In Screen
   state = {
-    email: "",
-    password: "",
+    name: "Nikhil W",
+    email: "nrwdkr@gmail.com",
+    password: "secret",
     isPasswordHidden: true
   };
 
@@ -47,6 +57,69 @@ export class SignInScreen extends Component {
       console.log("Error! - ", e);
       return { error: true };
     }
+  };
+
+  // Chromium Validation
+  validateEmail = email => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  // Initiate Registration
+  handleRegistration = () => {
+    const { name, email, password } = this.state;
+
+    // Basic Validation
+    if (name.length < 2) {
+      Alert.alert("Name too short", "Please provide a valid name.");
+    } else if (!this.validateEmail(email)) {
+      Alert.alert("Invalid Email", "Please provide a valid email.");
+    } else if (password.length < 5) {
+      Alert.alert(
+        "Password short",
+        "Password should be at least 5 characters long."
+      );
+    } else if (
+      this.validateEmail(email) &&
+      password.length > 5 &&
+      name.length > 2
+    ) {
+      // Check with DB if email is taken, or else proceed if fields are valid (Password: Strong; Name: Legible Enough)
+      Axios.get(`http://localhost:4000/api/user/${email}`)
+        .then(res => {
+          if (!!res.data[0]) {
+            Alert.alert(
+              "Account Exists",
+              `${res.data[0].name}, please sign in.`,
+              [
+                {
+                  text: "Sign In",
+                  onPress: () => this.props.navigation.navigate("SignIn")
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                }
+              ]
+            );
+          } else {
+            // Okay to Sign Up, Proceed with Sign Up
+
+            this.props.navigation.navigate("PreferencesScreenOne", {
+              name: name,
+              email: email,
+              password: password
+            });
+          }
+        })
+        .catch(err => console.log("Error:", err));
+    } else {
+      Alert.alert("Something went wrong", "Please try again.");
+    }
+
+    // Navigate with Data to next screen
+    // this.props.navigation.navigate("PreferencesScreenOne");
   };
 
   render() {
@@ -89,8 +162,8 @@ export class SignInScreen extends Component {
                 }}
                 placeholder="Monica Geller"
                 autoCompleteType="name"
-                onChangeText={text => this.setState({ name })}
-                value={this.state.text}
+                onChangeText={name => this.setState({ name })}
+                value={this.state.name}
               />
             </View>
 
@@ -111,10 +184,11 @@ export class SignInScreen extends Component {
                   fontSize: 15
                 }}
                 placeholder="monicageller@example.com"
-                autoCompleteType="username"
+                autoCapitalize="none"
+                autoCompleteType="email"
                 keyboardType="email-address"
-                onChangeText={text => this.setState({ email })}
-                value={this.state.text}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
 
@@ -133,11 +207,11 @@ export class SignInScreen extends Component {
                   paddingLeft: 10,
                   fontSize: 15
                 }}
-                placeholder="Password"
+                placeholder="Y0urS3cur3p@ssw0rd"
                 autoCompleteType="password"
                 secureTextEntry={isPasswordHidden}
-                onChangeText={text => this.setState({ password })}
-                value={this.state.text}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
               />
             </View>
 
@@ -145,9 +219,7 @@ export class SignInScreen extends Component {
             <UpdateButtonProfileComponent
               buttonText="Sign Up"
               customStyle={{ marginTop: 40, marginBottom: 30 }}
-              onPressUpdate={() => {
-                navigation.navigate("PreferencesScreenOne");
-              }}
+              onPressUpdate={this.handleRegistration}
             />
           </View>
 
