@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+// Get API URL
+import { API_URL } from "../../API";
+
 import {
   Alert,
   SafeAreaView,
@@ -93,7 +96,7 @@ export default class PreferencesScreenTwo extends Component {
       !!this.state.selectedVolunteeringTypes.length
     ) {
       // console.log(this.state.newUser);
-      Axios.post("http://localhost:4000/api/user/create", {
+      Axios.post(`${API_URL}/user/create`, {
         ...this.state.newUser
       })
         .then(async res => {

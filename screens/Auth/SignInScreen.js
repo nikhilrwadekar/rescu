@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+
+// Get API URL
+import { API_URL } from "../../API";
+
 import {
   Text,
   View,
@@ -67,7 +71,7 @@ export class SignInScreen extends Component {
 
     if (!!email && !!password)
       // Post a login request to the Backend
-      await Axios.post("http://localhost:4000/api/auth/login", {
+      await Axios.post(`${API_URL}/auth/login`, {
         email: email,
         password: password
       })

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+// Get API URL
+import { API_URL } from "../../../API";
+
 // Custom Components
 import PreferencesScreenOneComponent from "../../../components/PreferencesScreenOneComponent";
 import PreferencesScreenTwoComponent from "../../../components/PreferencesScreenTwoComponent";
@@ -140,7 +143,7 @@ export default class EditPreferencesScreen extends Component {
     AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
 
     // Update User based on ID in DB
-    Axios.put(`http://localhost:4000/api/user/id/${id}`, { ...userDetails })
+    Axios.put(`${API_URL}/user/id/${id}`, { ...userDetails })
       .then(res => {
         if (res.status == 200)
           Alert.alert("Success", "Preferences were updated.");

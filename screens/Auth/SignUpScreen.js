@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+
+// Get API URL
+import { API_URL } from "../../API";
+
 import {
   Text,
   View,
@@ -85,7 +89,7 @@ export class SignInScreen extends Component {
       name.length > 2
     ) {
       // Check with DB if email is taken, or else proceed if fields are valid (Password: Strong; Name: Legible Enough)
-      Axios.get(`http://localhost:4000/api/user/${email}`)
+      Axios.get(`${API_URL}/user/${email}`)
         .then(res => {
           if (!!res.data[0]) {
             Alert.alert(
