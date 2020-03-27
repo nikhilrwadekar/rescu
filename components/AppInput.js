@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     // height: 40,
     paddingLeft: 10,
     marginTop: 5,
-    fontFamily: "OpenSans-Light"
+    fontFamily: "OpenSans-Regular",
+    backgroundColor: "white"
   }
 });
 

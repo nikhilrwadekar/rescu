@@ -83,7 +83,7 @@ export class ProvinceSelector extends React.Component {
       >
         <Text
           style={{
-            fontFamily: "OpenSans-Light",
+            fontFamily: "OpenSans-Regular",
             fontSize: 17,
             textAlign: "left"
           }}

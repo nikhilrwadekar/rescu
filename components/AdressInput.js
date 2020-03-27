@@ -46,7 +46,7 @@ export class AddressInput extends React.Component {
 const styles = StyleSheet.create({
   addressLabel: {
     marginTop: 22,
-    fontFamily: "OpenSans-Light"
+    fontFamily: "OpenSans-Regular"
   }
 });
 

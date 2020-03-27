@@ -13,7 +13,8 @@ import {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    height: 200
+    height: 140,
+    paddingLeft: 40
   },
   cont: {
     backgroundColor: "black"
@@ -22,8 +23,16 @@ const styles = StyleSheet.create({
 
 const TimeAvailability = ({ setPreference, preference }) => (
   <View style={styles.inputStyle}>
-    <Text>Choose your availability</Text>
-    <Container>
+    <Text
+      style={{
+        fontFamily: "OpenSans-Regular",
+        fontSize: 17,
+        fontWeight: "100"
+      }}
+    >
+      Choose your availability
+    </Text>
+    <Container style={{ marginRight: 40, borderRadius: 10, marginTop: 2 }}>
       {/* <Header /> */}
       <Content>
         <ListItem
@@ -32,7 +41,15 @@ const TimeAvailability = ({ setPreference, preference }) => (
           }}
         >
           <Left>
-            <Text>Anytime</Text>
+            <Text
+              style={{
+                fontFamily: "OpenSans-Regular",
+                fontSize: 16,
+                fontWeight: "100"
+              }}
+            >
+              Anytime
+            </Text>
           </Left>
           <Right>
             <Radio
@@ -48,7 +65,15 @@ const TimeAvailability = ({ setPreference, preference }) => (
           }}
         >
           <Left>
-            <Text>Preferred</Text>
+            <Text
+              style={{
+                fontFamily: "OpenSans-Regular",
+                fontSize: 16,
+                fontWeight: "100"
+              }}
+            >
+              Preferred
+            </Text>
           </Left>
           <Right>
             <Radio

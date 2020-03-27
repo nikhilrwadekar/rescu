@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     // height: 30
   },
   textLabel: {
-    fontFamily: "OpenSans-Light",
+    fontFamily: "OpenSans-Regular",
     fontSize: 17,
     fontWeight: "100"
   }

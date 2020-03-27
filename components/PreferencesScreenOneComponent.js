@@ -21,6 +21,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Modal from "react-native-modal";
 import { Card } from "react-native-elements";
 
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { Left } from "native-base";
+
 const PreferencesScreenOneComponent = ({
   addressLine,
   onAddressLineChange,
@@ -43,116 +47,265 @@ const PreferencesScreenOneComponent = ({
   onPressNext
 }) => {
   return (
-    <ScrollView>
-      {/* PreferencesScreenOne */}
-      <Text style={styles.textHeader}> Preferences </Text>
+    <View style={{ backgroundColor: "#f7f7f7" }}>
+      <ScrollView>
+        {/* PreferencesScreenOne */}
+        <Text style={styles.textHeader}> Preferences </Text>
 
-      <AddressInput
-        addressLine={addressLine}
-        onAddressLineChange={onAddressLineChange}
-        city={city}
-        onCityChange={onCityChange}
-        province={province}
-        onProvinceChange={onProvinceChange}
-        country={country}
-        onCountryChange={onCountryChange}
-      />
-      <PostalCode
-        postalCode={postalCode}
-        onPostalCodeChange={onPostalCodeChange}
-      />
-
-      <ButtonLink text="Next" onPress={onPressNext} />
-
-      {/* Select Preference */}
-      <TimeAvailability
-        setPreference={handleSetPreference}
-        preference={preference}
-      />
-
-      {/* If Preference is 'preferred' Show DateTimePicker */}
-      {preference == "preferred" && (
-        <View>
-          <Text style> Preferred Availability </Text>
-          {/* Map Date Modal */}
-          {timePreferences.map((timePreference, index) => (
-            // Preference - Date & Time
-            <View key={timePreference.key}>
-              {/* Buttons for Date, Start Time, and End Time */}
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "center"
-                }}
-              >
-                <Button
-                  title={
-                    timePreference.date
-                      ? `${new Date(timePreference.date).toDateString()} `
-                      : new Date().toDateString()
-                  }
-                  onPress={() => toggleModal(timePreference.key, "Date")}
-                />
-                <Button
-                  title={
-                    timePreference.start_time
-                      ? `${new Date(
-                          timePreference.start_time
-                        ).toLocaleTimeString()} `
-                      : new Date().toLocaleTimeString()
-                  }
-                  onPress={() => toggleModal(timePreference.key, "Start Time")}
-                />
-                <Button
-                  title={
-                    timePreference.end_time
-                      ? `${new Date(
-                          timePreference.end_time
-                        ).toLocaleTimeString()} `
-                      : new Date().toLocaleTimeString()
-                  }
-                  onPress={() => toggleModal(timePreference.key, "End Time")}
-                />
-              </View>
-
-              {/* The Modal that Conditionally Renders based on which Button is clicked */}
-              <Modal
-                onBackdropPress={toggleModal}
-                isVisible={isModalVisible}
-                style={{ flex: 1 }}
-              >
-                {/* View inside the Modal! */}
-                <View>
-                  <Card>
-                    {/* Dynamic Label - Date, Start Time OR End Time */}
-                    <Text>{currentModalLabel}</Text>
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={
-                        new Date(
-                          currentModalLabel == "Date"
-                            ? timePreference.date
-                            : currentModalLabel == "Start Time"
-                            ? timePreference.start_time
-                            : timePreference.end_time
-                        )
-                      }
-                      mode={currentModalLabel == "Date" ? "date" : "time"}
-                      display="default"
-                      onChange={onChange}
-                    />
-                  </Card>
-                </View>
-              </Modal>
-            </View>
-          ))}
-
-          {/* Button to Add More Preferences */}
-          <Button title="Add More" onPress={addMorePreferences} />
+        <AddressInput
+          addressLine={addressLine}
+          onAddressLineChange={onAddressLineChange}
+          city={city}
+          onCityChange={onCityChange}
+          province={province}
+          onProvinceChange={onProvinceChange}
+          country={country}
+          onCountryChange={onCountryChange}
+        />
+        <View style={{ marginBottom: 30 }}>
+          <PostalCode
+            postalCode={postalCode}
+            onPostalCodeChange={onPostalCodeChange}
+          />
         </View>
-      )}
-    </ScrollView>
+
+        {/* <ButtonLink text="Next" onPress={onPressNext} /> */}
+
+        {/* Select Preference */}
+        <TimeAvailability
+          setPreference={handleSetPreference}
+          preference={preference}
+        />
+
+        {/* If Preference is 'preferred' Show DateTimePicker */}
+        {preference == "preferred" && (
+          <View
+            style={{
+              backgroundColor: "white",
+              // borderWidth: 1,
+              // borderColor: "#383940",
+              borderRadius: 10,
+              marginTop: 10,
+              marginLeft: 40,
+              marginRight: 40
+            }}
+          >
+            <Text
+              style={{
+                marginTop: 5,
+                paddingTop: 10,
+                paddingLeft: 10,
+                fontFamily: "OpenSans-Regular",
+                fontSize: 16,
+                fontWeight: "100"
+              }}
+            >
+              {" "}
+              Preferred Availability{" "}
+            </Text>
+            {/* Map Date Modal */}
+            {timePreferences.map((timePreference, index) => (
+              // Preference - Date & Time
+              <View key={timePreference.key}>
+                {/* Buttons for Date, Start Time, and End Time */}
+                <View
+                  style={{
+                    flex: 1,
+                    // flexDirection: "row",
+                    justifyContent: "flex-start"
+                    // paddingLeft: 10
+                  }}
+                >
+                  <View
+                    style={{
+                      marginTop: 20,
+                      justifyContent: "flex-start",
+                      alignContent: "flex-start",
+                      flexDirection: "column"
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: "center"
+                      }}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={18}
+                        color="#F27821"
+                        style={{ paddingLeft: 10 }}
+                      />
+                      <Text
+                        style={{
+                          paddingLeft: 10,
+                          fontFamily: "OpenSans-Regular",
+                          fontSize: 15
+                        }}
+                      >
+                        Date
+                      </Text>
+                    </View>
+
+                    <View style={{ textAlign: "left" }}>
+                      <Button
+                        title={
+                          timePreference.date
+                            ? `${new Date(timePreference.date).toDateString()} `
+                            : new Date().toDateString()
+                        }
+                        onPress={() => toggleModal(timePreference.key, "Date")}
+                      />
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      paddingLeft: 10,
+                      marginTop: 8
+                    }}
+                  >
+                    <View styles={{}}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Ionicons
+                          name="ios-timer"
+                          size={18}
+                          color="#F27821"
+                          // style={{ paddingLeft: 10 }}
+                        />
+                        <Text
+                          style={{
+                            paddingLeft: 10,
+                            fontFamily: "OpenSans-Regular",
+                            fontSize: 15
+                          }}
+                        >
+                          Start time
+                        </Text>
+                      </View>
+                      <Button
+                        title={
+                          timePreference.start_time
+                            ? `${new Date(
+                                timePreference.start_time
+                              ).toLocaleTimeString()} `
+                            : new Date().toLocaleTimeString()
+                        }
+                        onPress={() =>
+                          toggleModal(timePreference.key, "Start Time")
+                        }
+                      />
+                    </View>
+
+                    <View styles={{}}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Ionicons
+                          name="ios-timer"
+                          size={18}
+                          color="#F27821"
+                          // style={{ paddingLeft: 10 }}
+                        />
+                        <Text
+                          style={{
+                            paddingLeft: 10,
+                            fontFamily: "OpenSans-Regular",
+                            fontSize: 15,
+                            marginBottom: 0
+                          }}
+                        >
+                          End time
+                        </Text>
+                      </View>
+                      <Button
+                        title={
+                          timePreference.end_time
+                            ? `${new Date(
+                                timePreference.end_time
+                              ).toLocaleTimeString()} `
+                            : new Date().toLocaleTimeString()
+                        }
+                        onPress={() =>
+                          toggleModal(timePreference.key, "End Time")
+                        }
+                      />
+                    </View>
+                  </View>
+                </View>
+
+                {/* The Modal that Conditionally Renders based on which Button is clicked */}
+                <Modal
+                  onBackdropPress={toggleModal}
+                  isVisible={isModalVisible}
+                  style={{ flex: 1 }}
+                >
+                  {/* View inside the Modal! */}
+                  <View>
+                    <Card>
+                      {/* Dynamic Label - Date, Start Time OR End Time */}
+                      <Text>{currentModalLabel}</Text>
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={
+                          new Date(
+                            currentModalLabel == "Date"
+                              ? timePreference.date
+                              : currentModalLabel == "Start Time"
+                              ? timePreference.start_time
+                              : timePreference.end_time
+                          )
+                        }
+                        mode={currentModalLabel == "Date" ? "date" : "time"}
+                        display="default"
+                        onChange={onChange}
+                      />
+                    </Card>
+                  </View>
+                </Modal>
+              </View>
+            ))}
+
+            {/* Button to Add More Preferences */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 13
+              }}
+            >
+              <Button title="Add More" onPress={addMorePreferences} />
+              <AntDesign
+                name="pluscircleo"
+                size={18}
+                color="#F27821"
+                // style={{ paddingLeft: 10 }}
+              />
+            </View>
+          </View>
+        )}
+
+        <ButtonLink
+          text="Next"
+          onPress={onPressNext}
+          customStyle={{ marginBottom: 30 }}
+        />
+      </ScrollView>
+    </View>
   );
 };
 
