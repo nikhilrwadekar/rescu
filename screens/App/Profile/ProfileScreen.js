@@ -71,7 +71,7 @@ export default class ProfileScreen extends Component {
     const { isAvailable } = this.state;
     const { navigation } = this.props;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <ScrollView>
           <ProfileHeader
             customHeadStyle={styles.header}

@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, AsyncStorage, ScrollView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  AsyncStorage,
+  RefreshControl,
+  ScrollView,
+  Alert
+} from "react-native";
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
@@ -106,6 +113,11 @@ export default class NotificationScreen extends Component {
     ]);
   };
 
+  // Handle Refresh
+  handleRefresh = () => {
+    this.getNotifications();
+  };
+
   render() {
     // Deconstruct State!
     const { receivedRequests } = this.state;
@@ -126,7 +138,12 @@ export default class NotificationScreen extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        <ScrollView style={{ paddingTop: 20 }}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
+          }
+          style={{ paddingTop: 20 }}
+        >
           {renderedNotifications}
         </ScrollView>
       </View>

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  RefreshControl,
   AsyncStorage
 } from "react-native";
 
@@ -75,10 +76,20 @@ class UpcomingTasksComponent extends Component {
       });
   };
 
+  // Handle Refresh
+  handleRefresh = () => {
+    this.getTasks();
+  };
+
   render() {
     const { assignedTasks } = this.state;
     return (
-      <ScrollView style={[styles.scene, { backgroundColor: "#fff" }]}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
+        }
+        style={[styles.scene, { backgroundColor: "#fff" }]}
+      >
         {assignedTasks &&
           assignedTasks.map((taskCard, taskIndex) => {
             const {

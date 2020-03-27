@@ -90,26 +90,22 @@ export class SignInScreen extends Component {
     ) {
       // Check with DB if email is taken, or else proceed if fields are valid (Password: Strong; Name: Legible Enough)
       Axios.get(`${API_URL}/user/${email}`)
-        .then(res => {
-          if (!!res.data[0]) {
-            Alert.alert(
-              "Account Exists",
-              `${res.data[0].name}, please sign in.`,
-              [
-                {
-                  text: "Sign In",
-                  onPress: () => this.props.navigation.navigate("SignIn")
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                }
-              ]
-            );
+        .then(async res => {
+          if (!!res.data) {
+            Alert.alert("Account Exists", `${res.data.name}, please sign in.`, [
+              {
+                text: "Sign In",
+                onPress: () => this.props.navigation.navigate("SignIn")
+              },
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              }
+            ]);
           } else {
             // Okay to Sign Up, Proceed with Sign Up
-
+            await AsyncStorage.setItem("signUpType", "email");
             this.props.navigation.navigate("PreferencesScreenOne", {
               name: name,
               email: email,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 // Custom Components
 import PreferencesScreenOneComponent from "../../components/PreferencesScreenOneComponent";
-import { SafeAreaView, Text, Alert } from "react-native";
+import { SafeAreaView, Text, Alert, AsyncStorage } from "react-native";
 export default class PreferencesScreenOne extends Component {
   constructor(props) {
     super(props);
@@ -119,11 +119,48 @@ export default class PreferencesScreenOne extends Component {
   };
 
   // When it mounts, check if it has data from navigation params (While Signing Up)
-  componentDidMount() {
-    const { params } = this.props.navigation.state;
-    const { name, email, password } = params;
-    if (!!name && !!email && !!password) {
-      this.setState({ name, email, password });
+  async componentDidMount() {
+    // Check Sign Up Type
+    if ((await AsyncStorage.getItem("signUpType")) == "google") {
+      // If Google Sign Up..
+      const { params } = this.props.navigation.state;
+      const { user, refreshToken, accessToken, idToken } = params;
+      const { email, familyName, givenName, id, name, photoUrl } = user;
+      // Get Google ID?, Email, Name, handle skipping the password..
+      if (!!name && !!email) {
+        this.setState({ name, email });
+      }
+
+      Alert.alert(
+        `Hello, ${name}!`,
+        `Before we get started, please fill in a few details.`
+      );
+    } else if ((await AsyncStorage.getItem("signUpType")) == "facebook") {
+      // If Facebook Sign Up..
+      const { params } = this.props.navigation.state;
+      const { email, name } = params;
+
+      // Get Facebook ID?, Email, Name, handle skipping the password..
+      if (!!name && !!email) {
+        this.setState({ name, email });
+      }
+
+      Alert.alert(
+        `Hello, ${name}!`,
+        `Before we get started, please fill in a few details.`
+      );
+    } else if ((await AsyncStorage.getItem("signUpType")) == "email") {
+      // If Email Sign Up
+      const { params } = this.props.navigation.state;
+      const { name, email, password } = params;
+      if (!!name && !!email && !!password) {
+        this.setState({ name, email, password });
+      }
+
+      Alert.alert(
+        `Hello, ${name}!`,
+        `Before we get started, please fill in a few details.`
+      );
     }
   }
   // Render Function
