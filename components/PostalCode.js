@@ -37,7 +37,7 @@ export class PostalCode extends React.Component {
         </Text>
         <TextInput
           value={postalCode}
-          onChange={onPostalCodeChange}
+          onChangeText={onPostalCodeChange}
           placeholder={this.state.postalCodePlaceholder}
           style={styles.inputStyle}
           editable

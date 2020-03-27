@@ -92,8 +92,7 @@ export class ProvinceSelector extends React.Component {
         </Text>
         <RNPickerSelect
           placeholder={{
-            label: "Select Province",
-            value: null
+            label: "Select Province"
           }}
           items={this.state.items}
           onValueChange={onProvinceChange}
