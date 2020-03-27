@@ -73,6 +73,7 @@ const PreferencesScreenOneComponent = ({
       {/* If Preference is 'preferred' Show DateTimePicker */}
       {preference == "preferred" && (
         <View>
+          <Text style> Preferred Availability </Text>
           {/* Map Date Modal */}
           {timePreferences.map((timePreference, index) => (
             // Preference - Date & Time
@@ -94,13 +95,23 @@ const PreferencesScreenOneComponent = ({
                   onPress={() => toggleModal(timePreference.key, "Date")}
                 />
                 <Button
-                  title={new Date(
+                  title={
                     timePreference.start_time
-                  ).toLocaleTimeString()}
+                      ? `${new Date(
+                          timePreference.start_time
+                        ).toLocaleTimeString()} `
+                      : new Date().toLocaleTimeString()
+                  }
                   onPress={() => toggleModal(timePreference.key, "Start Time")}
                 />
                 <Button
-                  title={new Date(timePreference.end_time).toLocaleTimeString()}
+                  title={
+                    timePreference.end_time
+                      ? `${new Date(
+                          timePreference.end_time
+                        ).toLocaleTimeString()} `
+                      : new Date().toLocaleTimeString()
+                  }
                   onPress={() => toggleModal(timePreference.key, "End Time")}
                 />
               </View>
