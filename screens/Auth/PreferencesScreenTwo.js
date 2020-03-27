@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Alert, SafeAreaView, ScrollView, View, Text } from "react-native";
 import PreferencesScreenTwoComponent from "../../components/PreferencesScreenTwoComponent";
+import Axios from "axios";
 
 export default class PreferencesScreenTwo extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class PreferencesScreenTwo extends Component {
         name: "Dania Piesing",
         email: "volunteer@test.com",
         password: "",
-        contact_number: 7378704373,
+        contact_number: null,
         preferences: {
           volunteering_type: ["Cooking"],
           additional_skills: "Troubleshooting"
@@ -80,9 +81,25 @@ export default class PreferencesScreenTwo extends Component {
 
   // Finally save the user in the DB.. get the token and log him/her in!
   handleFinalSignUp = () => {
-    if (this.state.termsCheck && !!this.state.selectedVolunteeringTypes.length)
-      this.props.navigation.navigate("Home");
-    else if (!this.state.selectedVolunteeringTypes.length)
+    if (
+      this.state.termsCheck &&
+      !!this.state.selectedVolunteeringTypes.length
+    ) {
+      // console.log(this.state.newUser);
+      Axios.post("http://localhost:4000/api/user/create", {
+        ...this.state.newUser
+      })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          // Alert user that there was some error.. please try again.
+          Alert.alert("Something went wrong", "Please try again");
+        });
+
+      // When the user is created.. navigate to home with those details! Save them into Async email
+      // this.props.navigation.navigate("Home");
+    } else if (!this.state.selectedVolunteeringTypes.length)
       Alert.alert(
         "Volunteering Types",
         "Please select at least one volunteering type of your choice."
