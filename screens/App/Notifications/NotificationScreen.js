@@ -47,7 +47,7 @@ export default class NotificationScreen extends Component {
   };
 
   // Handle Decline
-  handleDeclineRequest = () => {
+  handleDeclineRequest = async taskID => {
     Alert.alert("Decline Request", "Are you sure?", [
       {
         text: "Cancel",
@@ -56,7 +56,21 @@ export default class NotificationScreen extends Component {
       },
       {
         text: "Decline",
-        onPress: () => console.log("OK Pressed"),
+        onPress: () => {
+          axios
+            .post(
+              `${API_URL}/user/${this.state.userDetails.email}/decline/${taskID}`
+            )
+            .then(res => {
+              if (res.status == 200) {
+                const { receivedRequests } = this.state;
+                const updatedRequests = receivedRequests.filter(
+                  request => request.job_id != taskID
+                );
+                this.setState({ receivedRequests: updatedRequests });
+              }
+            });
+        },
         style: "destructive"
       }
     ]);
@@ -72,22 +86,24 @@ export default class NotificationScreen extends Component {
       },
       {
         text: "Accept",
-        onPress: () => console.log("OK Pressed"),
+        onPress: () => {
+          axios
+            .post(
+              `${API_URL}/user/${this.state.userDetails.email}/optin/${taskID}`
+            )
+            .then(res => {
+              if (res.status == 200) {
+                const { receivedRequests } = this.state;
+                const updatedRequests = receivedRequests.filter(
+                  request => request.job_id != taskID
+                );
+                this.setState({ receivedRequests: updatedRequests });
+              }
+            });
+        },
         style: "default"
       }
     ]);
-    // axios
-    //   .post(`${API_URL}/user/${this.state.userDetails.email}/optin/${taskID}`)
-    //   .then(res => {
-    //     if (res.status == 200) {
-    //       const { receivedRequests } = this.state;
-    //       const updatedRequests = receivedRequests.filter(
-    //         request => request.job_id != taskID
-    //       );
-
-    //       this.setState({ receivedRequests: updatedRequests });
-    //     }
-    //   });
   };
 
   render() {

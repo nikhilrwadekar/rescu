@@ -28,7 +28,7 @@ class UpcomingTasksComponent extends Component {
 
     this.state = {
       userDetails: {},
-      reliefCenterGroupedTasks: []
+      assignedTasks: []
     };
   }
 
@@ -52,59 +52,75 @@ class UpcomingTasksComponent extends Component {
     const tasks = await axios.get(
       `${API_URL}/user/${this.state.userDetails.email}/tasks`
     );
-    this.setState({ reliefCenterGroupedTasks: tasks.data });
+    this.setState({ assignedTasks: tasks.data });
   };
 
   // Handle Opt Out
   handleOptOut = async taskID => {
-    console.log(
-      `${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`
-    );
-    await axios.post(
-      `${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`
-    );
+    axios
+      .post(`${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`)
+      .then(res => {
+        // If successfully opted out from DB..
+        if (res.status == 200) {
+          const { assignedTasks } = this.state;
+
+          // Filter it out from the state as well..
+          const updatedReliefCenterTasks = assignedTasks.filter(
+            task => task.job_id != taskID
+          );
+
+          // And the upate the state
+          this.setState({ assignedTasks: updatedReliefCenterTasks });
+        }
+      });
   };
 
   render() {
-    const { reliefCenterGroupedTasks } = this.state;
+    const { assignedTasks } = this.state;
     return (
       <ScrollView style={[styles.scene, { backgroundColor: "#fff" }]}>
-        {reliefCenterGroupedTasks &&
-          reliefCenterGroupedTasks.map(reliefCenter => {
-            const { name, location } = reliefCenter;
-            return reliefCenter.tasks.map(
-              (task, taskIndex) => (
-                <AssignedTaskCardComponent
-                  newKey={taskIndex}
-                  buttonText="Opt Out"
-                  date={
-                    new Date(task.date).toDateString() +
-                    ` from ${task.time.start} to ${task.time.end} `
-                  }
-                  jobType={`${task.type} at ${name}`}
-                  location={location}
-                  onPressOptOut={() => {
-                    Alert.alert(
-                      "Opt Out?",
-                      "You're about to opt out",
-                      [
-                        {
-                          text: "Yes, please.",
-                          onPress: () => this.handleOptOut(task._id)
-                        },
-                        {
-                          text: "Cancel",
-                          onPress: () => console.log("Cancel Pressed"),
-                          style: "cancel"
-                        }
-                      ],
-                      { cancelable: false }
-                    );
-                  }}
-                />
-              ),
-              // Pass First Map's Data Into the Other Map
-              { name, location }
+        {assignedTasks &&
+          assignedTasks.map((taskCard, taskIndex) => {
+            const {
+              _id,
+              name,
+              location,
+              job_type,
+              job_id,
+              job_date,
+              job_start_time,
+              job_end_time
+            } = taskCard;
+
+            return (
+              <AssignedTaskCardComponent
+                newKey={job_id}
+                buttonText="Opt Out"
+                date={
+                  new Date(job_date).toDateString() +
+                  ` from ${job_start_time} to ${job_end_time} `
+                }
+                jobType={`${job_type} at ${name}`}
+                location={location}
+                onPressOptOut={() => {
+                  Alert.alert(
+                    "Opt Out?",
+                    "You're about to opt out",
+                    [
+                      {
+                        text: "Yes, please.",
+                        onPress: () => this.handleOptOut(job_id)
+                      },
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      }
+                    ],
+                    { cancelable: false }
+                  );
+                }}
+              />
             );
           })}
       </ScrollView>
@@ -137,12 +153,12 @@ export default class TasksScreen extends Component {
   }
 
   async componentDidMount() {
-    console.log("Root Tasks was mounted.");
-    const tasks = await axios.get(
-      `${API_URL}/user/${this.state.userDetails.email}/tasks`
-    );
-    const tasksGroupedByReliefCenters = JSON.stringify(tasks.data);
-    await AsyncStorage.setItem("tasks", tasksGroupedByReliefCenters);
+    axios
+      .get(`${API_URL}/user/${this.state.userDetails.email}/tasks`)
+      .then(res => {
+        this.setState({ assignedTasks: res.data });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
