@@ -13,6 +13,8 @@ import {
 
 import CardLayout from "./CardLayout";
 
+// Connectivity
+import axios from "axios";
 import { clientSocket, adminSocket } from "../../../web-sockets";
 import { API_URL } from "../../../API";
 
@@ -91,6 +93,25 @@ export default class HomeScreen extends Component {
     this.getTasks();
   }
 
+  // Handle Request Press
+  handleRequestPressed = async opportunity => {
+    // // Asking admin to get requests! via Web Sockets
+    adminSocket.emit("getRequests", opportunity);
+
+    // Do the usual updates
+    await axios
+      .put(
+        `${API_URL}/user/id/${this.state.userDetails.email}/volunteer/${opportunity.opportunity_id}`
+      )
+      .then(response => {
+        opportunity.opportunity_requested.push(this.state.userDetails.email);
+        this.getTasks();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -102,7 +123,10 @@ export default class HomeScreen extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <CardLayout reliefCenters={this.state.reliefCenters} />
+        <CardLayout
+          onRequestPressed={this.handleRequestPressed}
+          reliefCenters={this.state.reliefCenters}
+        />
       </SafeAreaView>
     );
   }
