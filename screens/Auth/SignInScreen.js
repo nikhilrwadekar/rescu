@@ -18,20 +18,23 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
 
-// Google Sign-In Imports
+// OAuth Providers + Expo
 import * as Google from "expo-google-app-auth";
+import * as Facebook from "expo-facebook";
+
 import Axios from "axios";
 
-const IOS_CLIENT_ID =
-  "458548322242-e39hntvdf192d6n9d34eei2p6lror4gl.apps.googleusercontent.co";
-const ANDROID_CLIENT_ID =
-  "458548322242-ul355ju06tuq252kfnk5endjor0lala5.apps.googleusercontent.com";
+const GOOGLE_IOS_CLIENT_ID =
+  "411984942253-8gki5rs2dovqh87j3mhj5auvoheenpv7.apps.googleusercontent.com";
+const GOOGLE_ANDROID_CLIENT_ID =
+  "411984942253-ibe8053cbtb0oqhbgj1rjlkgc39u9juf.apps.googleusercontent.com";
 
+const FACEBOOK_APP_ID = "504695810471192";
 export class SignInScreen extends Component {
   // Sign In Screen
   state = {
-    email: "",
-    password: "",
+    email: "mkelso@tss.com",
+    password: "secret",
     isPasswordHidden: true
   };
 
@@ -39,28 +42,109 @@ export class SignInScreen extends Component {
   signInWithGoogle = async () => {
     try {
       const result = await Google.logInAsync({
-        iosClientId: IOS_CLIENT_ID,
-        androidClientId: ANDROID_CLIENT_ID,
+        iosClientId: GOOGLE_IOS_CLIENT_ID,
+        androidClientId: GOOGLE_ANDROID_CLIENT_ID,
         // Get Profile Information and Email from Google
         scopes: ["profile", "email"]
       });
 
       if (result.type === "success") {
-        await AsyncStorage.setItem(
-          "googleSignInDetails",
-          JSON.stringify(result)
-        );
+        // If successfully logged in.. Check if user exists based on email!
+        console.log(result);
 
-        this.props.navigation.navigate("Home");
+        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
+        Axios.get(`${API_URL}/user/${result.user.email}`).then(async res => {
+          const user = res.data;
+
+          if (user) {
+            Alert.alert("User exists");
+          } else {
+            // Take the user to the sign up screen! with details
+            await AsyncStorage.setItem("signUpType", "google");
+            this.props.navigation.navigate("PreferencesScreenOne", result);
+          }
+        });
+
+        // If doesn't.. prompt to Sign Up
+
+        // this.props.navigation.navigate("Home");
 
         // Return the Access Token
-        return result.accessToken;
+        // return result.accessToken;
       } else {
         return { cancelled: true };
       }
     } catch (e) {
       console.log("Error! - ", e);
       return { error: true };
+    }
+  };
+
+  signInWithFacebook = async () => {
+    try {
+      await Facebook.initializeAsync(FACEBOOK_APP_ID);
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile", "email"]
+      });
+
+      console.log(type);
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API + Email
+        let axiosFBData = {};
+        let axiosFBEmail = {};
+
+        // Get Name and ID
+        await Axios.get(`https://graph.facebook.com/me?access_token=${token}`)
+          .then(res => {
+            return res.data;
+          })
+          .then(data => {
+            axiosFBData = data;
+          });
+
+        // Get Email
+        await Axios.get(
+          `https://graph.facebook.com/${axiosFBData.id}?fields=birthday,email,hometown&access_token=${token}`
+        )
+          .then(res => {
+            return res.data;
+          })
+          .then(data => {
+            axiosFBEmail = data;
+          });
+
+        const userDetails = {
+          facebook_id: axiosFBData.id,
+          name: axiosFBData.name,
+          email: axiosFBEmail.email,
+          token: token
+        };
+
+        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
+        Axios.get(`${API_URL}/user/${userDetails.email}`).then(async res => {
+          const user = res.data;
+
+          if (user) {
+            Alert.alert("User exists");
+          } else {
+            // Take the user to the sign up screen! with details
+            await AsyncStorage.setItem("signUpType", "facebook");
+            this.props.navigation.navigate("PreferencesScreenOne", {
+              ...userDetails
+            });
+          }
+        });
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
     }
   };
 
@@ -194,13 +278,13 @@ export class SignInScreen extends Component {
             <Button
               icon={<Icon name="facebook" size={25} color="white" />}
               style={styles.socialFacebookSignInButton}
-              onPress={this.signInWithGoogle}
+              onPress={this.signInWithFacebook}
               type="filled"
             />
             <Button
               icon={<Icon name="twitter" size={25} color="white" />}
               style={styles.socialTwitterSignInButton}
-              onPress={this.signInWithGoogle}
+              // onPress={this.signInWithGoogle}
               type="filled"
             />
           </View>

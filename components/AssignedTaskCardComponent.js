@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
+
 import NotificationConfirmButton from "./NotificationConfirmButton";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-// import { LinearGradient } from "react-native-svg";
-// import GradientButton from "react-native-gradient-buttons";
+
 
 // Test Comment
 const AssignedTaskCardComponent = ({
@@ -61,31 +61,16 @@ const AssignedTaskCardComponent = ({
         />
         <Text style={styles.time}>{time}</Text>
       </View>
-      {/* <View style={styles.optOutButton}> */}
       <NotificationConfirmButton buttonText="Opt Out" onPressUpdate={onPressOptOut}/>
-      {/* <GradientButton
-          gradientBegin="#f27821"
-          gradientEnd="#ef3830"
-          gradientDirection="diagonal"
-          text={buttonText}
-          onPress={onPressOptOut}
-          style={styles.btn}
-          textStyle={{ fontSize: 15 }}
-          radius={15}
-        /> */}
-      {/* </View> */}
+
+
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    // width: "100%",
-    // padding: 10,
-    // borderRadius: 16,
-    // borderWidth: 1,
-    // borderColor: "gray",
-    // margin: 5
+    
     padding: 10,
     marginTop: 2,
     marginLeft: 20,
@@ -108,11 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 10
   },
-  // RTwo: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   paddingTop: 10
-  // },
+
   jobType: {
     // fontFamily: "Segoe UI"
     // color:"red"
@@ -144,11 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 5
   }
-  // optOutButton: {
-  //   borderRadius: 10,
-  //   borderWidth: 0.5,
-  //   borderColor: "#d6d7da"
-  // }
+ 
 });
 
 export default AssignedTaskCardComponent;

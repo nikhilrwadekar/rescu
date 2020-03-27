@@ -76,16 +76,16 @@ const ConfirmDeclineNotificationComponent = ({
       {/* Decline button */}
       <View style={styles.button}>
         <NotificationDeclineButton
-          buttonText="Decline"
           onPressUpdate={onPressDecline}
+          buttonText="Decline"
         />
       </View>
 
       {/* Confirm button */}
       <View style={styles.button}>
         <NotificationConfirmButton
-          buttonText="Confirm"
           onPressUpdate={onPressConfirm}
+          buttonText="Confirm"
         />
       </View>
     </View>

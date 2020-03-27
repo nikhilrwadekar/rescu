@@ -14,30 +14,43 @@ import {
 import AppInput from "../../../components/AppInput";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 import ProfileHeader from "../../../components/ProfileHeader";
+import Axios from "axios";
+import { API_URL } from "../../../API";
 
 export default class EditProfileScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      fullName: "Anonymous User",
-      email: "example@example.com",
-      phoneNumber: "1234567890"
+      fullName: "",
+      email: "",
+      phoneNumber: ""
     };
   }
 
   componentDidMount = async () => {
-    // Get User Data
+    // Email Login Details
+    if ((await AsyncStorage.getItem("loginType")) == "email") {
+      await AsyncStorage.getItem("userDetails", (err, result) => {
+        if (err) {
+          console.log(err);
+        }
 
-    // Email Sign In
-    const email = await AsyncStorage.getItem("userDetails");
-    let userDetails = JSON.parse(email);
-    this.setState({
-      fullName: userDetails.name,
-      email: userDetails.email,
-      phoneNumber: userDetails.contact_number.toString(),
-      photoURL: userDetails.profile_picture_url
-    });
+        if (result) {
+          // Parse User Details
+          const userDetails = JSON.parse(result);
+
+          // Map it to the desired state key + save userDetails
+          this.setState({
+            userDetails,
+            id: userDetails._id,
+            fullName: userDetails.name,
+            email: userDetails.email,
+            photoURL: userDetails.profile_picture_url
+          });
+        }
+      });
+    }
   };
 
   // Handle Change - Full Name
@@ -48,6 +61,36 @@ export default class EditProfileScreen extends Component {
   // Handle Change - Phone Number
   handlePhoneNumberChange = phoneNumber => {
     this.setState({ phoneNumber });
+  };
+
+  // Handle Update
+  handleProfileInfoUpdate = () => {
+    const { id, fullName, email, phoneNumber } = this.state;
+
+    // Construct the Object to update user in DB
+    const userEditedDetails = {
+      name: fullName,
+      email: email,
+      phone_number: phoneNumber
+    };
+
+    let userDetails = { ...this.state.userDetails };
+    userDetails.name = fullName;
+    if (phoneNumber.length >= 10) userDetails.phone_number = phoneNumber;
+
+    // Try to update..
+    Axios.put(`${API_URL}/user/id/${id}`, userEditedDetails)
+      .then(res => {
+        if (res.status == 200) {
+          // If udpated.. Alert user and update Async Storage!
+          AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
+          Alert.alert("Updated", "Profile information was updated!");
+        }
+      })
+      .catch(err => {
+        // If not.. inform user
+        Alert.alert("Something went wrong", "Please try again.");
+      });
   };
 
   render() {
@@ -94,9 +137,7 @@ export default class EditProfileScreen extends Component {
           <UpdateButtonProfileComponent
             buttonText="Update"
             customStyle={{ marginTop: 10, marginBottom: 40 }}
-            onPressUpdate={() =>
-              Alert.alert("Profile information was updated!")
-            }
+            onPressUpdate={this.handleProfileInfoUpdate}
           />
         </View>
       </ScrollView>

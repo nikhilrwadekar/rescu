@@ -71,8 +71,9 @@ export default class ProfileScreen extends Component {
     const { isAvailable } = this.state;
     const { navigation } = this.props;
     return (
-      <ScrollView style={{ backgroundColor: "#f7f7f7" }}>
-        <View>
+
+      <View style={{ flex: 1,backgroundColor: "#f7f7f7"  }}>
+        <ScrollView>
           <ProfileHeader
             customHeadStyle={styles.header}
             imageUrl={{

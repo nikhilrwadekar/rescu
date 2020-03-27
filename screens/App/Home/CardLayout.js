@@ -83,60 +83,33 @@ const OpportunityTaskCard = ({ opportunity }) => {
 };
 
 // OpportunityTaskCard's Single View - When you click on a card
-const OpportunitySingleView = ({ opportunity, onRequestPressed }) => {
+const OpportunitySingleView = ({
+  opportunity,
+  onRequestPressed,
+  userEmail
+}) => {
+  const getButtonTitle = () => {
+    if (
+      !opportunity.opportunity_requested.includes(userEmail) &&
+      !opportunity.opportunity_assigned.includes(userEmail)
+    )
+      return "Request to Volunteer";
+    else if (opportunity.opportunity_assigned.includes(userEmail))
+      return "Assigned";
+    else return "Requested";
+  };
+
+  const isDisabled = () =>
+    opportunity.opportunity_requested.includes(userEmail) ||
+    opportunity.opportunity_assigned.includes(userEmail);
+
   return (
     <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
       <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
-        <RequestVolunteerButton
-          buttonText={
-            !opportunity.opportunity_requested.includes(
-              "nikhilrwadekar@gmail.com"
-            ) &&
-            !opportunity.opportunity_assigned.includes(
-              "nikhilrwadekar@gmail.com"
-            )
-              ? "Request to Volunteer"
-              : opportunity.opportunity_assigned.includes(
-                  "nikhilrwadekar@gmail.com"
-                )
-              ? "Assigned"
-              : "Requested"
-          }
-          disabled={
-            opportunity.opportunity_requested.includes(
-              "nikhilrwadekar@gmail.com"
-            ) ||
-            opportunity.opportunity_assigned.includes(
-              "nikhilrwadekar@gmail.com"
-            )
-          }
-          raised
-          color="white"
-          onPressUpdate={onRequestPressed}
-        />
-        {/* <Button
-          title={
-            !opportunity.opportunity_requested.includes(
-              "nikhilrwadekar@gmail.com"
-            ) &&
-            !opportunity.opportunity_assigned.includes(
-              "nikhilrwadekar@gmail.com"
-            )
-              ? "Request to Volunteer"
-              : opportunity.opportunity_assigned.includes(
-                  "nikhilrwadekar@gmail.com"
-                )
-              ? "Assigned"
-              : "Requested"
-          }
-          disabled={
-            opportunity.opportunity_requested.includes(
-              "nikhilrwadekar@gmail.com"
-            ) ||
-            opportunity.opportunity_assigned.includes(
-              "nikhilrwadekar@gmail.com"
-            )
-          }
+
+        <Button
+          title={getButtonTitle()}
+          disabled={isDisabled()}
           raised
           color="white"
           onPress={onRequestPressed}
@@ -185,23 +158,6 @@ export default class CardLayout extends Component {
     });
   }
 
-  handleRequestPressed = async opportunity => {
-    // Asking admin to get requests! via Web Sockets
-    adminSocket.emit("getRequests", opportunity);
-
-    // Do the usual updates
-    await axios
-      .put(
-        `${API_URL}/user/id/nikhilrwadekar@gmail.com/volunteer/${opportunity.opportunity_id}`
-      )
-      .then(response => {
-        opportunity.opportunity_requested.push("nikhilrwadekar@gmail.com");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   render() {
     const { reliefCenters } = this.props;
     return (
@@ -235,9 +191,10 @@ export default class CardLayout extends Component {
           /* You can also provide custom content per item */
           return (
             <OpportunitySingleView
+              userEmail={this.state.userDetails.email}
               opportunity={item.reliefCenter}
               onRequestPressed={() =>
-                this.handleRequestPressed(item.reliefCenter)
+                this.props.onRequestPressed(item.reliefCenter)
               }
             />
           );
