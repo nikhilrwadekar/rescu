@@ -24,7 +24,10 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   fName: {
-    fontSize: 24
+    fontSize: 24,
+    fontFamily: "Quicksand-Medium",
+    marginTop: 5,
+    color: "#383940"
   },
   profileImage: {
     paddingBottom: 40,

@@ -141,7 +141,9 @@ class UpcomingTasksComponent extends Component {
 
 // Right Tab: History
 const HistoryComponent = () => (
-  <View style={[styles.scene, { backgroundColor: "#fff" }]} />
+  <View
+    style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
+  />
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -175,16 +177,14 @@ export default class TasksScreen extends Component {
   render() {
     const { index, routes } = this.state;
     return (
-      <>
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={index => {
-            this.setState({ index });
-          }}
-          initialLayout={initialLayout}
-        />
-      </>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={index => {
+          this.setState({ index });
+        }}
+        initialLayout={initialLayout}
+      />
     );
   }
 }

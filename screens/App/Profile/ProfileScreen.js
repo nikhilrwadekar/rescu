@@ -71,7 +71,8 @@ export default class ProfileScreen extends Component {
     const { isAvailable } = this.state;
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+
+      <View style={{ flex: 1,backgroundColor: "#f7f7f7"  }}>
         <ScrollView>
           <ProfileHeader
             customHeadStyle={styles.header}
@@ -87,7 +88,7 @@ export default class ProfileScreen extends Component {
           <UpdateButtonProfileComponent
             onPressUpdate={this.handleEditProfile}
             buttonText="Edit Profile"
-            customStyle={{ marginTop: 20, marginBottom: 30 }}
+            customStyle={{ marginTop: 8, marginBottom: 30 }}
           />
 
           <AvailabilityToggleComponent
@@ -121,6 +122,7 @@ export default class ProfileScreen extends Component {
           {/* Logout */}
           <LogoutButton
             text="Logout"
+            customStyle={{ marginTop: 10, marginBottom: 20 }}
             onPress={() => {
               Alert.alert(
                 "Logout",
@@ -141,8 +143,8 @@ export default class ProfileScreen extends Component {
               );
             }}
           />
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -153,6 +155,7 @@ ProfileScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   header: {
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: 50
   }
 });

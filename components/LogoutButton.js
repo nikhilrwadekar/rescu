@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 
-export default function LogoutButton({ text, onPress }) {
+export default function LogoutButton({ text, onPress, customStyle }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={customStyle}>
       <View style={styles.item}>
         <Text style={styles.buttonText}>{text}</Text>
       </View>
@@ -13,10 +13,10 @@ export default function LogoutButton({ text, onPress }) {
 
 const styles = StyleSheet.create({
   item: {
-    marginTop: 20,
+    // marginTop: 20,
     flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 20
+    justifyContent: "center"
+    // marginBottom: 20
   },
   buttonText: {
     color: "#F27821",

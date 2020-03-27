@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function ButtonLink({ text, onPress }) {
+export default function ButtonLink({ text, onPress, customStyle }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={customStyle}>
       <View style={styles.item}>
         <Text style={styles.buttonText}>{text}</Text>
         <AntDesign name="right" size={18} color="#F27821" />

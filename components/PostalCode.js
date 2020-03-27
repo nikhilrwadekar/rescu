@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 10,
-    height: 45
+    height: 45,
+    backgroundColor: "white"
   }
 });
 
@@ -29,7 +30,7 @@ export class PostalCode extends React.Component {
       <View style={{ paddingRight: 40, paddingLeft: 40, marginTop: 24 }}>
         <Text
           style={{
-            fontFamily: "OpenSans-Light",
+            fontFamily: "OpenSans-Regular",
             fontSize: 17
           }}
         >

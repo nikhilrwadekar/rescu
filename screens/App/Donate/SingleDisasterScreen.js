@@ -92,7 +92,7 @@ export default class SingleDisasterScreen extends Component {
     const { navigation } = this.props;
 
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         <ScrollView>
           {/* <Text> Single Disaster Screen </Text> */}
 
@@ -119,7 +119,7 @@ export default class SingleDisasterScreen extends Component {
               paddingRight: 50,
               fontFamily: "OpenSans-Light",
               marginBottom: 0,
-              fontSize: 15,
+              fontSize: 16,
               paddingLeft: 30,
               paddingRight: 30,
               marginTop: 5,
@@ -134,7 +134,10 @@ export default class SingleDisasterScreen extends Component {
 
           <UpdateButtonProfileComponent
             buttonText="Donate"
-            customStyle={{ marginTop: 25, marginBottom: 50 }}
+            customStyle={{
+              marginTop: 25,
+              paddingBottom: 50
+            }}
             onPressUpdate={() => {
               navigation.navigate("Donate");
             }}

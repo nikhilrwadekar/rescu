@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8
   },
   jobType: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "OpenSans-Regular",
     color: "#383940"
   },
