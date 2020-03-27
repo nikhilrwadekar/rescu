@@ -109,8 +109,10 @@ export default class NotificationScreen extends Component {
     });
 
     return (
-      <View style={{ paddingTop: 20, backgroundColor: "#f7f7f7" }}>
-        <ScrollView>{renderedNotifications}</ScrollView>
+      <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
+        <ScrollView style={{ paddingTop: 20 }}>
+          {renderedNotifications}
+        </ScrollView>
       </View>
     );
   }
