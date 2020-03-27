@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 
-import { Alert, SafeAreaView, ScrollView, View, Text } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  AsyncStorage
+} from "react-native";
 import PreferencesScreenTwoComponent from "../../components/PreferencesScreenTwoComponent";
 import Axios from "axios";
 
@@ -89,16 +96,18 @@ export default class PreferencesScreenTwo extends Component {
       Axios.post("http://localhost:4000/api/user/create", {
         ...this.state.newUser
       })
-        .then(res => {
-          console.log(res.data);
+        .then(async res => {
+          const newUserData = res.data;
+          // When the user is created.. navigate to home with those details! Save them into Async email
+          AsyncStorage.setItem("userDetails", JSON.stringify(newUserData));
+          AsyncStorage.setItem("loginType", "email");
+          this.props.navigation.navigate("Home", { loginType: "email" });
         })
         .catch(err => {
+          console.log(err);
           // Alert user that there was some error.. please try again.
           Alert.alert("Something went wrong", "Please try again");
         });
-
-      // When the user is created.. navigate to home with those details! Save them into Async email
-      // this.props.navigation.navigate("Home");
     } else if (!this.state.selectedVolunteeringTypes.length)
       Alert.alert(
         "Volunteering Types",

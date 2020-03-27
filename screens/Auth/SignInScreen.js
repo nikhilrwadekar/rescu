@@ -82,9 +82,19 @@ export class SignInScreen extends Component {
             AsyncStorage.setItem("userDetails", JSON.stringify(data));
             AsyncStorage.setItem("loginType", "email");
             this.props.navigation.navigate("Home", { loginType: "email" });
+          } else if (data.status !== 200) {
+            Alert.alert(
+              "Could not login",
+              "Please make sure credentials are correct."
+            );
           }
         })
-        .catch(err => console.log("error!: ", err));
+        .catch(err => {
+          Alert.alert(
+            "Could not login",
+            "Please make sure credentials are correct."
+          );
+        });
     else {
       Alert.alert(
         "Invalid Details",
