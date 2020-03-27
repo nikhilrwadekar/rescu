@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, Share, Button, StyleSheet } from "react-native";
+import { Text, View, Share, StyleSheet } from "react-native";
 import DonationSuccess from "../../../components/DonationSuccess";
 import ShareDonationComponent from "../../../components/ShareDonationComponent";
+import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 
 // Lottie
 import LottieView from "lottie-react-native";
@@ -28,6 +29,7 @@ export class DonationSuccessScreen extends Component {
     this.animation.play();
   };
 
+  // Function for share the donation amount
   onShare = async () => {
     try {
       const result = await Share.share({
@@ -49,49 +51,51 @@ export class DonationSuccessScreen extends Component {
     }
   };
 
-  handleShareDonate = () => {};
-
   render() {
-    const {
-      thanksText,
-      currency,
-      donationAmount,
-      donationCmfText
-    } = this.state;
+    const { thanksText, currency, donationCmfText } = this.state;
 
     const { navigation } = this.props;
+    const { amount } = this.props.navigation.state.params.data;
     return (
       <View style={styles.container}>
+        <Text style={styles.thankyouText}>Thank you!</Text>
         <LottieView
           ref={animation => {
             this.animation = animation;
           }}
           style={{
-            width: 400,
-            height: 400,
-            backgroundColor: ""
+            width: 200,
+            height: 200,
+            backgroundColor: "",
+            alignSelf: "center",
+            marginTop: 5
           }}
           source={require("../../../assets/lottie-animations/piggyDonation.json")}
           // OR find more Lottie files @ https://lottiefiles.com/featured
           // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
         />
 
+        {/* Component to display the thanks message and value donated */}
         <DonationSuccess
           thankingText={thanksText}
           currency={currency}
-          donationAmount={donationAmount}
+          donationAmount={amount}
           donationConfirmationText={donationCmfText}
         />
 
+        {/* Component to share the donation amount */}
         <ShareDonationComponent
           textButton={"Share"}
           textStatement={"Encourage your friends to donate"}
           onShareButtonPress={this.onShare}
+          customStyle={styles.buttonShare}
         />
 
-        <Button
-          title="Sign Up"
-          onPress={() => {
+        {/* Component for sign up button */}
+        <UpdateButtonProfileComponent
+          buttonText="Sign Up"
+          customStyle={styles.buttonConfirm}
+          onPressUpdate={() => {
             navigation.navigate("SignUp");
           }}
         />
@@ -104,11 +108,24 @@ DonationSuccessScreen.navigationOptions = {
   title: "Success"
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     textAlign: "center"
+  },
+  thankyouText: {
+    textAlign: "center",
+    marginTop: 40,
+    fontFamily: "Quicksand-SemiBold",
+    fontSize: 40,
+    color: "#F27821"
+  },
+  buttonConfirm: {
+    marginTop: 30
+  },
+  buttonShare: {
+    marginTop: 10
   }
 });
 export default DonationSuccessScreen;

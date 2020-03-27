@@ -1,29 +1,33 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-const UpdateButtonProfileComponent = ({ buttonText, onPressUpdate }) => (
-  <TouchableOpacity onPress={onPressUpdate}>
-    <View style={styles.button}>
+const UpdateButtonProfileComponent = ({
+  buttonText,
+  onPressUpdate,
+  customStyle
+}) => (
+  <TouchableOpacity onPress={onPressUpdate} style={customStyle}>
+    <LinearGradient colors={["#F16908", "#E7281F"]} style={styles.button}>
       <Text style={styles.btnText}>{buttonText}</Text>
-    </View>
+    </LinearGradient>
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 18,
     borderRadius: 10,
-    paddingVertical: 14,
-    // paddingHorizontal: 10,
+    paddingVertical: 10,
     backgroundColor: "#F27821",
     width: 150,
-    alignSelf: "center",
-    marginBottom: 30
+    alignSelf: "center"
   },
   btnText: {
     color: "white",
     textAlign: "center",
-    fontFamily: "Quicksand-SemiBold"
+    fontFamily: "Quicksand-SemiBold",
+    textTransform: "uppercase",
+    fontSize: 19
   }
 });
 

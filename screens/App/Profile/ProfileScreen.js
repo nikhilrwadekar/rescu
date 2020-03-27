@@ -6,7 +6,8 @@ import {
   Button,
   Alert,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView
 } from "react-native";
 import ProfileHeader from "../../../components/ProfileHeader";
 import pic from "../../../assets/images/profile.png";
@@ -14,6 +15,8 @@ import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDecl
 
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
+import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
+import LogoutButton from "../../../components/LogoutButton";
 const profilePicture = require("../../../assets/images/young-lady.jpg");
 
 export default class ProfileScreen extends Component {
@@ -26,6 +29,10 @@ export default class ProfileScreen extends Component {
     };
   }
 
+  // Handle Edit Profile Press
+  handleEditProfile = () => {
+    this.props.navigation.navigate("EditProfile");
+  };
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
     this.props.navigation.navigate("Tasks");
@@ -65,64 +72,73 @@ export default class ProfileScreen extends Component {
     const { navigation } = this.props;
     return (
       <View>
-        <ProfileHeader
-          buttonText="Edit Profile"
-          imageUrl={{ uri: this.state.user.photoUrl }}
-          onPressEditProfile={this.handleEditProfile}
-          key="1"
-          fName={this.state.user.name}
-        />
+        <ScrollView>
+          <ProfileHeader
+            customHeadStyle={styles.header}
+            imageUrl={{ uri: this.state.user.photoUrl }}
+            onPressEditProfile={this.handleEditProfile}
+            key="1"
+            fName={this.state.user.name}
+          />
 
-        <AvailabilityToggleComponent
-          availabilityText="Availability"
-          onToggleChange={isAvailable => {
-            ToastAndroid.showWithGravityAndOffset(
-              "A wild toast appeared!",
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50
-            );
-            this.setState({ isAvailable });
-          }}
-          switchValue={isAvailable}
-        />
+          <UpdateButtonProfileComponent
+            onPressUpdate={this.handleEditProfile}
+            buttonText="Edit Profile"
+            customStyle={{ marginTop: 20, marginBottom: 30 }}
+          />
 
-        <ProfileOption
-          buttonText="Edit Preferences"
-          onOptionPressed={this.handleEditPreferencesPress}
-        />
-        <ProfileOption
-          buttonText="Donate"
-          onOptionPressed={this.handleDonatePress}
-        />
-        <ProfileOption
-          buttonText="Terms & Conditions"
-          onOptionPressed={this.handleTermsAndConditionsPress}
-        />
-        {/* Logout */}
-        <Button
-          title="Logout"
-          onPress={() => {
-            Alert.alert(
-              "Logout",
-              "Do you really want to logout?",
-              [
-                {
-                  text: "Yes, please.",
-                  onPress: () => this._signOutAsync()
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                }
-                // { text: "OK", onPress: () => console.log("OK Pressed") }
-              ],
-              { cancelable: false }
-            );
-          }}
-        />
+          <AvailabilityToggleComponent
+            availabilityText="Availability"
+            onToggleChange={isAvailable => {
+              ToastAndroid.showWithGravityAndOffset(
+                "A wild toast appeared!",
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50
+              );
+              this.setState({ isAvailable });
+            }}
+            switchValue={isAvailable}
+          />
+
+          <ProfileOption
+            buttonText="Edit Preferences"
+            onOptionPressed={this.handleEditPreferencesPress}
+          />
+          <ProfileOption
+            buttonText="Donate"
+            onOptionPressed={this.handleDonatePress}
+          />
+          <ProfileOption
+            buttonText="Terms & Conditions"
+            onOptionPressed={this.handleTermsAndConditionsPress}
+          />
+
+          {/* Logout */}
+          <LogoutButton
+            text="Logout"
+            onPress={() => {
+              Alert.alert(
+                "Logout",
+                "Do you really want to logout?",
+                [
+                  {
+                    text: "Yes, please.",
+                    onPress: () => this._signOutAsync()
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  }
+                  // { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+              );
+            }}
+          />
+        </ScrollView>
       </View>
     );
   }
@@ -132,4 +148,8 @@ ProfileScreen.navigationOptions = {
   title: "Your Profile"
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    marginBottom: 20
+  }
+});

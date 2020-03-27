@@ -1,16 +1,7 @@
 import React, { Component } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  Button,
-  Alert,
-  ScrollView
-} from "react-native";
-import SelectMultiple from "react-native-select-multiple";
-import AdditionalSkillComponent from "../../components/AdditionalSkillComponent";
-import AcceptTermsConditionsComponent from "../../components/AcceptTermsConditionsComponent";
-import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
+
+import { Alert, SafeAreaView, ScrollView, View } from "react-native";
+import PreferencesScreenTwoComponent from "../../components/PreferencesScreenTwoComponent";
 
 export default class PreferencesScreenTwo extends Component {
   constructor(props) {
@@ -46,66 +37,37 @@ export default class PreferencesScreenTwo extends Component {
 
   render() {
     const { navigation } = this.props;
-    const {
-      volunteeringTypes,
-      termsCheck,
-      selectedVolunteeringTypes
-    } = this.state;
+    const { volunteeringTypes } = this.state;
     return (
-      <View>
-        <ScrollView>
-          <Text style={styles.typestextLabel}>Types of Volunteering</Text>
-
-          {/* Multiple Select for Volunteering Types */}
-          <SelectMultiple
-            items={volunteeringTypes}
-            selectedItems={this.state.selectedVolunteeringTypes}
-            onSelectionsChange={this.onSelectionsChange}
-          />
-
-          {/* Additional Skill Section */}
-          <AdditionalSkillComponent
-            additionalSkillTextLabel="Additional Skill or Service"
-            onGetText={this.handleAdditionalSkillOrService}
-          />
-
-          {/* Accept Terms And Conditions */}
-          <AcceptTermsConditionsComponent
-            textAcceptTermsConditions="I agree to the terms and conditions"
-            checkboxValue={termsCheck}
-            onCheckboxValueChange={this.handleTermsAndConditionsCheckChange}
-          />
-
-          {/* Save and Continue */}
-          <UpdateButtonProfileComponent
-            buttonText="Save"
-            onPressUpdate={() => {
-              if (termsCheck && !!selectedVolunteeringTypes.length)
-                navigation.navigate("Home");
-              else if (!selectedVolunteeringTypes.length)
-                Alert.alert(
-                  "Volunteering Types",
-                  "Please select at least one volunteering type of your choice."
-                );
-              else
-                Alert.alert(
-                  "Terms and Conditions",
-                  "Please accept terms and conditions to continue."
-                );
-            }}
-          />
-        </ScrollView>
-      </View>
+      <SafeAreaView>
+        <PreferencesScreenTwoComponent
+          handleTermsAndConditionsCheckChange={
+            this.handleTermsAndConditionsCheckChange
+          }
+          termsCheck={this.state.termsCheck}
+          handleAdditionalSkillOrService={this.handleAdditionalSkillOrService}
+          onSelectionsChange={this.onSelectionsChange}
+          volunteeringTypes={this.state.volunteeringTypes}
+          selectedVolunteeringTypes={this.state.selectedVolunteeringTypes}
+          onPressUpdate={() => {
+            if (
+              this.state.termsCheck &&
+              !!this.state.selectedVolunteeringTypes.length
+            )
+              this.props.navigation.navigate("Home");
+            else if (!this.state.selectedVolunteeringTypes.length)
+              Alert.alert(
+                "Volunteering Types",
+                "Please select at least one volunteering type of your choice."
+              );
+            else
+              Alert.alert(
+                "Terms and Conditions",
+                "Please accept terms and conditions to continue."
+              );
+          }}
+        />
+      </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  typestextLabel: {
-    textAlign: "left",
-    marginTop: 22,
-    fontSize: 17,
-    fontFamily: "OpenSans-Light",
-    marginLeft: 22
-  }
-});

@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const BaseInput = ({ children, label }) => (
-  <View style={styles.baseInput}>
+const BaseInput = ({ children, label, baseInputCustomStyle }) => (
+  <View style={[styles.baseInput, baseInputCustomStyle]}>
     <Text style={styles.textLabel}>{label}</Text>
     {children}
   </View>

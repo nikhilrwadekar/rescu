@@ -11,7 +11,7 @@ const AcceptTermsConditionsComponent = ({
     <CheckBox
       checked={checkboxValue}
       onPress={onCheckboxValueChange}
-      checkedColor="#F27821"
+      checkedColor={styles.example}
       uncheckedColor="#F27821"
     />
     <Text style={styles.textLabel}>{textAcceptTermsConditions}</Text>
@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
   textLabel: {
     fontSize: 15,
     fontFamily: "OpenSans-Light"
+  },
+  example: {
+    color: "red"
   }
 });
 

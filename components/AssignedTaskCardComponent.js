@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, Button, StyleSheet } from "react-native";
+import { LinearGradient } from "react-native-svg";
 import GradientButton from "react-native-gradient-buttons";
 
 // Test Comment

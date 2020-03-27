@@ -10,9 +10,10 @@ export default class CardNumberComponent extends Component {
   render() {
     const { creditCardNumber } = this.state;
     return (
-      <View style={{ flex: 1, paddingRight: 40, paddingLeft: 40 }}>
+      <View style={{ paddingRight: 40, paddingLeft: 40 }}>
         <AppInput
           label="Credit Card Number"
+          placeholderValue="2424 7887 2236 2378"
           value={creditCardNumber}
           onChange={creditCardNumber => this.setState({ creditCardNumber })}
         />
