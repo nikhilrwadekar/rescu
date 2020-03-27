@@ -29,9 +29,9 @@ const ANDROID_CLIENT_ID =
 export class SignInScreen extends Component {
   // Sign In Screen
   state = {
-    name: "Nikhil W",
-    email: "nrwdkr@gmail.com",
-    password: "secret",
+    name: "",
+    email: "",
+    password: "",
     isPasswordHidden: true
   };
 

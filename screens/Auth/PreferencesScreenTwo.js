@@ -22,31 +22,25 @@ export default class PreferencesScreenTwo extends Component {
       newUser: {
         // New User Starts - This will be updated with the Data provided from the previous screen
         address: {
-          street: "822 Northland Parkway",
-          city: "Nelson",
+          street: "",
+          city: "",
           country: "Canada",
-          province: "British Columbia",
-          postal_code: "V1L"
+          province: "",
+          postal_code: ""
         },
         availability: {
-          type: "preferred",
-          schedule: [
-            {
-              date: "1970-01-19T00:59:44.530Z",
-              start_time: "5:52 PM",
-              end_time: "7:16 PM"
-            }
-          ]
+          type: "anytime",
+          schedule: []
         },
         profile_picture_url: "https://source.unsplash.com/7uSrOyY1U0I/400x400",
         role: "volunteer", // Default
-        name: "Dania Piesing",
-        email: "volunteer@test.com",
+        name: "",
+        email: "",
         password: "",
         contact_number: null,
         preferences: {
-          volunteering_type: ["Cooking"],
-          additional_skills: "Troubleshooting"
+          volunteering_type: [],
+          additional_skills: ""
         }
         // New User Ends
       },
