@@ -27,32 +27,42 @@ class UpcomingTasksComponent extends Component {
     super(props);
 
     this.state = {
+      userDetails: {},
       reliefCenterGroupedTasks: []
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // Get User Data
+    if ((await AsyncStorage.getItem("loginType")) === "email") {
+      const userDetails = await AsyncStorage.getItem("userDetails");
+
+      this.setState({ userDetails: JSON.parse(userDetails) });
+    }
+
     // Listen to changes in Relief Centers
-    clientSocket.on("reliefCenterDataChange", data => {
+    clientSocket.on("reliefCenterDataChange", async data => {
       // Get the latest tasks
-      this.getTasks();
+      await this.getTasks();
     });
 
-    this.getTasks();
+    await this.getTasks();
   }
 
   getTasks = async () => {
     const tasks = await axios.get(
-      `${API_URL}/user/nikhilrwadekar@gmail.com/tasks`
+      `${API_URL}/user/${this.state.userDetails.email}/tasks`
     );
     this.setState({ reliefCenterGroupedTasks: tasks.data });
   };
 
   // Handle Opt Out
   handleOptOut = async taskID => {
-    console.log(`${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`);
+    console.log(
+      `${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`
+    );
     await axios.post(
-      `${API_URL}/user/nikhilrwadekar@gmail.com/optout/${taskID}`
+      `${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`
     );
   };
 
@@ -130,7 +140,7 @@ export default class TasksScreen extends Component {
   async componentDidMount() {
     console.log("Root Tasks was mounted.");
     const tasks = await axios.get(
-      `${API_URL}/user/nikhilrwadekar@gmail.com/tasks`
+      `${API_URL}/user/${this.state.userDetails.email}/tasks`
     );
     const tasksGroupedByReliefCenters = JSON.stringify(tasks.data);
     await AsyncStorage.setItem("tasks", tasksGroupedByReliefCenters);
