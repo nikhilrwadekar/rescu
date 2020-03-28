@@ -179,15 +179,15 @@ export class SignInScreen extends Component {
         password: password
       })
         .then(res => res.data)
-        .then(data => {
+        .then(async data => {
           if (data.role === "admin")
             Alert.alert(
               "Admin Account",
               "This is an admin account. Please use a volunteer account to use the mobile application."
             );
           else if (data.role === "volunteer") {
-            AsyncStorage.setItem("userDetails", JSON.stringify(data));
-            AsyncStorage.setItem("loginType", "email");
+            await AsyncStorage.setItem("userDetails", JSON.stringify(data));
+            await AsyncStorage.setItem("loginType", "email");
             this.props.navigation.navigate("Home", { loginType: "email" });
           } else if (data.status !== 200) {
             Alert.alert(

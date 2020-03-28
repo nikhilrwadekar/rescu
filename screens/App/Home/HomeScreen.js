@@ -52,17 +52,17 @@ export default class HomeScreen extends Component {
   // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
   async componentDidMount() {
     // Email Login Details
-    if ((await AsyncStorage.getItem("loginType")) == "email") {
-      await AsyncStorage.getItem("userDetails", (err, result) => {
-        if (err) {
-          console.log(err);
-        }
 
-        if (result) {
-          this.setState({ userDetails: JSON.parse(result) });
-        }
-      });
-    }
+    await AsyncStorage.getItem("userDetails", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+
+      if (result) {
+        this.setState({ userDetails: JSON.parse(result) });
+      }
+    });
+
     // Google Login Details
     if (this.props.navigation.state.params.loginType == "google")
       await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
