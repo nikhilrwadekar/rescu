@@ -33,7 +33,7 @@ const FACEBOOK_APP_ID = "504695810471192";
 export class SignInScreen extends Component {
   // Sign In Screen
   state = {
-    email: "mkelso@tss.com",
+    email: "davinder@test.com",
     password: "secret",
     isPasswordHidden: true
   };
@@ -49,15 +49,15 @@ export class SignInScreen extends Component {
       });
 
       if (result.type === "success") {
-        // If successfully logged in.. Check if user exists based on email!
-        console.log(result);
-
         // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
         Axios.get(`${API_URL}/user/${result.user.email}`).then(async res => {
           const user = res.data;
 
           if (user) {
-            Alert.alert("User exists");
+            // Proceed with the login!
+            AsyncStorage.setItem("userDetails", JSON.stringify(user));
+            AsyncStorage.setItem("loginType", "google");
+            this.props.navigation.navigate("Home", { loginType: "google" });
           } else {
             // Take the user to the sign up screen! with details
             await AsyncStorage.setItem("signUpType", "google");
@@ -80,6 +80,7 @@ export class SignInScreen extends Component {
     }
   };
 
+  // Facebook + Expo - OAuth (Please Implement Passport)
   signInWithFacebook = async () => {
     try {
       await Facebook.initializeAsync(FACEBOOK_APP_ID);
@@ -93,12 +94,14 @@ export class SignInScreen extends Component {
         permissions: ["public_profile", "email"]
       });
 
+      // console.log(test);
+
       console.log(type);
       if (type === "success") {
         // Get the user's name using Facebook's Graph API + Email
         let axiosFBData = {};
         let axiosFBEmail = {};
-
+        let axiosFBPicture = {};
         // Get Name and ID
         await Axios.get(`https://graph.facebook.com/me?access_token=${token}`)
           .then(res => {
@@ -110,7 +113,7 @@ export class SignInScreen extends Component {
 
         // Get Email
         await Axios.get(
-          `https://graph.facebook.com/${axiosFBData.id}?fields=birthday,email,hometown&access_token=${token}`
+          `https://graph.facebook.com/${axiosFBData.id}?fields=email&access_token=${token}`
         )
           .then(res => {
             return res.data;
@@ -119,10 +122,23 @@ export class SignInScreen extends Component {
             axiosFBEmail = data;
           });
 
+        // Get Picture
+        await Axios.get(
+          `https://graph.facebook.com/${axiosFBData.id}/picture?redirect=false&width=400`
+        )
+          .then(res => {
+            return res.data;
+          })
+          .then(data => {
+            axiosFBPicture = data.data.url;
+          });
+
+        console.log(axiosFBPicture);
         const userDetails = {
           facebook_id: axiosFBData.id,
           name: axiosFBData.name,
           email: axiosFBEmail.email,
+          profile_picture_url: axiosFBPicture,
           token: token
         };
 
@@ -131,7 +147,10 @@ export class SignInScreen extends Component {
           const user = res.data;
 
           if (user) {
-            Alert.alert("User exists");
+            // Proceed with the login!
+            AsyncStorage.setItem("userDetails", JSON.stringify(user));
+            AsyncStorage.setItem("loginType", "facebook");
+            this.props.navigation.navigate("Home", { loginType: "facebook" });
           } else {
             // Take the user to the sign up screen! with details
             await AsyncStorage.setItem("signUpType", "facebook");

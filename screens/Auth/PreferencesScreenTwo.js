@@ -85,10 +85,7 @@ export default class PreferencesScreenTwo extends Component {
 
   // Finally save the user in the DB.. get the token and log him/her in!
   handleFinalSignUp = () => {
-    if (
-      this.state.termsCheck &&
-      !!this.state.selectedVolunteeringTypes.length
-    ) {
+    if (this.state.termsCheck) {
       // console.log(this.state.newUser);
       Axios.post(`${API_URL}/user/create`, {
         ...this.state.newUser
@@ -105,11 +102,12 @@ export default class PreferencesScreenTwo extends Component {
           // Alert user that there was some error.. please try again.
           Alert.alert("Something went wrong", "Please try again");
         });
-    } else if (!this.state.selectedVolunteeringTypes.length)
-      Alert.alert(
-        "Volunteering Types",
-        "Please select at least one volunteering type of your choice."
-      );
+    }
+    // else if (!this.state.selectedVolunteeringTypes.length)
+    //   Alert.alert(
+    //     "Volunteering Types",
+    //     "Please select at least one volunteering type of your choice."
+    //   );
     else
       Alert.alert(
         "Terms and Conditions",
@@ -117,24 +115,21 @@ export default class PreferencesScreenTwo extends Component {
       );
   };
   // When on the final screen for Sign Up..
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = this.props.navigation.state;
     // Get new user details from the previous screen and store it in the state
     // Updating nested state.. currently React does not support direct nested update
     var newUser = { ...this.state.newUser, ...params };
+
+    const userType = await AsyncStorage.getItem("signUpType");
+    newUser.type = userType;
     this.setState({ newUser });
   }
 
   render() {
-    const { navigation } = this.props;
-    const { volunteeringTypes } = this.state;
     return (
       <SafeAreaView>
-        {/* <Text>{JSON.stringify(this.state.newUser)}</Text>
-        <Text>{JSON.stringify(this.state.selectedVolunteeringTypes)}</Text>
-        <Text>{JSON.stringify(this.state.termsCheck)}</Text>
-        <Text>{JSON.stringify(this.state.additionalSkill)}</Text> */}
-
+        <Text>{this.state.type}</Text>
         <PreferencesScreenTwoComponent
           handleTermsAndConditionsCheckChange={
             this.handleTermsAndConditionsCheckChange
