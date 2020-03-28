@@ -13,7 +13,6 @@ import { ScrollView } from "react-native-gesture-handler";
 // Custom Components
 import AddressInput from "./AdressInput";
 import PostalCode from "./PostalCode";
-import ButtonLink from "./ButtonLink";
 import TimeAvailability from "./TimeAvailability";
 // import DateTimeModal from "./DateModal";
 
@@ -47,7 +46,7 @@ const PreferencesScreenOneComponent = ({
   onPressNext
 }) => {
   return (
-    <View style={{ backgroundColor: "#f7f7f7" }}>
+    <View>
       <ScrollView>
         {/* PreferencesScreenOne */}
         <Text style={styles.textHeader}> Preferences </Text>
@@ -298,12 +297,6 @@ const PreferencesScreenOneComponent = ({
             </View>
           </View>
         )}
-
-        <ButtonLink
-          text="Next"
-          onPress={onPressNext}
-          customStyle={{ marginBottom: 30 }}
-        />
       </ScrollView>
     </View>
   );

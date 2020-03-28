@@ -27,7 +27,9 @@ const PreferencesScreenTwoComponent = ({
   onPressUpdate
 }) => {
   return (
-    <View>
+    <View
+      style={{ backgroundColor: "#f7f7f7", paddingLeft: 40, paddingRight: 40 }}
+    >
       <ScrollView>
         <Text style={styles.typestextLabel}>Types of Volunteering</Text>
 
@@ -37,6 +39,7 @@ const PreferencesScreenTwoComponent = ({
           items={volunteeringTypes}
           selectedItems={selectedVolunteeringTypes}
           onSelectionsChange={onSelectionsChange}
+          style={{ borderRadius: 10 }}
         />
 
         {/* Additional Skill Section */}
@@ -47,7 +50,7 @@ const PreferencesScreenTwoComponent = ({
 
         {/* Accept Terms And Conditions */}
         <AcceptTermsConditionsComponent
-          textAcceptTermsConditions="I agree to the terms and conditions"
+          textAcceptTermsConditions="I agree to the terms and conditions."
           checkboxValue={termsCheck}
           onCheckboxValueChange={handleTermsAndConditionsCheckChange}
         />
@@ -70,11 +73,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginTop: 22,
     fontSize: 17,
-    fontFamily: "OpenSans-Light",
-    marginLeft: 22
+    fontFamily: "OpenSans-Regular",
+    marginBottom: 2
+    // marginLeft: 22
   },
   label: {
-    fontFamily: "OpenSans-Light",
+    fontFamily: "OpenSans-Regular",
     fontSize: 15
   }
 });
