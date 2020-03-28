@@ -105,13 +105,11 @@ class UpcomingTasksComponent extends Component {
 
             return (
               <AssignedTaskCardComponent
+                time={`${job_start_time} - ${job_end_time}`}
                 newKey={job_id}
                 buttonText="Opt Out"
-                date={
-                  new Date(job_date).toDateString() +
-                  ` from ${job_start_time} to ${job_end_time} `
-                }
-                jobType={`${job_type} at ${name}`}
+                date={new Date(job_date).toDateString()}
+                jobType={job_type}
                 location={location}
                 onPressOptOut={() => {
                   Alert.alert(
@@ -179,6 +177,11 @@ export default class TasksScreen extends Component {
     return (
       <TabView
         navigationState={{ index, routes }}
+        indicatorStyle={{ backgroundColor: "white", color: "red" }}
+        style={{ backgroundColor: "pink" }}
+        renderLabel={({ route, focused, color }) => (
+          <Text style={{ color, margin: 8 }}>{route.title}</Text>
+        )}
         renderScene={renderScene}
         onIndexChange={index => {
           this.setState({ index });

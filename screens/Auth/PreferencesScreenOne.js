@@ -11,6 +11,7 @@ export default class PreferencesScreenOne extends Component {
       name: "",
       email: "",
       password: "",
+      profile_picture_url: "https://source.unsplash.com/7uSrOyY1U0I/400x400",
       addressLine: "",
       city: "",
       province: "",
@@ -100,6 +101,7 @@ export default class PreferencesScreenOne extends Component {
         // This is structured the way Mongo anticipates it
         email: this.state.email,
         password: this.state.password,
+        profile_picture_url: this.state.profile_picture_url,
         name: this.state.name,
         availability: {
           type: this.state.preference,
@@ -128,7 +130,7 @@ export default class PreferencesScreenOne extends Component {
       const { email, familyName, givenName, id, name, photoUrl } = user;
       // Get Google ID?, Email, Name, handle skipping the password..
       if (!!name && !!email) {
-        this.setState({ name, email });
+        this.setState({ name, email, profile_picture_url: photoUrl });
       }
 
       Alert.alert(
@@ -138,11 +140,11 @@ export default class PreferencesScreenOne extends Component {
     } else if ((await AsyncStorage.getItem("signUpType")) == "facebook") {
       // If Facebook Sign Up..
       const { params } = this.props.navigation.state;
-      const { email, name } = params;
+      const { email, name, profile_picture_url } = params;
 
       // Get Facebook ID?, Email, Name, handle skipping the password..
       if (!!name && !!email) {
-        this.setState({ name, email });
+        this.setState({ name, email, profile_picture_url });
       }
 
       Alert.alert(
