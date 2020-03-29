@@ -198,7 +198,7 @@ export default class EditPreferencesScreen extends Component {
     } = this.state;
 
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         <ScrollView>
           {/* Preferences Screen One - Componentized */}
           <PreferencesScreenOneComponent

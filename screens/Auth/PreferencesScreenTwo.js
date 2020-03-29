@@ -128,7 +128,7 @@ export default class PreferencesScreenTwo extends Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ backgroundColor: "#f7f7f7" }}>
         <Text>{this.state.type}</Text>
         <PreferencesScreenTwoComponent
           handleTermsAndConditionsCheckChange={

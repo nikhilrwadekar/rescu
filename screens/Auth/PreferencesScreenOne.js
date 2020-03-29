@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // Custom Components
 import PreferencesScreenOneComponent from "../../components/PreferencesScreenOneComponent";
 import { SafeAreaView, Text, Alert, AsyncStorage } from "react-native";
+import ButtonLink from "../../components/ButtonLink";
 export default class PreferencesScreenOne extends Component {
   constructor(props) {
     super(props);
@@ -177,11 +178,12 @@ export default class PreferencesScreenOne extends Component {
       preference,
       timePreferences,
       isModalVisible,
-      currentModalLabel
+      currentModalLabel,
+      onPressNext
     } = this.state;
 
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ backgroundColor: "#f7f7f7" }}>
         {/* <Text>{JSON.stringify(this.state.timePreferences)}</Text> */}
         <PreferencesScreenOneComponent
           addressLine={addressLine}
@@ -202,7 +204,12 @@ export default class PreferencesScreenOne extends Component {
           toggleModal={this.toggleModal}
           currentModalLabel={currentModalLabel}
           onChange={this.onChange}
-          onPressNext={this.handleGoToFinalSignUpScreen}
+          // onPressNext={this.handleGoToFinalSignUpScreen}
+        />
+        <ButtonLink
+          text="Next"
+          onPress={this.handleGoToFinalSignUpScreen}
+          customStyle={{ marginTop: 110, paddingBottom: 20 }}
         />
       </SafeAreaView>
     );

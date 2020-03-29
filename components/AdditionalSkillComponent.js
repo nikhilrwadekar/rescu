@@ -15,16 +15,16 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
     marginTop: 5,
-    marginLeft: 22,
     marginRight: 22,
-    height: 45
+    height: 45,
+    width: 330,
+    backgroundColor: "white"
   },
   textLabel: {
     textAlign: "left",
     marginTop: 25,
     fontSize: 17,
-    fontFamily: "OpenSans-Light",
-    marginLeft: 22
+    fontFamily: "OpenSans-Regular"
   }
 });
 

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     fontSize: 15,
-    fontFamily: "OpenSans-Light"
+    fontFamily: "OpenSans-Regular"
   },
   example: {
     color: "red"
