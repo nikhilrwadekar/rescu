@@ -30,27 +30,25 @@ export default class EditProfileScreen extends Component {
 
   componentDidMount = async () => {
     // Email Login Details
-    if ((await AsyncStorage.getItem("loginType")) == "email") {
-      await AsyncStorage.getItem("userDetails", (err, result) => {
-        if (err) {
-          console.log(err);
-        }
+    await AsyncStorage.getItem("userDetails", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
 
-        if (result) {
-          // Parse User Details
-          const userDetails = JSON.parse(result);
+      if (result) {
+        // Parse User Details
+        const userDetails = JSON.parse(result);
 
-          // Map it to the desired state key + save userDetails
-          this.setState({
-            userDetails,
-            id: userDetails._id,
-            fullName: userDetails.name,
-            email: userDetails.email,
-            photoURL: userDetails.profile_picture_url
-          });
-        }
-      });
-    }
+        // Map it to the desired state key + save userDetails
+        this.setState({
+          userDetails,
+          id: userDetails._id,
+          fullName: userDetails.name,
+          email: userDetails.email,
+          photoURL: userDetails.profile_picture_url
+        });
+      }
+    });
   };
 
   // Handle Change - Full Name

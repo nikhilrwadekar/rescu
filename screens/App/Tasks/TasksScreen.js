@@ -35,10 +35,8 @@ class UpcomingTasksComponent extends Component {
 
   async componentDidMount() {
     // Get User Data
-    if ((await AsyncStorage.getItem("loginType")) === "email") {
-      const userDetails = await AsyncStorage.getItem("userDetails");
-      this.setState({ userDetails: JSON.parse(userDetails) });
-    }
+    const userDetails = await AsyncStorage.getItem("userDetails");
+    this.setState({ userDetails: JSON.parse(userDetails) });
 
     // Listen to changes in Relief Centers
     clientSocket.on("reliefCenterDataChange", async data => {
