@@ -43,10 +43,10 @@ class UpcomingTasksComponent extends Component {
     // Listen to changes in Relief Centers
     clientSocket.on("reliefCenterDataChange", async data => {
       // Get the latest tasks
-      await this.getTasks();
+      this.getTasks();
     });
 
-    await this.getTasks();
+    this.getTasks();
   }
 
   getTasks = async () => {
