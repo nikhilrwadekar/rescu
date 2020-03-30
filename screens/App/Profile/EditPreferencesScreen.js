@@ -153,34 +153,32 @@ export default class EditPreferencesScreen extends Component {
   // Get User Data on Mount
   componentDidMount = async () => {
     // Email Login Details
-    if ((await AsyncStorage.getItem("loginType")) == "email") {
-      await AsyncStorage.getItem("userDetails", (err, result) => {
-        if (err) {
-          console.log(err);
-        }
 
-        if (result) {
-          // Parse User Details
-          const userDetails = JSON.parse(result);
+    await AsyncStorage.getItem("userDetails", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
 
-          // Map it to the desired state key + save userDetails
-          this.setState({
-            id: userDetails._id,
-            preference: userDetails.availability.type,
-            addressLine: userDetails.address.street,
-            city: userDetails.address.city,
-            postalCode: userDetails.address.postal_code,
-            country: userDetails.address.country,
-            province: userDetails.address.province,
-            selectedVolunteeringTypes:
-              userDetails.preferences.volunteering_type,
-            timePreferences: userDetails.availability.schedule,
-            additionalSkill: userDetails.preferences.additional_skills,
-            userDetails
-          });
-        }
-      });
-    }
+      if (result) {
+        // Parse User Details
+        const userDetails = JSON.parse(result);
+
+        // Map it to the desired state key + save userDetails
+        this.setState({
+          id: userDetails._id,
+          preference: userDetails.availability.type,
+          addressLine: userDetails.address.street,
+          city: userDetails.address.city,
+          postalCode: userDetails.address.postal_code,
+          country: userDetails.address.country,
+          province: userDetails.address.province,
+          selectedVolunteeringTypes: userDetails.preferences.volunteering_type,
+          timePreferences: userDetails.availability.schedule,
+          additionalSkill: userDetails.preferences.additional_skills,
+          userDetails
+        });
+      }
+    });
   };
 
   // Render Function

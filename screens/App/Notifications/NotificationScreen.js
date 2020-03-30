@@ -26,11 +26,14 @@ export default class NotificationScreen extends Component {
 
   async componentDidMount() {
     // Get User Data
-    if ((await AsyncStorage.getItem("loginType")) === "email") {
-      const userDetails = await AsyncStorage.getItem("userDetails");
-      this.setState({ userDetails: JSON.parse(userDetails) });
-    }
+    const userDetails = await AsyncStorage.getItem("userDetails");
+    this.setState({ userDetails: JSON.parse(userDetails) });
 
+    // Listen to changes in Relief Centers
+    clientSocket.on("reliefCenterDataChange", async data => {
+      // Get the latest tasks
+      this.getNotifications();
+    });
     this.getNotifications();
 
     // // Connect to Sockets
@@ -77,6 +80,8 @@ export default class NotificationScreen extends Component {
                   request => request.job_id != taskID
                 );
                 this.setState({ receivedRequests: updatedRequests });
+
+                console.log("DONE");
               }
             });
         },
