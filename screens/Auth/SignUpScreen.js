@@ -224,30 +224,33 @@ export class SignInScreen extends Component {
           </View>
 
           <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>or login with</Text>
+            <Text style={styles.continueText}>or contine with</Text>
           </View>
           {/* Social Sign Up Buttons - Start */}
           <View style={styles.socialButtonContainer}>
-            <Button
-              icon={
-                <Icon name="google" size={25} color="white" style={styles.b} />
-              }
-              style={styles.socialGoogleSignInButton}
-              onPress={this.signInWithGoogle}
-              type="filled"
-            />
-            <Button
-              icon={<Icon name="facebook" size={25} color="white" />}
-              style={styles.socialFacebookSignInButton}
-              onPress={this.signInWithGoogle}
-              type="filled"
-            />
-            <Button
-              icon={<Icon name="twitter" size={25} color="white" />}
-              style={styles.socialTwitterSignInButton}
-              onPress={this.signInWithGoogle}
-              type="filled"
-            />
+            {/* Google social button */}
+            <TouchableOpacity onPress={this.signInWithGoogle}>
+              <Image
+                style={{ width: 60, height: 60 }}
+                source={require("../../assets/images/google.png")}
+              />
+            </TouchableOpacity>
+
+            {/* Facebook social button */}
+            <TouchableOpacity onPress={this.signInWithGoogle}>
+              <Image
+                style={{ width: 70, height: 70 }}
+                source={require("../../assets/images/facebook.png")}
+              />
+            </TouchableOpacity>
+
+            {/* Twitter social button */}
+            <TouchableOpacity onPress={this.signInWithGoogle}>
+              <Image
+                style={{ width: 70, height: 70 }}
+                source={require("../../assets/images/twitter.png")}
+              />
+            </TouchableOpacity>
           </View>
           {/* Social Login Buttons - End */}
         </View>
@@ -291,8 +294,19 @@ export class SignInScreen extends Component {
               <Text style={styles.underLineText}>Skip to Donate</Text>
             </View>
           </TouchableOpacity>
+          {/* <Image
+            style={{ width: 70, height: 70 }}
+            source={require("../../assets/images/fb.png")}
+          /> */}
         </View>
         {/* Bottom Container - Ends */}
+        {/* <img
+          src={FacebookIcon}
+          // className="choose-preference-svg"
+          height={50}
+          width={50}
+          viewBox="0 0 60 100"
+        /> */}
       </View>
       // <- Main Container
     );
