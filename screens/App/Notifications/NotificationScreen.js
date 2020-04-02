@@ -167,28 +167,6 @@ export default class NotificationScreen extends Component {
     ]);
   };
 
-  displayIcon() {
-    if (this.props.status === "Confirmed") {
-      return (
-        <Feather
-          name="check-circle"
-          size={20}
-          color="#F27821"
-          // style={styles.checkIcon}
-        />
-      );
-    } else {
-      return (
-        <AntDesign
-          name="closecircleo"
-          size={20}
-          color="#F27821"
-          // style={styles.nextIcon}
-        />
-      );
-    }
-  }
-
   // Handle Opt In
   handleAcceptRequest = async taskID => {
     Alert.alert("Accept Request", "Are you sure?", [
@@ -252,22 +230,21 @@ export default class NotificationScreen extends Component {
           date={confirmation.date}
           address={confirmation.address}
           confirmDeclineStatus={confirmation.status}
-          
+          // Giving color if the status is confirmed or declined
+          confirmDeclineColor={{
+            color:
+              confirmation.status.toLowerCase() === "confirmed"
+                ? "#F27821"
+                : "#3672BC"
+          }}
+          // Checking if the status is confirmed or declined
           confirmDeclineIcon={
-            confirmation.status === "Confirmed" ? (
-              <Feather
-                name="check-circle"
-                size={20}
-                color="#F27821"
-                // style={styles.checkIcon}
-              />
+            confirmation.status.toLowerCase() === "confirmed" ? (
+              // Rendering checked icon if status is confirmed
+              <Feather name="check-circle" size={20} color="#F27821" />
             ) : (
-              <AntDesign
-                name="closecircleo"
-                size={20}
-                color="#3672BC"
-                // style={styles.nextIcon}
-              />
+              // Rendering cross icon if status is declined
+              <AntDesign name="closecircleo" size={20} color="#3672BC" />
             )
           }
           jobTime={`${confirmation.start_time} to ${confirmation.end_time}`}

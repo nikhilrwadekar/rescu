@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-// import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -11,7 +10,9 @@ const NotificationFromAdminComponent = ({
   address,
   confirmDeclineStatus,
   jobTime,
-  confirmDeclineIcon
+  confirmDeclineIcon,
+  confirmDeclineColor,
+  ...rest
 }) => (
   // Outer container
   <View style={styles.container}>
@@ -23,16 +24,12 @@ const NotificationFromAdminComponent = ({
         alignItems: "center"
       }}
     >
-      {/* <Feather
-        name="check-circle"
-        size={20}
-        color="#F27821"
-        style={styles.checkIcon}
-      /> */}
-
+      {/* Confirm or Decline Icon */}
       <View>{confirmDeclineIcon}</View>
 
-      <Text style={styles.confirmDeclineStatus}>{confirmDeclineStatus}</Text>
+      <Text style={[styles.crfmDecStatus, confirmDeclineColor]} {...rest}>
+        {confirmDeclineStatus}
+      </Text>
     </View>
 
     {/* Job type */}
@@ -136,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 5
   },
-  confirmDeclineStatus: {
+  crfmDecStatus: {
     fontSize: 20,
     fontFamily: "Quicksand-Medium",
     // color: "#F27821",
