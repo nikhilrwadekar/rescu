@@ -338,7 +338,9 @@ export class SignInScreen extends Component {
           {/* Skip to Donate */}
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("DisasterList");
+              navigation.navigate("DonateSelectCauseWithoutID", {
+                type: "withoutID"
+              });
             }}
           >
             <View

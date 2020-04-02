@@ -7,8 +7,9 @@ import {
   AsyncStorage,
   ScrollView
 } from "react-native";
-import ProfileHeader from "../../../components/ProfileHeader";
 
+// Custom Outreach Components
+import ProfileHeader from "../../../components/ProfileHeader";
 import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
@@ -20,7 +21,9 @@ export default class ProfileScreen extends Component {
 
     this.state = {
       isAvailable: true,
-      user: {}
+      user: {},
+      profile_picture_url: "",
+      user: { photoUrl: "" }
     };
   }
 
@@ -40,7 +43,9 @@ export default class ProfileScreen extends Component {
 
   //Donate
   handleDonatePress = () => {
-    this.props.navigation.navigate("DisasterList");
+    this.props.navigation.navigate("DonateSelectCauseWithID", {
+      type: "withID"
+    });
   };
 
   //Terms & Conditions

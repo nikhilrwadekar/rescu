@@ -220,7 +220,16 @@ export class DisasterListScreen extends Component {
             <TouchableOpacity
               style={styles.DisasterItem}
               onPress={() => {
-                navigation.navigate("SingleDisaster");
+                const { params } = this.props.navigation.state;
+                const { type } = params;
+                if (type == "withID")
+                  navigation.navigate("DonateSingleViewWithID", {
+                    type: "withID"
+                  });
+                else if (type == "withoutID")
+                  navigation.navigate("DonateSingleViewWithoutID", {
+                    type: "withoutID"
+                  });
               }}
             >
               <DisasterListItem
@@ -232,13 +241,14 @@ export class DisasterListScreen extends Component {
             </TouchableOpacity>
           )}
         />
-
-        <Button
-          title="Cancel"
-          onPress={() => {
-            navigation.navigate("SignIn");
-          }}
-        />
+        {!!this.props.navigation.state.params.type == "withoutID" && (
+          <Button
+            title="Cancel"
+            onPress={() => {
+              navigation.navigate("SignIn");
+            }}
+          />
+        )}
       </SafeAreaView>
     );
   }
