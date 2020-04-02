@@ -1,14 +1,35 @@
 import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const RequestVolunteerButton = ({ buttonText, onPressUpdate, customStyle }) => (
-  <TouchableOpacity onPress={onPressUpdate} style={customStyle}>
-    <LinearGradient colors={["#F27821", "#FF512F"]} style={styles.button}>
-      <Text style={styles.btnText}>{buttonText}</Text>
-    </LinearGradient>
-  </TouchableOpacity>
-);
+const RequestVolunteerButton = ({
+  buttonText,
+  onPressUpdate,
+  customStyle,
+  disabled
+}) => {
+  if (!disabled)
+    return (
+      <TouchableOpacity onPress={onPressUpdate} style={customStyle}>
+        <LinearGradient colors={["#F27821", "#FF512F"]} style={styles.button}>
+          <Text style={styles.btnText}>{buttonText}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  else if (disabled)
+    return (
+      <TouchableWithoutFeedback>
+        <LinearGradient colors={["#777", "#666"]} style={styles.button}>
+          <Text style={styles.btnText}>{buttonText}</Text>
+        </LinearGradient>
+      </TouchableWithoutFeedback>
+    );
+};
 
 const styles = StyleSheet.create({
   button: {

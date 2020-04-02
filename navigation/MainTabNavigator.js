@@ -5,6 +5,9 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import { TabBarIcon, TabBarFontAwesomeIcon } from "../components/TabBarIcon";
 
+// Tint Color from Constants
+import { tintColor } from "../constants/Colors";
+
 // Our Tabs for the App - HomeScreen, ProfileScreen, TasksScreen, NotificationScreen
 import HomeScreen from "../screens/App/Home/HomeScreen";
 import TasksScreen from "../screens/App/Tasks/TasksScreen";
@@ -39,6 +42,9 @@ const HomeStack = createStackNavigator(
 // The TAB
 HomeStack.navigationOptions = {
   tabBarLabel: "Home",
+  tabBarOptions: {
+    activeTintColor: "#f27821"
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -67,6 +73,9 @@ const ProfileStack = createStackNavigator(
 
 ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
+  tabBarOptions: {
+    activeTintColor: "#f27821"
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -87,6 +96,9 @@ const TaskStack = createStackNavigator(
 
 TaskStack.navigationOptions = {
   tabBarLabel: "Tasks",
+  tabBarOptions: {
+    activeTintColor: "#f27821"
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -107,6 +119,9 @@ const NotificationStack = createStackNavigator(
 
 NotificationStack.navigationOptions = {
   tabBarLabel: "Notifications",
+  tabBarOptions: {
+    activeTintColor: "#f27821"
+  },
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
