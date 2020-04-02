@@ -12,7 +12,6 @@ export class ProvinceSelector extends React.Component {
     this.inputRefs = {};
 
     this.state = {
-      provinceValue: undefined,
       items: [
         {
           label: "British Columbia",

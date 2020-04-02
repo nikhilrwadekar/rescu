@@ -37,7 +37,10 @@ export class AddressInput extends React.Component {
           />
         </View>
 
-        <ProvinceSelector onProvinceChange={onProvinceChange} />
+        <ProvinceSelector
+          onProvinceChange={onProvinceChange}
+          province={province}
+        />
       </View>
     );
   }
