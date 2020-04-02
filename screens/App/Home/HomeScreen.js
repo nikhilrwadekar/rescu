@@ -81,9 +81,6 @@ export default class HomeScreen extends Component {
         console.log("Mobile Connected to Client Socket");
       });
 
-      // DEBUG CONNECTITON
-      alert(clientSocket.connected);
-
       // Listen to changes in Relief Centers
       clientSocket.on("reliefCenterDataChange", async data => {
         // Get the latest tasks

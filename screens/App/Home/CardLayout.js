@@ -21,12 +21,19 @@ const Header = ({ name }) => {
       <Text
         style={{
           fontSize: 14,
-          color: "rgba(0, 0, 0, 0.5)"
+          color: "rgba(0, 0, 0, 0.5)",
+          fontFamily: "Quicksand-Medium"
         }}
       >
         Hello, {name}
       </Text>
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "bold",
+          fontFamily: "Quicksand-Bold"
+        }}
+      >
         Volunteering Opportunities For You
       </Text>
     </View>
@@ -46,7 +53,8 @@ const OpportunityTaskCard = ({ opportunity }) => {
       <Text
         style={{
           fontSize: 25,
-          color: "rgba(0, 0, 0, 0.75)"
+          color: "rgba(0, 0, 0, 0.75)",
+          fontFamily: "Quicksand-Medium"
         }}
       >
         {opportunity.opportunity_type}
@@ -55,7 +63,8 @@ const OpportunityTaskCard = ({ opportunity }) => {
       <Text
         style={{
           fontSize: 16,
-          color: "rgba(0, 0, 0, 0.75)"
+          color: "rgba(0, 0, 0, 0.75)",
+          fontFamily: "OpenSans-Light"
         }}
       >
         from {moment(opportunity.opportunity_time.start).format("hh:MM A")} to{" "}
@@ -64,7 +73,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
       <Text
         style={{
           fontSize: 12,
-
+          fontFamily: "OpenSans-Light",
           color: "rgba(0, 0, 0, 0.5)"
         }}
       >
@@ -73,7 +82,8 @@ const OpportunityTaskCard = ({ opportunity }) => {
       <Text
         style={{
           color: "rgba(0, 0, 0, 0.6)",
-          fontSize: 16
+          fontSize: 16,
+          fontFamily: "OpenSans-Light"
         }}
       >
         needs {opportunity.opportunity_required} volunteers on{" "}
@@ -105,17 +115,57 @@ const OpportunitySingleView = ({
     opportunity.opportunity_assigned.includes(userEmail);
 
   return (
-    <View style={{ paddingVertical: 25, paddingHorizontal: 25 }}>
+    <View style={{ paddingVertical: 0, paddingHorizontal: 25 }}>
       <View style={{ position: "", bottom: 0, marginBottom: 20 }}>
-        <Button
-          title={getButtonTitle()}
+        <RequestVolunteerButton
+          buttonText={getButtonTitle()}
           disabled={isDisabled()}
-          raised
-          color="white"
-          onPress={onRequestPressed}
+          // raised
+          // color="white"
+          onPressUpdate={onRequestPressed}
         />
       </View>
-      <Text style={{ color: "rgba(0, 0, 0, 0.7)", fontSize: 18, flex: 1 }}>
+
+      <Text
+        style={{
+          color: "rgba(0, 0, 0, 0.7)",
+          fontSize: 16,
+          flex: 1,
+          fontFamily: "Quicksand-Medium"
+        }}
+      >
+        Opportunity Description
+      </Text>
+      <Text
+        style={{
+          color: "rgba(0, 0, 0, 0.7)",
+          fontSize: 18,
+          flex: 1,
+          fontFamily: "OpenSans-LightItalic"
+        }}
+      >
+        {opportunity.opportunity_description}
+      </Text>
+
+      <Text
+        style={{
+          color: "rgba(0, 0, 0, 0.7)",
+          fontSize: 16,
+          flex: 1,
+          marginTop: 20,
+          fontFamily: "Quicksand-Medium"
+        }}
+      >
+        Relief Center Description
+      </Text>
+      <Text
+        style={{
+          color: "rgba(0, 0, 0, 0.7)",
+          fontSize: 18,
+          flex: 1,
+          fontFamily: "OpenSans-LightItalic"
+        }}
+      >
         {opportunity.description}
       </Text>
     </View>
