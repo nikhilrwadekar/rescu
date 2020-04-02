@@ -241,11 +241,11 @@ export class DisasterListScreen extends Component {
             </TouchableOpacity>
           )}
         />
-        {!!this.props.navigation.state.params.type == "withoutID" && (
+        {!!this.props.navigation.state.params.type !== "withID" && (
           <Button
             title="Cancel"
             onPress={() => {
-              navigation.navigate("SignIn");
+              navigation.navigate.goBack();
             }}
           />
         )}
