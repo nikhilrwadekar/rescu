@@ -143,7 +143,10 @@ export default class EditPreferencesScreen extends Component {
     await Axios.put(`${API_URL}/user/id/${id}`, { ...userDetails })
       .then(res => {
         if (res.status == 200)
-          Alert.alert("Success", "Preferences were updated.");
+          this.props.navigation.navigate("Profile", {
+            userDetails: this.state.userDetails
+          });
+        Alert.alert("Success", "Preferences were updated.");
       })
       .catch(err => console.log(err));
   };
