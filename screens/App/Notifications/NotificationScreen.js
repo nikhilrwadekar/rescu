@@ -10,6 +10,8 @@ import {
   Alert
 } from "react-native";
 import axios from "axios";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 import NotificationFromAdminComponent from "../../../components/NotificationFromAdminComponent";
@@ -165,6 +167,28 @@ export default class NotificationScreen extends Component {
     ]);
   };
 
+  displayIcon() {
+    if (this.props.status === "Confirmed") {
+      return (
+        <Feather
+          name="check-circle"
+          size={20}
+          color="#F27821"
+          // style={styles.checkIcon}
+        />
+      );
+    } else {
+      return (
+        <AntDesign
+          name="closecircleo"
+          size={20}
+          color="#F27821"
+          // style={styles.nextIcon}
+        />
+      );
+    }
+  }
+
   // Handle Opt In
   handleAcceptRequest = async taskID => {
     Alert.alert("Accept Request", "Are you sure?", [
@@ -228,6 +252,24 @@ export default class NotificationScreen extends Component {
           date={confirmation.date}
           address={confirmation.address}
           confirmDeclineStatus={confirmation.status}
+          
+          confirmDeclineIcon={
+            confirmation.status === "Confirmed" ? (
+              <Feather
+                name="check-circle"
+                size={20}
+                color="#F27821"
+                // style={styles.checkIcon}
+              />
+            ) : (
+              <AntDesign
+                name="closecircleo"
+                size={20}
+                color="#3672BC"
+                // style={styles.nextIcon}
+              />
+            )
+          }
           jobTime={`${confirmation.start_time} to ${confirmation.end_time}`}
         />
       );
