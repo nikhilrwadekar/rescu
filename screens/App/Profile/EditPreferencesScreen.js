@@ -249,6 +249,7 @@ export default class EditPreferencesScreen extends Component {
             currentModalLabel={currentModalLabel}
             onChange={this.onChange}
             onPressNext={() => {}}
+            isNextVisible={false}
           />
 
           {/* Preferences Screen Two - Componentized */}

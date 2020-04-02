@@ -199,7 +199,7 @@ export default class PreferencesScreenOne extends Component {
     } = this.state;
 
     return (
-      <SafeAreaView style={{ backgroundColor: "#f7f7f7" }}>
+      <SafeAreaView style={{ backgroundColor: "#f7f7f7", flex: 1 }}>
         {/* <Text>{JSON.stringify(this.state.timePreferences)}</Text> */}
         <PreferencesScreenOneComponent
           onDeletePreference={this.handleDeletePreference}
@@ -222,6 +222,7 @@ export default class PreferencesScreenOne extends Component {
           currentModalLabel={currentModalLabel}
           onChange={this.onChange}
           onPressNext={this.handleGoToFinalSignUpScreen}
+          isNextVisible={true}
         />
       </SafeAreaView>
     );
