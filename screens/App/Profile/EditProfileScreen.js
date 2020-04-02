@@ -83,7 +83,10 @@ export default class EditProfileScreen extends Component {
           // If udpated.. Alert user and update Async Storage!
           AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
           Alert.alert("Updated", "Profile information was updated!");
-          this.props.navigation.navigate("Profile");
+
+          this.props.navigation.state.params.onNavigateBack(userEditedDetails);
+
+          this.props.navigation.goBack();
         }
       })
       .catch(err => {
