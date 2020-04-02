@@ -24,11 +24,15 @@ const AuthStack = createStackNavigator({
 });
 // The Anonymous Stack
 const DonateStack = createStackNavigator({
-  DisasterList: DisasterListScreen,
-  SingleDisaster: SingleDisasterScreen,
-  Donate: DonateScreen,
-  // DonationConfirmation: DonationConfirmationScreen
-  DonationSuccess: DonationSuccessScreen
+  // DonateWithoutID
+  DonateSelectCauseWithoutID: DisasterListScreen,
+  DonateSingleViewWithoutID: SingleDisasterScreen,
+  DonatePaymentWithoutID: DonateScreen,
+  DonateSuccessWithoutID: DonationSuccessScreen
+  // DisasterList: DisasterListScreen,
+  // SingleDisaster: SingleDisasterScreen,
+  // Donate: DonateScreen,
+  // DonationSuccess: DonationSuccessScreen
   // Add more screens here..
 });
 

@@ -1,75 +1,3 @@
-// import React, { Component } from "react";
-// import { Text, View, Button, StyleSheet } from "react-native";
-// import DonationAmountComponent from "../../../components/DonationAmountComponent";
-
-// export class DonateScreen extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       initialAmount: 200,
-//       question: "How much would you like to Donate?",
-//       currency: "$"
-//     };
-//   }
-
-//   // Increment Donation by 1
-//   handleIncrementDonation = () => {
-//     this.setState({
-//       initialAmount: this.state.initialAmount + 1
-//     });
-//   };
-
-//   // Decrement Donation by 1
-//   handleDecrementDonation = () => {
-//     this.setState({
-//       initialAmount: this.state.initialAmount - 1
-//     });
-//   };
-
-//   // If user decides to type in the Donation Amount
-//   handleDonationChange = newValue => {
-//     this.setState({
-//       initialAmount: parseInt(newValue)
-//     });
-//   };
-//   render() {
-//     // Destructuring the State
-//     const { initialAmount, question, currency } = this.state;
-//     return (
-//       <View style={styles.container}>
-//         <DonationAmountComponent
-//           question={question}
-//           initialAmount={initialAmount.toString()}
-//           currency={currency}
-//           onPressIncrement={this.handleIncrementDonation}
-//           onPressDecrement={this.handleDecrementDonation}
-//           onChangeDonationValue={this.handleDonationChange}
-//         />
-
-//         <Button
-//           title="Go To Donation Success"
-//           onPress={() => {
-//             this.props.navigation.navigate("DonateSuccess");
-//           }}
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-// DonateScreen.navigationOptions = {
-//   title: "Donate"
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 10,
-//     textAlign: "center"
-//   }
-// });
-
 import React, { Component } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
@@ -122,6 +50,11 @@ export default class DonateScreen extends Component {
     // Destructuring the State
     const { initialAmount, question, currency } = this.state;
     const { values } = this.state;
+
+    // Params from Navigation
+    const { params } = this.props.navigation.state;
+    const { type } = params;
+
     const renderedButtons = values.map(b => {
       return (
         <DonationValueButtonComponent
@@ -188,9 +121,17 @@ export default class DonateScreen extends Component {
             buttonText="Confirm"
             customStyle={{ marginTop: 30, marginBottom: 40 }}
             onPressUpdate={() => {
-              this.props.navigation.navigate("DonationSuccess", {
-                data: { amount: initialAmount }
-              });
+              if (type == "withID") {
+                this.props.navigation.navigate("DonateSuccessWithID", {
+                  type: "withID",
+                  data: { amount: initialAmount }
+                });
+              } else if (type == "withoutID") {
+                this.props.navigation.navigate("DonateSuccessWithoutID", {
+                  type: "withoutID",
+                  data: { amount: initialAmount }
+                });
+              }
             }}
           />
         </ScrollView>

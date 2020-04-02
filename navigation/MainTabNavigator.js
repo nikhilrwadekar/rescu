@@ -10,11 +10,16 @@ import HomeScreen from "../screens/App/Home/HomeScreen";
 import TasksScreen from "../screens/App/Tasks/TasksScreen";
 import NotificationScreen from "../screens/App/Notifications/NotificationScreen";
 
-// Profile & Following Screens
+// Profile & Following Screens + Donate Screens
 import ProfileScreen from "../screens/App/Profile/ProfileScreen";
 import EditProfileScreen from "../screens/App/Profile/EditProfileScreen";
 import EditPreferencesScreen from "../screens/App/Profile/EditPreferencesScreen";
 import TermsScreen from "../screens/App/Profile/TermsScreen";
+import DisasterListScreen from "../screens/App/Donate/DisasterListScreen";
+import SingleDisasterScreen from "../screens/App/Donate/SingleDisasterScreen";
+import DonateScreen from "../screens/App/Donate/DonateScreen";
+import DonationSuccessScreen from "../screens/App/Donate/DonateSuccessScreen";
+
 // Config for something
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -50,6 +55,11 @@ const ProfileStack = createStackNavigator(
     Profile: ProfileScreen,
     EditProfile: EditProfileScreen,
     EditPreferences: EditPreferencesScreen,
+    // Donation with ID
+    DonateSelectCauseWithID: DisasterListScreen,
+    DonateSingleViewWithID: SingleDisasterScreen,
+    DonatePaymentWithID: DonateScreen,
+    DonateSuccessWithID: DonationSuccessScreen,
     Terms: TermsScreen
   },
   config

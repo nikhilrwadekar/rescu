@@ -139,7 +139,15 @@ export default class SingleDisasterScreen extends Component {
               paddingBottom: 50
             }}
             onPressUpdate={() => {
-              navigation.navigate("Donate");
+              const { params } = this.props.navigation.state;
+              const { type } = params;
+
+              if (type == "withoutID")
+                navigation.navigate("DonatePaymentWithoutID", {
+                  type: "withoutID"
+                });
+              else if (type == "withID")
+                navigation.navigate("DonatePaymentWithID", { type: "withID" });
             }}
             style={{ marginTop: 0 }}
           />

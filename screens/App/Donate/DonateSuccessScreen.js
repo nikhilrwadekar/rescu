@@ -52,6 +52,11 @@ export class DonationSuccessScreen extends Component {
   };
 
   render() {
+    // Params from Navigation
+    const { params } = this.props.navigation.state;
+    const { type } = params;
+
+    // Other
     const { thanksText, currency, donationCmfText } = this.state;
 
     const { navigation } = this.props;
@@ -91,20 +96,22 @@ export class DonationSuccessScreen extends Component {
           customStyle={styles.buttonShare}
         />
 
-        <View>
-          <Text style={styles.encouragingText}>
-            Let's all come together to help the people in need.
-          </Text>
-        </View>
+        {/* If not signed in, Show Sign Up! */}
+        {type == "withoutID" && (
+          <View>
+            <Text style={styles.encouragingText}>
+              Let's all come together to help the people in need.
+            </Text>
 
-        {/* Component for sign up button */}
-        <UpdateButtonProfileComponent
-          buttonText="Sign Up"
-          customStyle={styles.buttonConfirm}
-          onPressUpdate={() => {
-            navigation.navigate("SignUp");
-          }}
-        />
+            <UpdateButtonProfileComponent
+              buttonText="Sign Up"
+              customStyle={styles.buttonConfirm}
+              onPressUpdate={() => {
+                navigation.navigate("SignUp");
+              }}
+            />
+          </View>
+        )}
       </View>
     );
   }
