@@ -10,6 +10,8 @@ import {
   Alert
 } from "react-native";
 import axios from "axios";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 import NotificationFromAdminComponent from "../../../components/NotificationFromAdminComponent";
@@ -228,6 +230,23 @@ export default class NotificationScreen extends Component {
           date={confirmation.date}
           address={confirmation.address}
           confirmDeclineStatus={confirmation.status}
+          // Giving color if the status is confirmed or declined
+          confirmDeclineColor={{
+            color:
+              confirmation.status.toLowerCase() === "confirmed"
+                ? "#F27821"
+                : "#3672BC"
+          }}
+          // Checking if the status is confirmed or declined
+          confirmDeclineIcon={
+            confirmation.status.toLowerCase() === "confirmed" ? (
+              // Rendering checked icon if status is confirmed
+              <Feather name="check-circle" size={20} color="#F27821" />
+            ) : (
+              // Rendering cross icon if status is declined
+              <AntDesign name="closecircleo" size={20} color="#3672BC" />
+            )
+          }
           jobTime={`${confirmation.start_time} to ${confirmation.end_time}`}
         />
       );
