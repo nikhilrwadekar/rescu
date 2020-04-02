@@ -228,7 +228,7 @@ export default class NotificationScreen extends Component {
           date={confirmation.date}
           address={confirmation.address}
           confirmDeclineStatus={confirmation.status}
-          jobTime={confirmation.start_time}
+          jobTime={`${confirmation.start_time} to ${confirmation.end_time}`}
         />
       );
     });
