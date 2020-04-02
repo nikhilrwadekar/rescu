@@ -11,6 +11,9 @@ import { clientSocket, adminSocket } from "../../../web-sockets";
 import axios from "axios";
 import { API_URL } from "../../../API";
 
+// Moment!
+import moment from "moment";
+
 // Top Header for Home
 const Header = ({ name }) => {
   return (
@@ -55,8 +58,8 @@ const OpportunityTaskCard = ({ opportunity }) => {
           color: "rgba(0, 0, 0, 0.75)"
         }}
       >
-        from {opportunity.opportunity_time.start} to{" "}
-        {opportunity.opportunity_time.end}
+        from {moment(opportunity.opportunity_time.start).format("hh:MM A")} to{" "}
+        {moment(opportunity.opportunity_time.end).format("hh:MM A")}
       </Text>
       <Text
         style={{
@@ -74,9 +77,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
         }}
       >
         needs {opportunity.opportunity_required} volunteers on{" "}
-        {new Date(opportunity.opportunity_date).getDate()}/
-        {new Date(opportunity.opportunity_date).getMonth()}/
-        {new Date(opportunity.opportunity_date).getFullYear()}
+        {moment(opportunity.opportunity_date).format("DD/MM/YYYY")}
       </Text>
     </View>
   );

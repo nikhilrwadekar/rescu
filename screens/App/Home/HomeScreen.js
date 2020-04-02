@@ -35,7 +35,7 @@ export default class HomeScreen extends Component {
         const reliefCenters = responseJson.map(reliefCenter => {
           return {
             image: {
-              uri: reliefCenter.picture_url
+              uri: reliefCenter.task_picture_url
             },
             reliefCenter
           };
@@ -131,12 +131,12 @@ export default class HomeScreen extends Component {
     }
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <CardLayout
           onRequestPressed={this.handleRequestPressed}
           reliefCenters={this.state.reliefCenters}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 }
