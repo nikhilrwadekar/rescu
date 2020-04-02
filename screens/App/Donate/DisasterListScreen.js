@@ -245,7 +245,7 @@ export class DisasterListScreen extends Component {
           <Button
             title="Cancel"
             onPress={() => {
-              navigation.navigate.goBack();
+              this.props.navigation.navigate("SignIn");
             }}
           />
         )}
