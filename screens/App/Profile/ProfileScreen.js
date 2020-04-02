@@ -30,7 +30,16 @@ export default class ProfileScreen extends Component {
 
   // Handle Edit Profile Press
   handleEditProfile = () => {
-    this.props.navigation.navigate("EditProfile");
+    this.props.navigation.navigate("EditProfile", {
+      onNavigateBack: this.handleOnNavigateBack
+    });
+  };
+
+  // On Navigate Back
+  handleOnNavigateBack = userDetails => {
+    let user = this.state.user;
+    user.name = userDetails.name;
+    this.setState({ user });
   };
   // Assigned Volunteerings
   handleAssignedVolunteeringsPress = () => {
@@ -54,11 +63,19 @@ export default class ProfileScreen extends Component {
     this.props.navigation.navigate("Terms");
   };
 
-  async componentDidMount() {
+  // get Data from Async
+  getDataFromAsyncStorage = async () => {
     // Email Sign In
     const email = await AsyncStorage.getItem("userDetails");
     let userDetails = JSON.parse(email);
     this.setState({ user: userDetails });
+  };
+
+  async componentDidMount() {
+    console.log("profile mounted");
+    console.log(this.props.navigation.state);
+    console.log(this.props.route);
+    this.getDataFromAsyncStorage();
 
     const google = await AsyncStorage.getItem("googleSignInDetails");
 
