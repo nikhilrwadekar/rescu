@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
 
 DisasterListScreen.navigationOptions = {
   title: "Donate",
-  header: null
+  header: undefined
 };
 
 export default DisasterListScreen;
