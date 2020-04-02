@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import { adminSocket, clientSocket } from "../../../web-sockets";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
-
+import NotificationFromAdminComponent from "../../../components/NotificationFromAdminComponent";
 // API_URL
 import { API_URL } from "../../../API";
 
@@ -21,7 +21,81 @@ export default class NotificationScreen extends Component {
     super(props);
 
     this.state = {
-      receivedRequests: []
+      receivedRequests: [],
+      confirmedRequests: [
+        {
+          type: "Cooking",
+          location: "Some Relief Center Name",
+          address: "West Vancouver Region",
+          date: "02-05-2020",
+          start_time: "10:00 AM",
+          end_time: "12:00 PM",
+          status: "Confirmed"
+        },
+        {
+          type: "Shopping for Elderly",
+          location: "Other Relief Center",
+          address: "Vancouver Bay Area",
+          date: "02-05-2020",
+          start_time: "12:00 PM",
+          end_time: "08:00 PM",
+          status: "Declined"
+        },
+        {
+          type: "Cooking",
+          location: "Some Relief Center Name",
+          address: "West Vancouver Region",
+          date: "02-05-2020",
+          start_time: "10:00 AM",
+          end_time: "12:00 PM",
+          status: "Confirmed"
+        },
+        {
+          type: "Shopping for Elderly",
+          location: "Other Relief Center",
+          address: "Vancouver Bay Area",
+          date: "02-05-2020",
+          start_time: "12:00 PM",
+          end_time: "08:00 PM",
+          status: "Declined"
+        },
+        {
+          type: "Cooking",
+          location: "Some Relief Center Name",
+          address: "West Vancouver Region",
+          date: "02-05-2020",
+          start_time: "10:00 AM",
+          end_time: "12:00 PM",
+          status: "Confirmed"
+        },
+        {
+          type: "Shopping for Elderly",
+          location: "Other Relief Center",
+          address: "Vancouver Bay Area",
+          date: "02-05-2020",
+          start_time: "12:00 PM",
+          end_time: "08:00 PM",
+          status: "Declined"
+        },
+        {
+          type: "Cooking",
+          location: "Some Relief Center Name",
+          address: "West Vancouver Region",
+          date: "02-05-2020",
+          start_time: "10:00 AM",
+          end_time: "12:00 PM",
+          status: "Confirmed"
+        },
+        {
+          type: "Shopping for Elderly",
+          location: "Other Relief Center",
+          address: "Vancouver Bay Area",
+          date: "02-05-2020",
+          start_time: "12:00 PM",
+          end_time: "08:00 PM",
+          status: "Declined"
+        }
+      ]
     };
   }
 
@@ -128,18 +202,33 @@ export default class NotificationScreen extends Component {
 
   render() {
     // Deconstruct State!
-    const { receivedRequests } = this.state;
+    const { receivedRequests, confirmedRequests } = this.state;
 
-    const renderedNotifications = receivedRequests.map(notification => {
+    // Requests from Admin!
+    const renderedNotifications = receivedRequests.map(request => {
       return (
         <ConfirmDeclineNotificationComponent
-          jobType={notification.job_type}
-          notificationTime={notification.notificationTime}
-          location={notification.location}
-          date={new Date(notification.job_date).toDateString()}
-          jobTime={`${notification.job_start_time} to ${notification.job_end_time}`}
-          onPressConfirm={() => this.handleAcceptRequest(notification.job_id)}
-          onPressDecline={() => this.handleDeclineRequest(notification.job_id)}
+          jobType={request.job_type}
+          notificationTime={request.notificationTime}
+          location={request.location}
+          date={new Date(request.job_date).toDateString()}
+          jobTime={`${request.job_start_time} to ${request.job_end_time}`}
+          onPressConfirm={() => this.handleAcceptRequest(request.job_id)}
+          onPressDecline={() => this.handleDeclineRequest(request.job_id)}
+        />
+      );
+    });
+
+    // Confirmation from Admin
+    const renderedConfirmations = confirmedRequests.map(confirmation => {
+      return (
+        <NotificationFromAdminComponent
+          jobType={confirmation.type}
+          location={confirmation.location}
+          date={confirmation.date}
+          address={confirmation.address}
+          confirmDeclineStatus={confirmation.status}
+          jobTime={confirmation.start_time}
         />
       );
     });
@@ -153,6 +242,7 @@ export default class NotificationScreen extends Component {
           style={{ paddingTop: 20 }}
         >
           {renderedNotifications}
+          {renderedConfirmations}
         </ScrollView>
       </View>
     );
