@@ -19,6 +19,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { clientSocket } from "../../../web-sockets";
 import { API_URL } from "../../../API";
 
+// Moment!
+import moment from "moment";
+
 // Custom Outreach Components
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
 
@@ -103,10 +106,12 @@ class UpcomingTasksComponent extends Component {
 
             return (
               <AssignedTaskCardComponent
-                time={`${job_start_time} - ${job_end_time}`}
+                time={`${moment(job_start_time).format("hh:MM A")} - ${moment(
+                  job_end_time
+                ).format("hh:MM A")}`}
                 newKey={job_id}
                 buttonText="Opt Out"
-                date={new Date(job_date).toDateString()}
+                date={moment(job_date).format("DD/MM/YYYY")}
                 jobType={job_type}
                 location={location}
                 onPressOptOut={() => {

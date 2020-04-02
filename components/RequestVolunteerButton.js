@@ -24,7 +24,7 @@ const RequestVolunteerButton = ({
   else if (disabled)
     return (
       <TouchableWithoutFeedback>
-        <LinearGradient colors={["#777", "#666"]} style={styles.button}>
+        <LinearGradient colors={["#aaa", "#aaa"]} style={styles.button}>
           <Text style={styles.btnText}>{buttonText}</Text>
         </LinearGradient>
       </TouchableWithoutFeedback>
