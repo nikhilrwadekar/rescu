@@ -47,7 +47,8 @@ const PreferencesScreenOneComponent = ({
   addMorePreferences,
   preference,
   onPressNext,
-  onDeletePreference
+  onDeletePreference,
+  isNextVisible
 }) => {
   return (
     <View>
@@ -337,11 +338,14 @@ const PreferencesScreenOneComponent = ({
         )}
 
         {/* Add Sign In Condition here */}
-        <ButtonLink
-          text="Next"
-          onPress={onPressNext}
-          customStyle={{ marginTop: 110, paddingBottom: 20 }}
-        />
+
+        {isNextVisible && (
+          <ButtonLink
+            text="Next"
+            onPress={onPressNext}
+            customStyle={{ marginTop: 110, paddingBottom: 20 }}
+          />
+        )}
       </ScrollView>
     </View>
   );
