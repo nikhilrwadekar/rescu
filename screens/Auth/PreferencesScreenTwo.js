@@ -48,16 +48,7 @@ export default class PreferencesScreenTwo extends Component {
       additionalSkill: "",
       selectedVolunteeringTypes: [],
       // Get these from the DB (Name, Picture)
-      volunteeringTypes: [
-        "Driving",
-        "Swimming",
-        "Medical Assistance",
-        "Lifting Weight",
-        "Cooking",
-        "Babysitting",
-        "Petsitting",
-        "Elderly Care"
-      ]
+      volunteeringTypes: []
     };
   }
 
@@ -82,6 +73,18 @@ export default class PreferencesScreenTwo extends Component {
 
   handleTermsAndConditionsCheckChange = () =>
     this.setState({ termsCheck: !this.state.termsCheck });
+
+  // Get Voluteering Types from DB
+  getVolunteeringTypesFromDB = () => {
+    Axios.get(`${API_URL}/volunteering-type`)
+      .then(res => res.data)
+      .then(volunteeringTypesFromDB => {
+        let volunteeringTypes = volunteeringTypesFromDB.map(
+          volunteeringType => volunteeringType.name
+        );
+        this.setState({ volunteeringTypes });
+      });
+  };
 
   // Finally save the user in the DB.. get the token and log him/her in!
   handleFinalSignUp = () => {
@@ -120,6 +123,9 @@ export default class PreferencesScreenTwo extends Component {
     // Get new user details from the previous screen and store it in the state
     // Updating nested state.. currently React does not support direct nested update
     var newUser = { ...this.state.newUser, ...params };
+
+    // Get Volunteering Types
+    this.getVolunteeringTypesFromDB();
 
     const userType = await AsyncStorage.getItem("signUpType");
     newUser.type = userType;

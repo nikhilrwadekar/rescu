@@ -6,7 +6,8 @@ import {
   View,
   Button,
   AsyncStorage,
-  SafeAreaView
+  SafeAreaView,
+  TouchableOpacity
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -14,6 +15,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import AddressInput from "./AdressInput";
 import PostalCode from "./PostalCode";
 import TimeAvailability from "./TimeAvailability";
+import ButtonLink from "./ButtonLink";
+
 // import DateTimeModal from "./DateModal";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -43,7 +46,8 @@ const PreferencesScreenOneComponent = ({
   onChange,
   addMorePreferences,
   preference,
-  onPressNext
+  onPressNext,
+  onDeletePreference
 }) => {
   return (
     <View>
@@ -105,14 +109,14 @@ const PreferencesScreenOneComponent = ({
             {/* Map Date Modal */}
             {timePreferences.map((timePreference, index) => (
               // Preference - Date & Time
-              <View key={timePreference.key}>
+              <View key={timePreference.key || timePreference._id}>
                 {/* Buttons for Date, Start Time, and End Time */}
                 <View
                   style={{
                     flex: 1,
                     // flexDirection: "row",
-                    justifyContent: "flex-start"
-                    // paddingLeft: 10
+                    justifyContent: "flex-start",
+                    padding: 10
                   }}
                 >
                   <View
@@ -126,25 +130,48 @@ const PreferencesScreenOneComponent = ({
                     <View
                       style={{
                         flexDirection: "row",
-                        justifyContent: "flex-start",
+                        justifyContent: "space-between",
                         alignItems: "center"
                       }}
                     >
-                      <AntDesign
-                        name="calendar"
-                        size={18}
-                        color="#F27821"
-                        style={{ paddingLeft: 10 }}
-                      />
-                      <Text
+                      <View
                         style={{
-                          paddingLeft: 10,
-                          fontFamily: "OpenSans-Regular",
-                          fontSize: 15
+                          flexDirection: "row"
                         }}
                       >
-                        Date
-                      </Text>
+                        <AntDesign
+                          name="calendar"
+                          size={18}
+                          color="#F27821"
+                          style={{ paddingLeft: 10 }}
+                        />
+                        <Text
+                          style={{
+                            paddingLeft: 10,
+                            fontFamily: "OpenSans-Regular",
+                            fontSize: 15
+                          }}
+                        >
+                          Date
+                        </Text>
+                      </View>
+
+                      <View>
+                        <TouchableOpacity
+                          onPress={() =>
+                            onDeletePreference(
+                              timePreference._id || timePreference.key
+                            )
+                          }
+                        >
+                          <AntDesign
+                            name="delete"
+                            size={18}
+                            color="#F27821"
+                            style={{ paddingLeft: 10 }}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
 
                     <View style={{ textAlign: "left" }}>
@@ -154,7 +181,12 @@ const PreferencesScreenOneComponent = ({
                             ? `${new Date(timePreference.date).toDateString()} `
                             : new Date().toDateString()
                         }
-                        onPress={() => toggleModal(timePreference.key, "Date")}
+                        onPress={() =>
+                          toggleModal(
+                            timePreference.key || timePreference._id,
+                            "Date"
+                          )
+                        }
                       />
                     </View>
                   </View>
@@ -200,7 +232,10 @@ const PreferencesScreenOneComponent = ({
                             : new Date().toLocaleTimeString()
                         }
                         onPress={() =>
-                          toggleModal(timePreference.key, "Start Time")
+                          toggleModal(
+                            timePreference.key || timePreference._id,
+                            "Start Time"
+                          )
                         }
                       />
                     </View>
@@ -239,7 +274,10 @@ const PreferencesScreenOneComponent = ({
                             : new Date().toLocaleTimeString()
                         }
                         onPress={() =>
-                          toggleModal(timePreference.key, "End Time")
+                          toggleModal(
+                            timePreference.key || timePreference._id,
+                            "End Time"
+                          )
                         }
                       />
                     </View>
@@ -297,6 +335,13 @@ const PreferencesScreenOneComponent = ({
             </View>
           </View>
         )}
+
+        {/* Add Sign In Condition here */}
+        <ButtonLink
+          text="Next"
+          onPress={onPressNext}
+          customStyle={{ marginTop: 110, paddingBottom: 20 }}
+        />
       </ScrollView>
     </View>
   );
