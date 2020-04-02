@@ -241,7 +241,7 @@ export class DisasterListScreen extends Component {
             </TouchableOpacity>
           )}
         />
-        {!!this.props.navigation.state.params.type !== "withID" && (
+        {this.props.navigation.state.params.type === "withoutID" && (
           <Button
             title="Cancel"
             onPress={() => {
