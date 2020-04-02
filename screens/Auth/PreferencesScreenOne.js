@@ -78,6 +78,23 @@ export default class PreferencesScreenOne extends Component {
       start_time: Date(),
       end_time: Date()
     });
+
+    this.setState({ timePreferences });
+  };
+
+  // Handle Delete Preference
+  handleDeletePreference = preferenceKey => {
+    let timePreferences = this.state.timePreferences;
+    let updatedTimePreferences = timePreferences.filter(timePreference => {
+      let isPreferenceLocal = !!timePreference.key;
+      let isPreferenceFromDB = !!timePreference._id;
+
+      if (isPreferenceLocal) return timePreference.key !== preferenceKey;
+
+      if (isPreferenceFromDB) return timePreference._id !== preferenceKey;
+    });
+
+    this.setState({ timePreferences: updatedTimePreferences });
   };
 
   // Handle Address Change -- START
@@ -185,6 +202,7 @@ export default class PreferencesScreenOne extends Component {
       <SafeAreaView style={{ backgroundColor: "#f7f7f7" }}>
         {/* <Text>{JSON.stringify(this.state.timePreferences)}</Text> */}
         <PreferencesScreenOneComponent
+          onDeletePreference={this.handleDeletePreference}
           addressLine={addressLine}
           onAddressLineChange={this.handleAddressLineChange}
           city={city}

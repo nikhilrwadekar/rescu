@@ -31,16 +31,8 @@ export default class EditPreferencesScreen extends Component {
       // Screen Two
       termsCheck: true,
       selectedVolunteeringTypes: [],
-      volunteeringTypes: [
-        "Driving",
-        "Swimming",
-        "Medical Assistance",
-        "Lifting Weight",
-        "Cooking",
-        "Babysitting",
-        "Petsitting",
-        "Elderly Care"
-      ]
+      volunteeringTypes: [],
+      userDetails: {}
     };
   }
 
@@ -111,6 +103,8 @@ export default class EditPreferencesScreen extends Component {
       start_time: Date(),
       end_time: Date()
     });
+
+    this.setState({ timePreferences });
   };
 
   // Preferences Screen Two
@@ -136,23 +130,58 @@ export default class EditPreferencesScreen extends Component {
     this.setState({ termsCheck: !this.state.termsCheck });
 
   // Update User in the DB
-  handleEditProfileSave = () => {
-    const { id, userDetails } = this.state;
+  handleEditProfileSave = async () => {
+    const { id, userDetails, timePreferences } = this.state;
+
+    // Updating schedule before updating.. currently React does not support direct nested update
+    userDetails.availability.schedule = timePreferences;
 
     // Serialize back into Async Storage
-    AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
+    await AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
 
     // Update User based on ID in DB
-    Axios.put(`${API_URL}/user/id/${id}`, { ...userDetails })
+    await Axios.put(`${API_URL}/user/id/${id}`, { ...userDetails })
       .then(res => {
         if (res.status == 200)
           Alert.alert("Success", "Preferences were updated.");
       })
       .catch(err => console.log(err));
   };
+
+  // Handle Delete Preference
+  handleDeletePreference = preferenceKey => {
+    // alert(`Delete ${preferenceKey} ==`);
+
+    let timePreferences = this.state.timePreferences;
+    let updatedTimePreferences = timePreferences.filter(timePreference => {
+      let isPreferenceLocal = !!timePreference.key;
+      let isPreferenceFromDB = !!timePreference._id;
+
+      if (isPreferenceLocal) return timePreference.key !== preferenceKey;
+
+      if (isPreferenceFromDB) return timePreference._id !== preferenceKey;
+    });
+
+    this.setState({ timePreferences: updatedTimePreferences });
+  };
+
+  // Get Voluteering Types from DB
+  getVolunteeringTypesFromDB = () => {
+    Axios.get(`${API_URL}/volunteering-type`)
+      .then(res => res.data)
+      .then(volunteeringTypesFromDB => {
+        let volunteeringTypes = volunteeringTypesFromDB.map(
+          volunteeringType => volunteeringType.name
+        );
+        this.setState({ volunteeringTypes });
+      });
+  };
+
   // Get User Data on Mount
   componentDidMount = async () => {
     // Email Login Details
+    // Get Volunteering Types
+    this.getVolunteeringTypesFromDB();
 
     await AsyncStorage.getItem("userDetails", (err, result) => {
       if (err) {
@@ -200,6 +229,7 @@ export default class EditPreferencesScreen extends Component {
         <ScrollView>
           {/* Preferences Screen One - Componentized */}
           <PreferencesScreenOneComponent
+            onDeletePreference={this.handleDeletePreference}
             addressLine={addressLine}
             onAddressLineChange={this.handleAddressLineChange}
             city={city}
