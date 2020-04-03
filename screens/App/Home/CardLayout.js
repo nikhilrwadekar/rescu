@@ -59,17 +59,18 @@ const OpportunityTaskCard = ({ opportunity }) => {
       >
         {opportunity.opportunity_type}
       </Text>
-
-      <Text
-        style={{
-          fontSize: 16,
-          color: "rgba(0, 0, 0, 0.75)",
-          fontFamily: "OpenSans-Light"
-        }}
-      >
-        from {moment(opportunity.opportunity_time.start).format("hh:MM A")} to{" "}
-        {moment(opportunity.opportunity_time.end).format("hh:MM A")}
-      </Text>
+      {!!opportunity.opportunity_time && (
+        <Text
+          style={{
+            fontSize: 16,
+            color: "rgba(0, 0, 0, 0.75)",
+            fontFamily: "OpenSans-Light"
+          }}
+        >
+          from {moment(opportunity.opportunity_time.start).format("hh:MM A")} to{" "}
+          {moment(opportunity.opportunity_time.end).format("hh:MM A")}
+        </Text>
+      )}
       <Text
         style={{
           fontSize: 12,
@@ -79,16 +80,28 @@ const OpportunityTaskCard = ({ opportunity }) => {
       >
         {opportunity.name}
       </Text>
-      <Text
-        style={{
-          color: "rgba(0, 0, 0, 0.6)",
-          fontSize: 16,
-          fontFamily: "OpenSans-Light"
-        }}
-      >
-        needs {opportunity.opportunity_required} volunteers on{" "}
-        {moment(opportunity.opportunity_date).format("DD/MM/YYYY")}
-      </Text>
+      <View style={{ flexDirection: "row" }}>
+        <Text
+          style={{
+            color: "rgba(0, 0, 0, 0.6)",
+            fontSize: 16,
+            fontFamily: "OpenSans-Light"
+          }}
+        >
+          needs {opportunity.opportunity_required} volunteer(s){" "}
+        </Text>
+        {opportunity.opportunity_date && (
+          <Text
+            style={{
+              color: "rgba(0, 0, 0, 0.6)",
+              fontSize: 16,
+              fontFamily: "OpenSans-Light"
+            }}
+          >
+            {moment(opportunity.opportunity_date).fromNow()}
+          </Text>
+        )}
+      </View>
     </View>
   );
 };
