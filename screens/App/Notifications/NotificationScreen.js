@@ -139,8 +139,10 @@ export default class NotificationScreen extends Component {
           jobType={request.job_type}
           notificationTime={request.notificationTime}
           location={request.location}
-          date={moment(request.job_date).format("DD-MM-YYYY")}
-          jobTime={`${request.job_start_time} to ${request.job_end_time}`}
+          date={moment(request.job_date).format("Do MMMM YYYY")}
+          jobTime={`${moment(request.job_start_time).format(
+            "hh:MM A"
+          )} to ${moment(request.job_end_time).format("hh:MM A")}`}
           onPressConfirm={() => this.handleAcceptRequest(request.job_id)}
           onPressDecline={() => this.handleDeclineRequest(request.job_id)}
         />
@@ -153,7 +155,7 @@ export default class NotificationScreen extends Component {
         <NotificationFromAdminComponent
           jobType={notification.task_name}
           location={notification.location}
-          date={moment(notification.date).fromNow()}
+          date={moment(notification.date).format("Do MMMM YYYY")}
           address={notification.address}
           confirmDeclineStatus={notification.status}
           jobTime={`${moment(notification.start_time).format(

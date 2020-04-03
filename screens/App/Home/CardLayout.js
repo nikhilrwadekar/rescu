@@ -98,7 +98,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
               fontFamily: "OpenSans-Light"
             }}
           >
-            {moment(opportunity.opportunity_date).fromNow()}
+            on {moment(opportunity.opportunity_date).format("Do MMMM YYYY")}
           </Text>
         )}
       </View>
