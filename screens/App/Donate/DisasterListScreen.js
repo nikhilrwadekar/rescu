@@ -13,174 +13,39 @@ import {
   TouchableWithoutFeedback
 } from "react-native-gesture-handler";
 
+// Axios
+import Axios from "axios";
+
+// API URL
+import { API_URL } from "../../../API";
+
 export class DisasterListScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       disasters: [
-        {
-          id: 1,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 2,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 3,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 4,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 5,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 6,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 7,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 8,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 9,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 10,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 11,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        },
-        {
-          id: 12,
-          name: "Australian Bushfires",
-          city: "Mallacoota, Victoria",
-          country: "Australia",
-          description:
-            "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-          image_url: "https://source.unsplash.com/random",
-          donation: {
-            goal: 200000,
-            received: 110000
-          }
-        }
-      ],
-      imgDLIUrl: { uri: "https://reactnative.dev/img/tiny_logo.png" },
-      location: "8850 Osler St, Vancouver, BC V6P 4G2",
-      itemExcerpt:
-        "Buddhist Compassion Relief Tzu Chi Foundation, Canada is founded by its CEO, Mr. Gary Ho, in 1992 under the inspiration of Dharma Master Cheng Yen to inaugurate Tzu Chi’s good works in Canada"
+        // {
+        //   id: 1,
+        //   name: "Australian Bushfires",
+        //   city: "Mallacoota, Victoria",
+        //   country: "Australia",
+        //   description:
+        //     "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
+        //   image_url: "https://source.unsplash.com/random",
+        //   donation: {
+        //     goal: 200000,
+        //     received: 110000
+        //   }
+        // }
+      ]
     };
+  }
+
+  componentDidMount() {
+    Axios.get(`${API_URL}/disaster`)
+      .then(res => res.data)
+      .then(disasters => this.setState({ disasters }));
   }
 
   render() {
@@ -202,7 +67,7 @@ export class DisasterListScreen extends Component {
 
         <FlatList
           style={{ flex: 1 }}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item._id}
           data={disasters}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -212,18 +77,26 @@ export class DisasterListScreen extends Component {
                 const { type } = params;
                 if (type == "withID")
                   navigation.navigate("DonateSingleViewWithID", {
-                    type: "withID"
+                    type: "withID",
+                    disaster_id: item._id,
+                    disaster_title: item.name,
+                    disaster_description: item.description,
+                    disaster_image: item.image_url
                   });
                 else if (type == "withoutID")
                   navigation.navigate("DonateSingleViewWithoutID", {
-                    type: "withoutID"
+                    type: "withoutID",
+                    disaster_id: item._id,
+                    disaster_title: item.name,
+                    disaster_description: item.description,
+                    disaster_image: item.image_url
                   });
               }}
             >
               <DisasterListItem
                 name={item.name}
                 itemExcerpt={item.description.substring(0, 90).concat("...")}
-                imgDLIUrl={{ uri: item.image_url }}
+                imgDLIUrl={{ uri: item.image_url[0] }}
                 location={`${item.city}, ${item.country}`}
               />
             </TouchableOpacity>

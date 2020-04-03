@@ -58,7 +58,9 @@ export default class SingleDisasterScreen extends Component {
           description:
             "Bushfires in Australia continue to burn, placing thousands of people and millions of animals in grave danger. As of January 11th, 28 people have died, homes have been reduced to rubble, and over 6.3 million hectares of land are estimated to have been burned."
         }
-      ]
+      ],
+      disaster_description: "",
+      disaster_image: ""
     };
   }
 
@@ -67,29 +69,25 @@ export default class SingleDisasterScreen extends Component {
       <>
         <View key={index} style={styles.slide}>
           {/* <Text style={styles.title}>{item.title}</Text> */}
-          <Image
-            source={{ uri: item.illustration }}
-            style={{ width: 300, height: 300 }}
-          />
-          <Text style={styles.title}>{item.title}</Text>
+          <Image source={{ uri: item }} style={{ width: 300, height: 300 }} />
+          {/* <Text style={styles.title}>{item.title}</Text> */}
           {/* <Text style={styles.subtitle}>{item.subtitle}</Text> */}
         </View>
-        {/* <Text
-          style={{
-            paddingRight: 50,
-            fontFamily: "OpenSans-Light",
-            marginBottom: 0,
-            fontSize: 14
-          }}
-        >
-          {item.description}
-        </Text> */}
       </>
     );
   };
 
+  // componentDidMount() {
+  //   const { params } = this.props.navigation.state;
+  //   const { disaster_description, disaster_image } = params;
+
+  //   this.setState({ disaster_description, disaster_image });
+  // }
+
   render() {
     const { navigation } = this.props;
+    const { params } = this.props.navigation.state;
+    const { disaster_description, disaster_image, disaster_title } = params;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
@@ -102,7 +100,7 @@ export default class SingleDisasterScreen extends Component {
             ref={c => {
               this._carousel = c;
             }}
-            data={this.state.entries}
+            data={disaster_image}
             renderItem={this._renderItem}
             sliderWidth={500}
             itemWidth={300}
@@ -110,8 +108,6 @@ export default class SingleDisasterScreen extends Component {
             autoplay
             autoplayDelay={500}
             autoplayInterval={2000}
-            // sliderWidth={sliderWidth}
-            // itemWidth={itemWidth}
           />
 
           <Text
@@ -119,24 +115,20 @@ export default class SingleDisasterScreen extends Component {
               paddingRight: 50,
               fontFamily: "OpenSans-Light",
               marginBottom: 0,
-              fontSize: 16,
+              fontSize: 24,
               paddingLeft: 30,
               paddingRight: 30,
-              marginTop: 5,
+              marginTop: 20,
               marginBottom: 5
             }}
           >
-            Bushfires in Australia continue to burn, placing thousands of people
-            and millions of animals in grave danger. As of January 11th, 28
-            people have died, homes have been reduced to rubble, and over 6.3
-            million hectares of land are estimated to have been burned.
+            {disaster_title}
           </Text>
-
           <UpdateButtonProfileComponent
             buttonText="Donate"
             customStyle={{
-              marginTop: 25,
-              paddingBottom: 50
+              marginTop: 20,
+              marginBottom: 20
             }}
             onPressUpdate={() => {
               const { params } = this.props.navigation.state;
@@ -151,6 +143,20 @@ export default class SingleDisasterScreen extends Component {
             }}
             style={{ marginTop: 0 }}
           />
+          <Text
+            style={{
+              paddingRight: 50,
+              fontFamily: "OpenSans-Light",
+              marginBottom: 0,
+              fontSize: 16,
+              paddingLeft: 30,
+              paddingRight: 30
+              // marginTop: 5,
+              // marginBottom: 5
+            }}
+          >
+            {disaster_description}
+          </Text>
 
           {/* <Button
           title="Donate"
