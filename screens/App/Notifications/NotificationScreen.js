@@ -16,86 +16,16 @@ import NotificationFromAdminComponent from "../../../components/NotificationFrom
 // API_URL
 import { API_URL } from "../../../API";
 
+// Moment!
+import moment from "moment";
+
 export default class NotificationScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       receivedRequests: [],
-      confirmedRequests: [
-        {
-          type: "Cooking",
-          location: "Some Relief Center Name",
-          address: "West Vancouver Region",
-          date: "02-05-2020",
-          start_time: "10:00 AM",
-          end_time: "12:00 PM",
-          status: "Confirmed"
-        },
-        {
-          type: "Shopping for Elderly",
-          location: "Other Relief Center",
-          address: "Vancouver Bay Area",
-          date: "02-05-2020",
-          start_time: "12:00 PM",
-          end_time: "08:00 PM",
-          status: "Declined"
-        },
-        {
-          type: "Cooking",
-          location: "Some Relief Center Name",
-          address: "West Vancouver Region",
-          date: "02-05-2020",
-          start_time: "10:00 AM",
-          end_time: "12:00 PM",
-          status: "Confirmed"
-        },
-        {
-          type: "Shopping for Elderly",
-          location: "Other Relief Center",
-          address: "Vancouver Bay Area",
-          date: "02-05-2020",
-          start_time: "12:00 PM",
-          end_time: "08:00 PM",
-          status: "Declined"
-        },
-        {
-          type: "Cooking",
-          location: "Some Relief Center Name",
-          address: "West Vancouver Region",
-          date: "02-05-2020",
-          start_time: "10:00 AM",
-          end_time: "12:00 PM",
-          status: "Confirmed"
-        },
-        {
-          type: "Shopping for Elderly",
-          location: "Other Relief Center",
-          address: "Vancouver Bay Area",
-          date: "02-05-2020",
-          start_time: "12:00 PM",
-          end_time: "08:00 PM",
-          status: "Declined"
-        },
-        {
-          type: "Cooking",
-          location: "Some Relief Center Name",
-          address: "West Vancouver Region",
-          date: "02-05-2020",
-          start_time: "10:00 AM",
-          end_time: "12:00 PM",
-          status: "Confirmed"
-        },
-        {
-          type: "Shopping for Elderly",
-          location: "Other Relief Center",
-          address: "Vancouver Bay Area",
-          date: "02-05-2020",
-          start_time: "12:00 PM",
-          end_time: "08:00 PM",
-          status: "Declined"
-        }
-      ]
+      notifications: []
     };
   }
 
@@ -105,22 +35,11 @@ export default class NotificationScreen extends Component {
     this.setState({ userDetails: JSON.parse(userDetails) });
 
     // Listen to changes in Relief Centers
-    clientSocket.on("reliefCenterDataChange", async data => {
+    clientSocket.on("notificationDataChange", async data => {
       // Get the latest tasks
       this.getNotifications();
     });
     this.getNotifications();
-
-    // // Connect to Sockets
-    // clientSocket.connected
-    //   ? console.log("Already Connected..")
-    //   : clientSocket.connect();
-
-    // adminSocket.connected
-    //   ? console.log("Already Connected..")
-    //   : adminSocket.connect();
-
-    // adminSocket.on("acceptRequest", this.getNotifications);
   }
 
   getNotifications = () => {
@@ -130,6 +49,13 @@ export default class NotificationScreen extends Component {
       .get(`${API_URL}/user/${this.state.userDetails.email}/requests/received`)
       .then(res => {
         this.setState({ receivedRequests: res.data });
+      });
+
+    axios
+      // http://localhost:4000/api/notification/volunteer/davinder@test.com
+      .get(`${API_URL}/notification/volunteer/${this.state.userDetails.email}`)
+      .then(res => {
+        this.setState({ notifications: res.data });
       });
   };
 
@@ -202,7 +128,7 @@ export default class NotificationScreen extends Component {
 
   render() {
     // Deconstruct State!
-    const { receivedRequests, confirmedRequests } = this.state;
+    const { receivedRequests, notifications } = this.state;
 
     // Requests from Admin!
     const renderedNotifications = receivedRequests.map(request => {
@@ -211,7 +137,7 @@ export default class NotificationScreen extends Component {
           jobType={request.job_type}
           notificationTime={request.notificationTime}
           location={request.location}
-          date={new Date(request.job_date).toDateString()}
+          date={moment(request.job_date).format("DD-MM-YYYY")}
           jobTime={`${request.job_start_time} to ${request.job_end_time}`}
           onPressConfirm={() => this.handleAcceptRequest(request.job_id)}
           onPressDecline={() => this.handleDeclineRequest(request.job_id)}
@@ -220,15 +146,17 @@ export default class NotificationScreen extends Component {
     });
 
     // Confirmation from Admin
-    const renderedConfirmations = confirmedRequests.map(confirmation => {
+    const renderedConfirmations = notifications.map(notification => {
       return (
         <NotificationFromAdminComponent
-          jobType={confirmation.type}
-          location={confirmation.location}
-          date={confirmation.date}
-          address={confirmation.address}
-          confirmDeclineStatus={confirmation.status}
-          jobTime={`${confirmation.start_time} to ${confirmation.end_time}`}
+          jobType={notification.task_name}
+          location={notification.location}
+          date={moment(notification.date).fromNow()}
+          address={notification.address}
+          confirmDeclineStatus={notification.status}
+          jobTime={`${moment(notification.start_time).format(
+            "hh:MM A"
+          )} to ${moment(notification.end_time).format("hh:MM A")}`}
         />
       );
     });
