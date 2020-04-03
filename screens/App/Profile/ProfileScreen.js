@@ -14,6 +14,7 @@ import ProfileOption from "../../../components/AssignedVolunteerings";
 import AvailabilityToggleComponent from "../../../components/AvailabilityToggleComponent";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 import LogoutButton from "../../../components/LogoutButton";
+import { Tab } from "native-base";
 
 export default class ProfileScreen extends Component {
   constructor(props) {
