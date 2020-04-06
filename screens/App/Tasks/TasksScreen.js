@@ -24,6 +24,7 @@ import moment from "moment";
 
 // Custom Outreach Components
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
+import CustomHeader from "../../../components/CustomHeader";
 
 // Left Tab: Upcoming
 class UpcomingTasksComponent extends Component {
@@ -170,18 +171,26 @@ export default class TasksScreen extends Component {
     };
   }
 
+  // Handle the Custom Tab Header Press
+  handleTabHeaderPress = (index) => {
+    this.setState({ index });
+  };
+
   render() {
     const { index, routes } = this.state;
     return (
       <TabView
+        renderTabBar={(props) => (
+          <CustomHeader
+            onTabHeaderPress={this.handleTabHeaderPress}
+            currentTab={index}
+          />
+        )}
         navigationState={{ index, routes }}
         indicatorStyle={{ backgroundColor: "white", color: "red" }}
-        style={{ backgroundColor: "pink" }}
-        renderLabel={({ route, focused, color }) => (
-          <Text style={{ color, margin: 8 }}>{route.title}</Text>
-        )}
         renderScene={renderScene}
         onIndexChange={(index) => {
+          console.log(index);
           this.setState({ index });
         }}
         initialLayout={initialLayout}

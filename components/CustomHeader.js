@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-  Image,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
 
 export default class CustomHeader extends React.Component {
   state = {
@@ -15,38 +7,27 @@ export default class CustomHeader extends React.Component {
     xTabOne: 0,
     xTabTwo: 0,
     translateX: new Animated.Value(0),
-    // translateXTabOne: new Animated.Value(0),
-    // translateXTabTwo: new Animated.Value(width),
-    // translateY: -1000
   };
 
   handleSlide = (type) => {
-    let {
-      active,
-      xTabOne,
-      xTabTwo,
-      translateX,
-      // translateXTabOne,
-      // translateXTabTwo
-    } = this.state;
+    let { translateX } = this.state;
     Animated.spring(translateX, {
       toValue: type,
       duration: 100,
     }).start();
   };
 
+  // Keep listening for the current Tab Index
+  componentDidUpdate() {
+    if (this.props.currentTab == 0) this.handleSlide(this.state.xTabOne);
+    if (this.props.currentTab == 1) this.handleSlide(this.state.xTabTwo);
+  }
+
   render() {
-    let {
-      xTabOne,
-      xTabTwo,
-      translateX,
-      active,
-      // translateXTabOne,
-      // translateXTabTwo,
-      // translateY
-    } = this.state;
+    let { xTabOne, xTabTwo, translateX } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View>
+        {/* Removed flex: 1 */}
         <View
           style={{
             width: "90%",
@@ -98,13 +79,16 @@ export default class CustomHeader extends React.Component {
                   xTabOne: event.nativeEvent.layout.x,
                 })
               }
-              onPress={() =>
-                this.setState({ active: 0 }, () => this.handleSlide(xTabOne))
-              }
+              onPress={() => {
+                // Set the index back in the Task Screen
+                this.props.onTabHeaderPress(0);
+                this.handleSlide(xTabOne);
+              }}
             >
               <Text
                 style={{
-                  color: active === 0 ? "#fff" : "#A9A9A9",
+                  // Update colors based on current Tab
+                  color: this.props.currentTab === 0 ? "#fff" : "#A9A9A9",
                   fontFamily: "Quicksand-Bold",
                 }}
               >
@@ -120,9 +104,6 @@ export default class CustomHeader extends React.Component {
                 borderWidth: 1,
                 borderColor: "#F27821",
                 borderRadius: 10,
-
-                // borderTopWidth: 0,
-                // borderRightWidth: 0,
                 borderLeftWidth: 0,
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,
@@ -132,13 +113,16 @@ export default class CustomHeader extends React.Component {
                   xTabTwo: event.nativeEvent.layout.x,
                 })
               }
-              onPress={() =>
-                this.setState({ active: 1 }, () => this.handleSlide(xTabTwo))
-              }
+              onPress={() => {
+                // Set the index back in the Task Screen
+                this.props.onTabHeaderPress(1);
+                this.handleSlide(xTabTwo);
+              }}
             >
               <Text
                 style={{
-                  color: active === 1 ? "#fff" : "#A9A9A9",
+                  // Update colors based on current Tab
+                  color: this.props.currentTab === 1 ? "#fff" : "#A9A9A9",
                   fontFamily: "Quicksand-Bold",
                 }}
               >
