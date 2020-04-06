@@ -29,8 +29,9 @@ export default class HomeScreen extends Component {
   }
 
   getTasks = async () => {
-    fetch(`${API_URL}/user/opportunities`)
-      .then((response) => response.json())
+    // fetch(`${API_URL}/user/opportunities`)
+    apiCall(`/user/opportunities`)
+      .then((response) => response.data)
       .then((responseJson) => {
         const reliefCenters = responseJson.map((reliefCenter) => {
           return {
@@ -111,10 +112,11 @@ export default class HomeScreen extends Component {
     adminSocket.emit("getRequests", opportunity);
 
     // Do the usual updates
-    await axios
-      .put(
-        `${API_URL}/user/id/${this.state.userDetails.email}/volunteer/${opportunity.opportunity_id}`
-      )
+    apiCall(
+      this.state.userDetails.accessToken,
+      `/user/id/${this.state.userDetails.email}/volunteer/${opportunity.opportunity_id}`,
+      "PUT"
+    )
       .then((response) => {
         opportunity.opportunity_requested.push(this.state.userDetails.email);
         this.getTasks();

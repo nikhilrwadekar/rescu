@@ -61,22 +61,24 @@ class UpcomingTasksComponent extends Component {
 
   // Handle Opt Out
   handleOptOut = async (taskID) => {
-    axios
-      .post(`${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`)
-      .then((res) => {
-        // If successfully opted out from DB..
-        if (res.status == 200) {
-          const { assignedTasks } = this.state;
+    apiCall(
+      this.state.userDetails.accessToken,
+      `/user/${this.state.userDetails.email}/optout/${taskID}`,
+      "POST"
+    ).then((res) => {
+      // If successfully opted out from DB..
+      if (res.status == 200) {
+        const { assignedTasks } = this.state;
 
-          // Filter it out from the state as well..
-          const updatedReliefCenterTasks = assignedTasks.filter(
-            (task) => task.job_id != taskID
-          );
+        // Filter it out from the state as well..
+        const updatedReliefCenterTasks = assignedTasks.filter(
+          (task) => task.job_id != taskID
+        );
 
-          // And the upate the state
-          this.setState({ assignedTasks: updatedReliefCenterTasks });
-        }
-      });
+        // And the upate the state
+        this.setState({ assignedTasks: updatedReliefCenterTasks });
+      }
+    });
   };
 
   // Handle Refresh
@@ -166,15 +168,6 @@ export default class TasksScreen extends Component {
         { key: "second", title: "History" },
       ],
     };
-  }
-
-  async componentDidMount() {
-    axios
-      .get(`${API_URL}/user/${this.state.userDetails.email}/tasks`)
-      .then((res) => {
-        this.setState({ assignedTasks: res.data });
-      })
-      .catch((err) => console.log(err));
   }
 
   render() {

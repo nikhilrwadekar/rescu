@@ -84,12 +84,6 @@ export default class ProfileScreen extends Component {
     console.log(this.props.navigation.state);
     console.log(this.props.route);
     this.getDataFromAsyncStorage();
-
-    const google = await AsyncStorage.getItem("googleSignInDetails");
-
-    let googleDetails = JSON.parse(google);
-
-    this.setState({ user: googleDetails.user });
   }
 
   // Sign Out!
