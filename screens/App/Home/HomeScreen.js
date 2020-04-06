@@ -29,7 +29,6 @@ export default class HomeScreen extends Component {
   }
 
   getTasks = async () => {
-    // fetch(`${API_URL}/user/opportunities`)
     apiCall(`/user/opportunities`)
       .then((response) => response.data)
       .then((responseJson) => {
