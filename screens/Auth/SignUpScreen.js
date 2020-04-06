@@ -144,24 +144,6 @@ export class SignUpScreen extends Component {
             }
           })
           .catch((err) => console.log(err));
-
-        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-        // Axios.get(`${API_URL}/user/${userDetails.email}`).then(async (res) => {
-        //   const user = res.data;
-
-        //   if (user) {
-        //     // Proceed with the login!
-        //     AsyncStorage.setItem("userDetails", JSON.stringify(user));
-        //     AsyncStorage.setItem("loginType", "facebook");
-        //     this.props.navigation.navigate("Home", { loginType: "facebook" });
-        //   } else {
-        //     // Take the user to the sign up screen! with details
-        //     await AsyncStorage.setItem("signUpType", "facebook");
-        //     this.props.navigation.navigate("PreferencesScreenOne", {
-        //       ...userDetails,
-        //     });
-        //   }
-        // });
       } else {
         // type === 'cancel'
       }

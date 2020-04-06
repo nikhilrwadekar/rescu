@@ -7,7 +7,7 @@ import {
   Dimensions,
   Alert,
   RefreshControl,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 
 // Third Party Components/Libraries
@@ -17,7 +17,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 // Import Sockets
 import { clientSocket } from "../../../web-sockets";
-import { API_URL } from "../../../API";
+import { API_URL, apiCall } from "../../../API";
 
 // Moment!
 import moment from "moment";
@@ -32,7 +32,7 @@ class UpcomingTasksComponent extends Component {
 
     this.state = {
       userDetails: {},
-      assignedTasks: []
+      assignedTasks: [],
     };
   }
 
@@ -42,7 +42,7 @@ class UpcomingTasksComponent extends Component {
     this.setState({ userDetails: JSON.parse(userDetails) });
 
     // Listen to changes in Relief Centers
-    clientSocket.on("reliefCenterDataChange", async data => {
+    clientSocket.on("reliefCenterDataChange", async (data) => {
       // Get the latest tasks
       this.getTasks();
     });
@@ -51,24 +51,26 @@ class UpcomingTasksComponent extends Component {
   }
 
   getTasks = async () => {
-    const tasks = await axios.get(
-      `${API_URL}/user/${this.state.userDetails.email}/tasks`
+    const tasks = await apiCall(
+      this.state.userDetails.accessToken,
+      `/user/${this.state.userDetails.email}/tasks`,
+      "GET"
     );
     this.setState({ assignedTasks: tasks.data });
   };
 
   // Handle Opt Out
-  handleOptOut = async taskID => {
+  handleOptOut = async (taskID) => {
     axios
       .post(`${API_URL}/user/${this.state.userDetails.email}/optout/${taskID}`)
-      .then(res => {
+      .then((res) => {
         // If successfully opted out from DB..
         if (res.status == 200) {
           const { assignedTasks } = this.state;
 
           // Filter it out from the state as well..
           const updatedReliefCenterTasks = assignedTasks.filter(
-            task => task.job_id != taskID
+            (task) => task.job_id != taskID
           );
 
           // And the upate the state
@@ -101,7 +103,7 @@ class UpcomingTasksComponent extends Component {
               job_id,
               job_date,
               job_start_time,
-              job_end_time
+              job_end_time,
             } = taskCard;
 
             return (
@@ -121,13 +123,13 @@ class UpcomingTasksComponent extends Component {
                     [
                       {
                         text: "Yes, please.",
-                        onPress: () => this.handleOptOut(job_id)
+                        onPress: () => this.handleOptOut(job_id),
                       },
                       {
                         text: "Cancel",
                         onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                      }
+                        style: "cancel",
+                      },
                     ],
                     { cancelable: false }
                   );
@@ -150,7 +152,7 @@ const HistoryComponent = () => (
 const initialLayout = { width: Dimensions.get("window").width };
 const renderScene = SceneMap({
   first: UpcomingTasksComponent,
-  second: HistoryComponent
+  second: HistoryComponent,
 });
 
 export default class TasksScreen extends Component {
@@ -161,18 +163,18 @@ export default class TasksScreen extends Component {
       index: 0,
       routes: [
         { key: "first", title: "Upcoming Tasks" },
-        { key: "second", title: "History" }
-      ]
+        { key: "second", title: "History" },
+      ],
     };
   }
 
   async componentDidMount() {
     axios
       .get(`${API_URL}/user/${this.state.userDetails.email}/tasks`)
-      .then(res => {
+      .then((res) => {
         this.setState({ assignedTasks: res.data });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -186,7 +188,7 @@ export default class TasksScreen extends Component {
           <Text style={{ color, margin: 8 }}>{route.title}</Text>
         )}
         renderScene={renderScene}
-        onIndexChange={index => {
+        onIndexChange={(index) => {
           this.setState({ index });
         }}
         initialLayout={initialLayout}
@@ -196,11 +198,11 @@ export default class TasksScreen extends Component {
 }
 
 TasksScreen.navigationOptions = {
-  title: "Assigned Tasks"
+  title: "Assigned Tasks",
 };
 
 const styles = StyleSheet.create({
   scene: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Get API URL
-import { API_URL } from "../../API";
+import { API_URL, apiCall } from "../../API";
 
 import {
   Text,
@@ -55,27 +55,31 @@ export class SignInScreen extends Component {
 
       if (result.type === "success") {
         // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-        Axios.get(`${API_URL}/user/${result.user.email}`).then(async (res) => {
-          const user = res.data;
-
-          if (user) {
-            // Proceed with the login!
-            AsyncStorage.setItem("userDetails", JSON.stringify(user));
-            AsyncStorage.setItem("loginType", "google");
-            this.props.navigation.navigate("Home", { loginType: "google" });
-          } else {
-            // Take the user to the sign up screen! with details
-            await AsyncStorage.setItem("signUpType", "google");
-            this.props.navigation.navigate("PreferencesScreenOne", result);
-          }
-        });
-
-        // If doesn't.. prompt to Sign Up
-
-        // this.props.navigation.navigate("Home");
-
+        apiCall("", `/auth/login/google`, "POST", { token: result.accessToken })
+          .then((res) => res.data)
+          .then(async (userDetails) => {
+            // if User if found.. continue to login
+            if (userDetails.email) {
+              // Proceed with the login!
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+              await AsyncStorage.setItem(
+                "accessToken",
+                userDetails.accessToken
+              );
+              await AsyncStorage.setItem("loginType", "google");
+              this.props.navigation.navigate("Home", { loginType: "google" });
+            } else {
+              // Take the user to the sign up screen! with details
+              await AsyncStorage.setItem("signUpType", "google");
+              this.props.navigation.navigate("PreferencesScreenOne", result);
+            }
+          })
+          .catch((err) => console.log(err));
         // Return the Access Token
-        // return result.accessToken;
+        return result.accessToken;
       } else {
         return { cancelled: true };
       }
@@ -99,71 +103,52 @@ export class SignInScreen extends Component {
         permissions: ["public_profile", "email"],
       });
 
-      // console.log(test);
-
-      console.log(type);
       if (type === "success") {
-        // Get the user's name using Facebook's Graph API + Email
-        let axiosFBData = {};
-        let axiosFBEmail = {};
-        let axiosFBPicture = {};
-        // Get Name and ID
-        await Axios.get(`https://graph.facebook.com/me?access_token=${token}`)
-          .then((res) => {
-            return res.data;
+        apiCall("", "/auth/login/facebook/", "POST", { token: token })
+          .then((res) => res.data)
+          .then(async (userDetails) => {
+            // if User if found.. continue to login
+            if (userDetails.email) {
+              // Proceed with the login!
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+              await AsyncStorage.setItem(
+                "accessToken",
+                userDetails.accessToken
+              );
+              await AsyncStorage.setItem("loginType", "facebook");
+              this.props.navigation.navigate("Home", { loginType: "facebook" });
+            } else {
+              // User not found!
+              // Get ID, Name, and Email!
+              const meResponse = await Axios.get(
+                `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`
+              );
+
+              const profilePicResponse = await Axios.get(
+                `https://graph.facebook.com/${meResponse.data.id}/picture?redirect=false&width=400&type=square`
+              );
+
+              // Make User Details ready for Preferences Screen One
+              const userDetails = {
+                facebook_id: meResponse.data.id,
+                name: meResponse.data.name,
+                email: meResponse.data.email,
+                profile_picture_url: profilePicResponse.data.data.url, // Get this!
+                token: token,
+              };
+
+              // Take the user to the sign up screen! with details
+              await AsyncStorage.setItem("signUpType", "facebook");
+              this.props.navigation.navigate(
+                "PreferencesScreenOne",
+                userDetails
+              );
+            }
           })
-          .then((data) => {
-            axiosFBData = data;
-          });
-
-        // Get Email
-        await Axios.get(
-          `https://graph.facebook.com/${axiosFBData.id}?fields=email&access_token=${token}`
-        )
-          .then((res) => {
-            return res.data;
-          })
-          .then((data) => {
-            axiosFBEmail = data;
-          });
-
-        // Get Picture
-        await Axios.get(
-          `https://graph.facebook.com/${axiosFBData.id}/picture?redirect=false&width=400`
-        )
-          .then((res) => {
-            return res.data;
-          })
-          .then((data) => {
-            axiosFBPicture = data.data.url;
-          });
-
-        console.log(axiosFBPicture);
-        const userDetails = {
-          facebook_id: axiosFBData.id,
-          name: axiosFBData.name,
-          email: axiosFBEmail.email,
-          profile_picture_url: axiosFBPicture,
-          token: token,
-        };
-
-        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-        Axios.get(`${API_URL}/user/${userDetails.email}`).then(async (res) => {
-          const user = res.data;
-
-          if (user) {
-            // Proceed with the login!
-            AsyncStorage.setItem("userDetails", JSON.stringify(user));
-            AsyncStorage.setItem("loginType", "facebook");
-            this.props.navigation.navigate("Home", { loginType: "facebook" });
-          } else {
-            // Take the user to the sign up screen! with details
-            await AsyncStorage.setItem("signUpType", "facebook");
-            this.props.navigation.navigate("PreferencesScreenOne", {
-              ...userDetails,
-            });
-          }
-        });
+          .catch((err) => console.log(err));
       } else {
         // type === 'cancel'
       }
@@ -171,43 +156,6 @@ export class SignInScreen extends Component {
       alert(`Facebook Login Error: ${message}`);
     }
   };
-
-  // Sign In: Google + Passport (Outreach API)
-  signInFBPassport = async () => {};
-
-  handleRedirect = async (event) => {
-    WebBrowser.dismissBrowser();
-  };
-  // handleOAuthLogin = async () => {
-  //   // gets the app's deep link
-  //   let redirectUrl = await Linking.getInitialURL();
-  //   // this should change depending on where the server is running
-  //   let authUrl = `http://localhost:4000/api/auth/login/google`;
-  //   this.addLinkingListener();
-  //   try {
-  //     let authResult = await WebBrowser.openAuthSessionAsync(
-  //       authUrl,
-  //       redirectUrl
-  //     );
-
-  //     const userDetails = decodeURI(authResult.url.split("?")[1]);
-
-  //     await AsyncStorage.setItem("userDetails", userDetails);
-
-  //     this.props.navigation.navigate("Home", { loginType: "google" });
-
-  //     // await this.setState({ authResult: authResult });
-  //   } catch (err) {
-  //     console.log("ERROR:", err);
-  //   }
-  //   this.removeLinkingListener();
-  // };
-  // addLinkingListener = () => {
-  //   Linking.addEventListener("url", this.handleRedirect);
-  // };
-  // removeLinkingListener = () => {
-  //   Linking.removeEventListener("url", this.handleRedirect);
-  // };
 
   // Handle Log In
   handleEmailLogin = async () => {
@@ -240,7 +188,7 @@ export class SignInScreen extends Component {
           }
         })
         .catch((err) => {
-          Alert.alert("Could not login", "Something went wrong.");
+          Alert.alert("Could not login", "Something went wrong: " + err);
         });
     else {
       Alert.alert(

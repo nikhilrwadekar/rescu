@@ -76,7 +76,6 @@ export default class PreferencesScreenTwo extends Component {
 
   // Get Voluteering Types from DB
   getVolunteeringTypesFromDB = () => {
-    // Axios.get(`${API_URL}/volunteering-type`)
     apiCall("", "/volunteering-type", "GET")
       .then((res) => res.data)
       .then((volunteeringTypesFromDB) => {
@@ -95,10 +94,6 @@ export default class PreferencesScreenTwo extends Component {
       const response = await apiCall("", "/user/create", "POST", {
         ...this.state.newUser,
       });
-
-      // const response = await Axios.post(`${API_URL}/user/create`, {
-      //   ...this.state.newUser,
-      // });
 
       console.log("Response:", response);
       const newUserData = response.data;

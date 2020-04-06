@@ -7,7 +7,7 @@ import {
   View,
   Alert,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 
 // Custom Components
@@ -15,7 +15,7 @@ import AppInput from "../../../components/AppInput";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 import ProfileHeader from "../../../components/ProfileHeader";
 import Axios from "axios";
-import { API_URL } from "../../../API";
+import { API_URL, apiCall } from "../../../API";
 
 export default class EditProfileScreen extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class EditProfileScreen extends Component {
     this.state = {
       fullName: "",
       email: "",
-      phoneNumber: ""
+      phoneNumber: "",
     };
   }
 
@@ -45,19 +45,19 @@ export default class EditProfileScreen extends Component {
           id: userDetails._id,
           fullName: userDetails.name,
           email: userDetails.email,
-          photoURL: userDetails.profile_picture_url
+          photoURL: userDetails.profile_picture_url,
         });
       }
     });
   };
 
   // Handle Change - Full Name
-  handleFullNameChange = fullName => {
+  handleFullNameChange = (fullName) => {
     this.setState({ fullName });
   };
 
   // Handle Change - Phone Number
-  handlePhoneNumberChange = phoneNumber => {
+  handlePhoneNumberChange = (phoneNumber) => {
     this.setState({ phoneNumber });
   };
 
@@ -69,7 +69,7 @@ export default class EditProfileScreen extends Component {
     const userEditedDetails = {
       name: fullName,
       email: email,
-      phone_number: phoneNumber
+      phone_number: phoneNumber,
     };
 
     let userDetails = { ...this.state.userDetails };
@@ -77,8 +77,13 @@ export default class EditProfileScreen extends Component {
     if (phoneNumber.length >= 10) userDetails.phone_number = phoneNumber;
 
     // Try to update..
-    Axios.put(`${API_URL}/user/id/${id}`, userEditedDetails)
-      .then(res => {
+    apiCall(
+      this.state.userDetails.accessToken,
+      `/user/id/${id}`,
+      "PUT",
+      userEditedDetails
+    )
+      .then((res) => {
         if (res.status == 200) {
           // If udpated.. Alert user and update Async Storage!
           AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -89,7 +94,7 @@ export default class EditProfileScreen extends Component {
           this.props.navigation.goBack();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         // If not.. inform user
         Alert.alert("Something went wrong", "Please try again.");
       });
@@ -148,5 +153,5 @@ export default class EditProfileScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  appInputStyle: { marginBottom: 20 }
+  appInputStyle: { marginBottom: 20 },
 });
