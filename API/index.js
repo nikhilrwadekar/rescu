@@ -1,7 +1,7 @@
 import Axios from "axios";
 
-export const API_URL = "http://localhost:4000/api";
-export const SOCKET_URL = "http://localhost:5000";
+export const API_URL = "https://outreach.nikhilwadekar.com/api";
+export const SOCKET_URL = "https://outreach.nikhilwadekar.com:5000";
 export const API_KEY = "xwzHpXGW1i";
 
 /**
