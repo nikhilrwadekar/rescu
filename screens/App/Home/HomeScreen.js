@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   AsyncStorage,
   TextInput,
-  Alert
+  Alert,
 } from "react-native";
 
 import CardLayout from "./CardLayout";
@@ -16,7 +16,7 @@ import CardLayout from "./CardLayout";
 // Connectivity
 import axios from "axios";
 import { clientSocket, adminSocket } from "../../../web-sockets";
-import { API_URL } from "../../../API";
+import { API_URL, apiCall } from "../../../API";
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -24,35 +24,34 @@ export default class HomeScreen extends Component {
     this.state = {
       isLoading: true,
       reliefCenters: [],
-      userDetails: {}
+      userDetails: {},
     };
   }
 
   getTasks = async () => {
     fetch(`${API_URL}/user/opportunities`)
-      .then(response => response.json())
-      .then(responseJson => {
-        const reliefCenters = responseJson.map(reliefCenter => {
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const reliefCenters = responseJson.map((reliefCenter) => {
           return {
             image: {
-              uri: reliefCenter.task_picture_url
+              uri: reliefCenter.task_picture_url,
             },
-            reliefCenter
+            reliefCenter,
           };
         });
 
         this.setState({
           isLoading: false,
-          reliefCenters: reliefCenters
+          reliefCenters: reliefCenters,
         });
       })
-      .catch(error => console.log(error)); //to catch the errors if any
+      .catch((error) => console.log(error)); //to catch the errors if any
   };
 
   // From: https://medium.com/better-programming/handling-api-like-a-boss-in-react-native-364abd92dc3d
   async componentDidMount() {
-    // Email Login Details
-
+    // Get User Details on login from Storage
     await AsyncStorage.getItem("userDetails", (err, result) => {
       if (err) {
         console.log(err);
@@ -63,17 +62,24 @@ export default class HomeScreen extends Component {
       }
     });
 
-    // Google Login Details
-    if (this.props.navigation.state.params.loginType == "google")
-      await AsyncStorage.getItem("googleSignInDetails", (err, result) => {
-        if (err) {
-          console.log(err);
-        }
+    apiCall(this.state.userDetails.accessToken, "/user/opportunities", "GET")
+      .then((res) => res.data)
+      .then((data) => {
+        const reliefCenters = data.map((reliefCenter) => {
+          return {
+            image: {
+              uri: reliefCenter.task_picture_url,
+            },
+            reliefCenter,
+          };
+        });
 
-        if (result) {
-          this.setState({ userDetails: result });
-        }
-      });
+        this.setState({
+          isLoading: false,
+          reliefCenters: reliefCenters,
+        });
+      })
+      .catch((err) => console.log(err));
 
     try {
       // Logging when connected to Sockets
@@ -82,13 +88,13 @@ export default class HomeScreen extends Component {
       });
 
       // Listen to changes in Relief Centers
-      clientSocket.on("reliefCenterDataChange", async data => {
+      clientSocket.on("reliefCenterDataChange", async (data) => {
         // Get the latest tasks
         await this.getTasks();
       });
 
       // Alert with Broadcast
-      clientSocket.on("broadcastMessage", message =>
+      clientSocket.on("broadcastMessage", (message) =>
         Alert.alert("New Update from Admin", message.broadcast)
       );
     } catch (error) {
@@ -100,7 +106,7 @@ export default class HomeScreen extends Component {
   }
 
   // Handle Request Press
-  handleRequestPressed = async opportunity => {
+  handleRequestPressed = async (opportunity) => {
     // // Asking admin to get requests! via Web Sockets
     adminSocket.emit("getRequests", opportunity);
 
@@ -109,11 +115,11 @@ export default class HomeScreen extends Component {
       .put(
         `${API_URL}/user/id/${this.state.userDetails.email}/volunteer/${opportunity.opportunity_id}`
       )
-      .then(response => {
+      .then((response) => {
         opportunity.opportunity_requested.push(this.state.userDetails.email);
         this.getTasks();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -141,31 +147,31 @@ export default class HomeScreen extends Component {
 // Navigator Options for the Screen, In this example we've set the Title
 HomeScreen.navigationOptions = {
   title: "Home",
-  header: null
+  header: null,
 };
 
 const styles = StyleSheet.create({
   container: {
     height: 400,
     flex: 1,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
   },
   user: {
     fontSize: 25,
     flex: 1,
-    textAlign: "center"
+    textAlign: "center",
   },
   userImage: {
     width: 200,
     height: 200,
     flex: 1,
     alignContent: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   loader: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff"
-  }
+    backgroundColor: "#fff",
+  },
 });
