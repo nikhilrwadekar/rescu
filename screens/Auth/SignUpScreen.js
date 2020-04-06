@@ -88,88 +88,83 @@ export class SignUpScreen extends Component {
   signInWithFacebook = async () => {
     try {
       await Facebook.initializeAsync(FACEBOOK_APP_ID);
-      // const {
-      //   type,
-      //   token,
-      //   expires,
-      //   permissions,
-      //   declinedPermissions,
-      // } = await Facebook.logInWithReadPermissionsAsync({
-      //   permissions: ["public_profile", "email"],
-      // });
-
-      const test = await Facebook.logInWithReadPermissionsAsync({
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });
 
-      console.log(test);
+      if (type === "success") {
+        apiCall("", "/auth/login/facebook/", "POST", { token: token })
+          .then((res) => res.data)
+          .then(async (userDetails) => {
+            // if User if found.. continue to login
+            if (userDetails.email) {
+              // Proceed with the login!
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+              await AsyncStorage.setItem(
+                "accessToken",
+                userDetails.accessToken
+              );
+              await AsyncStorage.setItem("loginType", "facebook");
+              this.props.navigation.navigate("Home", { loginType: "facebook" });
+            } else {
+              // User not found!
+              // Get ID, Name, and Email!
+              const meResponse = await Axios.get(
+                `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`
+              );
 
-      // console.log(type);
-      // if (type === "success") {
-      //   // Get the user's name using Facebook's Graph API + Email
-      //   let axiosFBData = {};
-      //   let axiosFBEmail = {};
-      //   let axiosFBPicture = {};
-      // Get Name and ID
-      // await Axios.get(`https://graph.facebook.com/me?access_token=${token}`)
-      //   .then((res) => {
-      //     return res.data;
-      //   })
-      //   .then((data) => {
-      //     axiosFBData = data;
-      //   });
+              const profilePicResponse = await Axios.get(
+                `https://graph.facebook.com/${meResponse.data.id}/picture?redirect=false&width=400&type=square`
+              );
 
-      // Get Email
-      // await Axios.get(
-      //   `https://graph.facebook.com/${axiosFBData.id}?fields=email&access_token=${token}`
-      // )
-      //   .then((res) => {
-      //     return res.data;
-      //   })
-      //   .then((data) => {
-      //     axiosFBEmail = data;
-      //   });
+              // Make User Details ready for Preferences Screen One
+              const userDetails = {
+                facebook_id: meResponse.data.id,
+                name: meResponse.data.name,
+                email: meResponse.data.email,
+                profile_picture_url: profilePicResponse.data.data.url, // Get this!
+                token: token,
+              };
 
-      // Get Picture
-      // await Axios.get(
-      //   `https://graph.facebook.com/${axiosFBData.id}/picture?redirect=false&width=400`
-      // )
-      //   .then((res) => {
-      //     return res.data;
-      //   })
-      //   .then((data) => {
-      //     axiosFBPicture = data.data.url;
-      //   });
+              // Take the user to the sign up screen! with details
+              await AsyncStorage.setItem("signUpType", "facebook");
+              this.props.navigation.navigate(
+                "PreferencesScreenOne",
+                userDetails
+              );
+            }
+          })
+          .catch((err) => console.log(err));
 
-      // console.log(axiosFBPicture);
-      // const userDetails = {
-      //   facebook_id: axiosFBData.id,
-      //   name: axiosFBData.name,
-      //   email: axiosFBEmail.email,
-      //   profile_picture_url: axiosFBPicture,
-      //   token: token,
-      // };
+        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
+        // Axios.get(`${API_URL}/user/${userDetails.email}`).then(async (res) => {
+        //   const user = res.data;
 
-      // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-      // Axios.get(`${API_URL}/user/${userDetails.email}`).then(async (res) => {
-      //   const user = res.data;
-
-      //   if (user) {
-      //     // Proceed with the login!
-      //     AsyncStorage.setItem("userDetails", JSON.stringify(user));
-      //     AsyncStorage.setItem("loginType", "facebook");
-      //     this.props.navigation.navigate("Home", { loginType: "facebook" });
-      //   } else {
-      //     // Take the user to the sign up screen! with details
-      //     await AsyncStorage.setItem("signUpType", "facebook");
-      //     this.props.navigation.navigate("PreferencesScreenOne", {
-      //       ...userDetails,
-      //     });
-      //   }
-      // });
-      // } else {
-      //   // type === 'cancel'
-      // }
+        //   if (user) {
+        //     // Proceed with the login!
+        //     AsyncStorage.setItem("userDetails", JSON.stringify(user));
+        //     AsyncStorage.setItem("loginType", "facebook");
+        //     this.props.navigation.navigate("Home", { loginType: "facebook" });
+        //   } else {
+        //     // Take the user to the sign up screen! with details
+        //     await AsyncStorage.setItem("signUpType", "facebook");
+        //     this.props.navigation.navigate("PreferencesScreenOne", {
+        //       ...userDetails,
+        //     });
+        //   }
+        // });
+      } else {
+        // type === 'cancel'
+      }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
