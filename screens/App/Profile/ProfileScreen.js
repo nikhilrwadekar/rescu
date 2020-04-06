@@ -5,7 +5,7 @@ import {
   Alert,
   ToastAndroid,
   AsyncStorage,
-  ScrollView
+  ScrollView,
 } from "react-native";
 
 // Custom Outreach Components
@@ -15,6 +15,14 @@ import AvailabilityToggleComponent from "../../../components/AvailabilityToggleC
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
 import LogoutButton from "../../../components/LogoutButton";
 import { Tab } from "native-base";
+import Axios from "axios";
+
+// API URL
+import { API_URL } from "../../../API";
+
+// Web Browser
+import { AuthSession, Linking } from "expo";
+import * as WebBrowser from "expo-web-browser";
 
 export default class ProfileScreen extends Component {
   constructor(props) {
@@ -24,19 +32,19 @@ export default class ProfileScreen extends Component {
       isAvailable: true,
       user: {},
       profile_picture_url: "",
-      user: { photoUrl: "" }
+      user: { photoUrl: "" },
     };
   }
 
   // Handle Edit Profile Press
   handleEditProfile = () => {
     this.props.navigation.navigate("EditProfile", {
-      onNavigateBack: this.handleOnNavigateBack
+      onNavigateBack: this.handleOnNavigateBack,
     });
   };
 
   // On Navigate Back
-  handleOnNavigateBack = userDetails => {
+  handleOnNavigateBack = (userDetails) => {
     let user = this.state.user;
     user.name = userDetails.name;
     this.setState({ user });
@@ -54,7 +62,7 @@ export default class ProfileScreen extends Component {
   //Donate
   handleDonatePress = () => {
     this.props.navigation.navigate("DonateSelectCauseWithID", {
-      type: "withID"
+      type: "withID",
     });
   };
 
@@ -76,12 +84,6 @@ export default class ProfileScreen extends Component {
     console.log(this.props.navigation.state);
     console.log(this.props.route);
     this.getDataFromAsyncStorage();
-
-    const google = await AsyncStorage.getItem("googleSignInDetails");
-
-    let googleDetails = JSON.parse(google);
-
-    this.setState({ user: googleDetails.user });
   }
 
   // Sign Out!
@@ -100,7 +102,7 @@ export default class ProfileScreen extends Component {
             customHeadStyle={styles.header}
             imageUrl={{
               uri:
-                this.state.user.photoUrl || this.state.user.profile_picture_url
+                this.state.user.photoUrl || this.state.user.profile_picture_url,
             }}
             onPressEditProfile={this.handleEditProfile}
             key="1"
@@ -115,7 +117,7 @@ export default class ProfileScreen extends Component {
 
           <AvailabilityToggleComponent
             availabilityText="Availability"
-            onToggleChange={isAvailable => {
+            onToggleChange={(isAvailable) => {
               ToastAndroid.showWithGravityAndOffset(
                 "A wild toast appeared!",
                 ToastAndroid.LONG,
@@ -152,13 +154,13 @@ export default class ProfileScreen extends Component {
                 [
                   {
                     text: "Yes, please.",
-                    onPress: () => this._signOutAsync()
+                    onPress: () => this._signOutAsync(),
                   },
                   {
                     text: "Cancel",
                     onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  }
+                    style: "cancel",
+                  },
                   // { text: "OK", onPress: () => console.log("OK Pressed") }
                 ],
                 { cancelable: false }
@@ -172,12 +174,12 @@ export default class ProfileScreen extends Component {
 }
 
 ProfileScreen.navigationOptions = {
-  title: "Your Profile"
+  title: "Your Profile",
 };
 
 const styles = StyleSheet.create({
   header: {
     marginBottom: 20,
-    marginTop: 50
-  }
+    marginTop: 50,
+  },
 });

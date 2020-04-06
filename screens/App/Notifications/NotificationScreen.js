@@ -7,7 +7,7 @@ import {
   StyleSheet,
   RefreshControl,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import axios from "axios";
 import { Feather } from "@expo/vector-icons";
@@ -16,7 +16,7 @@ import { adminSocket, clientSocket } from "../../../web-sockets";
 import ConfirmDeclineNotificationComponent from "../../../components/ConfirmDeclineNotificationComponent";
 import NotificationFromAdminComponent from "../../../components/NotificationFromAdminComponent";
 // API_URL
-import { API_URL } from "../../../API";
+import { API_URL, apiCall } from "../../../API";
 
 // Moment!
 import moment from "moment";
@@ -27,7 +27,7 @@ export default class NotificationScreen extends Component {
 
     this.state = {
       receivedRequests: [],
-      notifications: []
+      notifications: [],
     };
   }
 
@@ -37,7 +37,7 @@ export default class NotificationScreen extends Component {
     this.setState({ userDetails: JSON.parse(userDetails) });
 
     // Listen to changes in Relief Centers
-    clientSocket.on("notificationDataChange", async data => {
+    clientSocket.on("notificationDataChange", async (data) => {
       // Get the latest tasks
       this.getNotifications();
     });
@@ -46,80 +46,83 @@ export default class NotificationScreen extends Component {
 
   getNotifications = () => {
     // Get Notifications? Why are you getting requests :P
-    axios
-      // https://outreach.nikhilwadekar.com/api/user/mkelso@tss.com/requests/received
-      .get(`${API_URL}/user/${this.state.userDetails.email}/requests/received`)
-      .then(res => {
-        this.setState({ receivedRequests: res.data });
-      });
 
-    axios
-      // http://localhost:4000/api/notification/volunteer/davinder@test.com
-      .get(`${API_URL}/notification/volunteer/${this.state.userDetails.email}`)
-      .then(res => {
-        this.setState({ notifications: res.data });
-      });
+    apiCall(
+      this.state.userDetails.accessToken,
+      `/user/${this.state.userDetails.email}/requests/received`,
+      "GET"
+    ).then((res) => {
+      this.setState({ receivedRequests: res.data });
+    });
+
+    apiCall(
+      this.state.userDetails.accessToken,
+      `/notification/volunteer/${this.state.userDetails.email}`,
+      "GET"
+    ).then((res) => {
+      this.setState({ notifications: res.data });
+    });
   };
 
   // Handle Decline
-  handleDeclineRequest = async taskID => {
+  handleDeclineRequest = async (taskID) => {
     Alert.alert("Decline Request", "Are you sure?", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
+        style: "cancel",
       },
       {
         text: "Decline",
         onPress: () => {
-          axios
-            .post(
-              `${API_URL}/user/${this.state.userDetails.email}/decline/${taskID}`
-            )
-            .then(res => {
-              if (res.status == 200) {
-                const { receivedRequests } = this.state;
-                const updatedRequests = receivedRequests.filter(
-                  request => request.job_id != taskID
-                );
-                this.setState({ receivedRequests: updatedRequests });
+          apiCall(
+            this.state.userDetails,
+            `/user/${this.state.userDetails.email}/decline/${taskID}`,
+            "POST"
+          ).then((res) => {
+            if (res.status == 200) {
+              const { receivedRequests } = this.state;
+              const updatedRequests = receivedRequests.filter(
+                (request) => request.job_id != taskID
+              );
+              this.setState({ receivedRequests: updatedRequests });
 
-                console.log("DONE");
-              }
-            });
+              console.log("DONE");
+            }
+          });
         },
-        style: "destructive"
-      }
+        style: "destructive",
+      },
     ]);
   };
 
   // Handle Opt In
-  handleAcceptRequest = async taskID => {
+  handleAcceptRequest = async (taskID) => {
     Alert.alert("Accept Request", "Are you sure?", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
+        style: "cancel",
       },
       {
         text: "Accept",
         onPress: () => {
-          axios
-            .post(
-              `${API_URL}/user/${this.state.userDetails.email}/optin/${taskID}`
-            )
-            .then(res => {
-              if (res.status == 200) {
-                const { receivedRequests } = this.state;
-                const updatedRequests = receivedRequests.filter(
-                  request => request.job_id != taskID
-                );
-                this.setState({ receivedRequests: updatedRequests });
-              }
-            });
+          apiCall(
+            this.state.userDetails,
+            `/user/${this.state.userDetails.email}/optin/${taskID}`,
+            "POST"
+          ).then((res) => {
+            if (res.status == 200) {
+              const { receivedRequests } = this.state;
+              const updatedRequests = receivedRequests.filter(
+                (request) => request.job_id != taskID
+              );
+              this.setState({ receivedRequests: updatedRequests });
+            }
+          });
         },
-        style: "default"
-      }
+        style: "default",
+      },
     ]);
   };
 
@@ -133,7 +136,7 @@ export default class NotificationScreen extends Component {
     const { receivedRequests, notifications } = this.state;
 
     // Requests from Admin!
-    const renderedNotifications = receivedRequests.map(request => {
+    const renderedNotifications = receivedRequests.map((request) => {
       return (
         <ConfirmDeclineNotificationComponent
           jobType={request.job_type}
@@ -150,7 +153,7 @@ export default class NotificationScreen extends Component {
     });
 
     // Confirmation from Admin
-    const renderedConfirmations = notifications.map(notification => {
+    const renderedConfirmations = notifications.map((notification) => {
       return (
         <NotificationFromAdminComponent
           jobType={notification.task_name}
@@ -183,5 +186,5 @@ export default class NotificationScreen extends Component {
 
 // Navigator Options for the Screen, In this example we've set the Title
 NotificationScreen.navigationOptions = {
-  title: "Your Notifications"
+  title: "Your Notifications",
 };

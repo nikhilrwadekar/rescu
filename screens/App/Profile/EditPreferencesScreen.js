@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Get API URL
-import { API_URL } from "../../../API";
+import { API_URL, apiCall } from "../../../API";
 
 // Custom Components
 import PreferencesScreenOneComponent from "../../../components/PreferencesScreenOneComponent";
@@ -21,7 +21,7 @@ export default class EditPreferencesScreen extends Component {
       preference: "anytime",
       preferenceCount: 1,
       timePreferences: [
-        { key: 1, date: Date(), start_time: Date(), end_time: Date() }
+        { key: 1, date: Date(), start_time: Date(), end_time: Date() },
       ],
       isModalVisible: false,
       dateSelected: new Date(),
@@ -32,22 +32,22 @@ export default class EditPreferencesScreen extends Component {
       termsCheck: true,
       selectedVolunteeringTypes: [],
       volunteeringTypes: [],
-      userDetails: {}
+      userDetails: {},
     };
   }
 
   // Address Input STARTS
   // onProvinceChange
-  handleProvinceChange = province => this.setState({ province });
+  handleProvinceChange = (province) => this.setState({ province });
 
   // onAddressLineChange
-  handleAddressLineChange = addressLine => this.setState({ addressLine });
+  handleAddressLineChange = (addressLine) => this.setState({ addressLine });
 
   // onCityChange
-  handleCityChange = city => this.setState({ city });
+  handleCityChange = (city) => this.setState({ city });
 
   // onPostalCodeChange
-  handlePostalCodeChange = postalCode => this.setState({ postalCode });
+  handlePostalCodeChange = (postalCode) => this.setState({ postalCode });
   // Address Input ENDs
 
   // When one of the preferences change.. update those!
@@ -62,7 +62,7 @@ export default class EditPreferencesScreen extends Component {
         : "end_time";
 
     // Find the preference concerned in the Array
-    var foundIndex = timePreferences.findIndex(x => x.key == currentKey);
+    var foundIndex = timePreferences.findIndex((x) => x.key == currentKey);
 
     timePreferences[foundIndex][keyToUpdate] = date;
     // Lastly.. update the set with the updated Array!
@@ -79,12 +79,12 @@ export default class EditPreferencesScreen extends Component {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
       currentModalLabel: label,
-      currentKey: key
+      currentKey: key,
     });
   };
 
   // Handle Set Preference
-  handleSetPreference = preference => {
+  handleSetPreference = (preference) => {
     this.setState({ preference });
 
     // Updating nested state.. currently React does not support direct nested update
@@ -101,14 +101,14 @@ export default class EditPreferencesScreen extends Component {
       key: timePreferences.length + 1,
       date: Date(),
       start_time: Date(),
-      end_time: Date()
+      end_time: Date(),
     });
 
     this.setState({ timePreferences });
   };
 
   // Preferences Screen Two
-  onSelectionsChange = selectedVolunteeringTypes => {
+  onSelectionsChange = (selectedVolunteeringTypes) => {
     this.setState({ selectedVolunteeringTypes });
 
     // Updating nested state.. currently React does not support direct nested update
@@ -117,7 +117,7 @@ export default class EditPreferencesScreen extends Component {
     this.setState({ userDetails });
   };
 
-  handleAdditionalSkillOrService = val => {
+  handleAdditionalSkillOrService = (val) => {
     this.setState({ additionalSkill: val });
 
     // Updating nested state.. currently React does not support direct nested update
@@ -140,23 +140,25 @@ export default class EditPreferencesScreen extends Component {
     await AsyncStorage.setItem("userDetails", JSON.stringify(userDetails));
 
     // Update User based on ID in DB
-    await Axios.put(`${API_URL}/user/id/${id}`, { ...userDetails })
-      .then(res => {
+    apiCall(this.state.userDetails.accessToken, `/user/id/${id}`, "PUT", {
+      ...userDetails,
+    })
+      .then((res) => {
         if (res.status == 200)
           this.props.navigation.navigate("Profile", {
-            userDetails: this.state.userDetails
+            userDetails: this.state.userDetails,
           });
         Alert.alert("Success", "Preferences were updated.");
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   // Handle Delete Preference
-  handleDeletePreference = preferenceKey => {
+  handleDeletePreference = (preferenceKey) => {
     // alert(`Delete ${preferenceKey} ==`);
 
     let timePreferences = this.state.timePreferences;
-    let updatedTimePreferences = timePreferences.filter(timePreference => {
+    let updatedTimePreferences = timePreferences.filter((timePreference) => {
       let isPreferenceLocal = !!timePreference.key;
       let isPreferenceFromDB = !!timePreference._id;
 
@@ -170,11 +172,11 @@ export default class EditPreferencesScreen extends Component {
 
   // Get Voluteering Types from DB
   getVolunteeringTypesFromDB = () => {
-    Axios.get(`${API_URL}/volunteering-type`)
-      .then(res => res.data)
-      .then(volunteeringTypesFromDB => {
+    apiCall("", "/volunteering-type", "GET")
+      .then((res) => res.data)
+      .then((volunteeringTypesFromDB) => {
         let volunteeringTypes = volunteeringTypesFromDB.map(
-          volunteeringType => volunteeringType.name
+          (volunteeringType) => volunteeringType.name
         );
         this.setState({ volunteeringTypes });
       });
@@ -207,7 +209,7 @@ export default class EditPreferencesScreen extends Component {
           selectedVolunteeringTypes: userDetails.preferences.volunteering_type,
           timePreferences: userDetails.availability.schedule,
           additionalSkill: userDetails.preferences.additional_skills,
-          userDetails
+          userDetails,
         });
       }
     });
@@ -224,7 +226,7 @@ export default class EditPreferencesScreen extends Component {
       preference,
       timePreferences,
       isModalVisible,
-      currentModalLabel
+      currentModalLabel,
     } = this.state;
 
     return (

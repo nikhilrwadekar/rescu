@@ -22,7 +22,7 @@ const Header = ({ name }) => {
         style={{
           fontSize: 14,
           color: "rgba(0, 0, 0, 0.5)",
-          fontFamily: "Quicksand-Medium"
+          fontFamily: "Quicksand-Medium",
         }}
       >
         Hello, {name}
@@ -31,7 +31,7 @@ const Header = ({ name }) => {
         style={{
           fontSize: 20,
           fontWeight: "bold",
-          fontFamily: "Quicksand-Bold"
+          fontFamily: "Quicksand-Bold",
         }}
       >
         Volunteering Opportunities For You
@@ -47,14 +47,14 @@ const OpportunityTaskCard = ({ opportunity }) => {
       style={{
         padding: 20,
         borderBottomLeftRadius: 10,
-        bottomBottomRightRadius: 10
+        bottomBottomRightRadius: 10,
       }}
     >
       <Text
         style={{
           fontSize: 25,
           color: "rgba(0, 0, 0, 0.75)",
-          fontFamily: "Quicksand-Medium"
+          fontFamily: "Quicksand-Medium",
         }}
       >
         {opportunity.opportunity_type}
@@ -64,7 +64,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
           style={{
             fontSize: 16,
             color: "rgba(0, 0, 0, 0.75)",
-            fontFamily: "OpenSans-Light"
+            fontFamily: "OpenSans-Light",
           }}
         >
           from {moment(opportunity.opportunity_time.start).format("hh:MM A")} to{" "}
@@ -75,7 +75,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
         style={{
           fontSize: 12,
           fontFamily: "OpenSans-Light",
-          color: "rgba(0, 0, 0, 0.5)"
+          color: "rgba(0, 0, 0, 0.5)",
         }}
       >
         {opportunity.name}
@@ -85,7 +85,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
           style={{
             color: "rgba(0, 0, 0, 0.6)",
             fontSize: 16,
-            fontFamily: "OpenSans-Light"
+            fontFamily: "OpenSans-Light",
           }}
         >
           needs {opportunity.opportunity_required} volunteer(s){" "}
@@ -95,7 +95,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
             style={{
               color: "rgba(0, 0, 0, 0.6)",
               fontSize: 16,
-              fontFamily: "OpenSans-Light"
+              fontFamily: "OpenSans-Light",
             }}
           >
             on {moment(opportunity.opportunity_date).format("Do MMMM YYYY")}
@@ -110,7 +110,7 @@ const OpportunityTaskCard = ({ opportunity }) => {
 const OpportunitySingleView = ({
   opportunity,
   onRequestPressed,
-  userEmail
+  userEmail,
 }) => {
   const getButtonTitle = () => {
     if (
@@ -144,7 +144,7 @@ const OpportunitySingleView = ({
           color: "rgba(0, 0, 0, 0.7)",
           fontSize: 16,
           flex: 1,
-          fontFamily: "Quicksand-Medium"
+          fontFamily: "Quicksand-Medium",
         }}
       >
         Opportunity Description
@@ -154,7 +154,7 @@ const OpportunitySingleView = ({
           color: "rgba(0, 0, 0, 0.7)",
           fontSize: 18,
           flex: 1,
-          fontFamily: "OpenSans-LightItalic"
+          fontFamily: "OpenSans-LightItalic",
         }}
       >
         {opportunity.opportunity_description}
@@ -166,7 +166,7 @@ const OpportunitySingleView = ({
           fontSize: 16,
           flex: 1,
           marginTop: 20,
-          fontFamily: "Quicksand-Medium"
+          fontFamily: "Quicksand-Medium",
         }}
       >
         Relief Center Description
@@ -176,7 +176,7 @@ const OpportunitySingleView = ({
           color: "rgba(0, 0, 0, 0.7)",
           fontSize: 18,
           flex: 1,
-          fontFamily: "OpenSans-LightItalic"
+          fontFamily: "OpenSans-LightItalic",
         }}
       >
         {opportunity.description}
@@ -191,8 +191,7 @@ export default class CardLayout extends Component {
     super(props);
 
     this.state = {
-      googleDetails: null,
-      userDetails: null
+      userDetails: null,
     };
   }
 
@@ -201,11 +200,6 @@ export default class CardLayout extends Component {
     const email = await AsyncStorage.getItem("userDetails");
     let userDetails = JSON.parse(email);
     this.setState({ userDetails });
-
-    // Google Sign In
-    const google = await AsyncStorage.getItem("googleSignInDetails");
-    let googleDetails = JSON.parse(google);
-    this.setState({ googleDetails });
 
     // Connecting to Sockets
     adminSocket.connect();
@@ -227,7 +221,7 @@ export default class CardLayout extends Component {
       <CardList
         // Indivual OpportunityTaskCard Styles
         cardContainerStyle={{
-          backgroundColor: "#fff"
+          backgroundColor: "#fff",
         }}
         // Single View OpportunityTaskCard Styles
         detailsContainerStyle={{}}
@@ -243,7 +237,7 @@ export default class CardLayout extends Component {
                   : "Unknown User"
               }
             />
-          )
+          ),
         }}
         data={reliefCenters}
         renderItem={({ item, index }) => {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Get API URL
-import { API_URL } from "../../API";
+import { API_URL, apiCall } from "../../API";
 
 import {
   Alert,
@@ -9,7 +9,7 @@ import {
   ScrollView,
   View,
   Text,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import PreferencesScreenTwoComponent from "../../components/PreferencesScreenTwoComponent";
 import Axios from "axios";
@@ -26,11 +26,11 @@ export default class PreferencesScreenTwo extends Component {
           city: "",
           country: "Canada",
           province: "",
-          postal_code: ""
+          postal_code: "",
         },
         availability: {
           type: "anytime",
-          schedule: []
+          schedule: [],
         },
         profile_picture_url: "https://source.unsplash.com/7uSrOyY1U0I/400x400",
         role: "volunteer", // Default
@@ -40,20 +40,20 @@ export default class PreferencesScreenTwo extends Component {
         contact_number: null,
         preferences: {
           volunteering_type: [],
-          additional_skills: ""
-        }
+          additional_skills: "",
+        },
         // New User Ends
       },
       termsCheck: false,
       additionalSkill: "",
       selectedVolunteeringTypes: [],
       // Get these from the DB (Name, Picture)
-      volunteeringTypes: []
+      volunteeringTypes: [],
     };
   }
 
   // If Volunteering Options Change..
-  onSelectionsChange = selectedVolunteeringTypes => {
+  onSelectionsChange = (selectedVolunteeringTypes) => {
     this.setState({ selectedVolunteeringTypes });
 
     // Updating nested state.. currently React does not support direct nested update
@@ -62,7 +62,7 @@ export default class PreferencesScreenTwo extends Component {
     this.setState({ newUser });
   };
 
-  handleAdditionalSkillOrService = additionalSkill => {
+  handleAdditionalSkillOrService = (additionalSkill) => {
     this.setState({ additionalSkill });
 
     // Updating nested state.. currently React does not support direct nested update
@@ -76,47 +76,46 @@ export default class PreferencesScreenTwo extends Component {
 
   // Get Voluteering Types from DB
   getVolunteeringTypesFromDB = () => {
-    Axios.get(`${API_URL}/volunteering-type`)
-      .then(res => res.data)
-      .then(volunteeringTypesFromDB => {
+    apiCall("", "/volunteering-type", "GET")
+      .then((res) => res.data)
+      .then((volunteeringTypesFromDB) => {
         let volunteeringTypes = volunteeringTypesFromDB.map(
-          volunteeringType => volunteeringType.name
+          (volunteeringType) => volunteeringType.name
         );
         this.setState({ volunteeringTypes });
       });
   };
 
   // Finally save the user in the DB.. get the token and log him/her in!
-  handleFinalSignUp = () => {
+  handleFinalSignUp = async () => {
     if (this.state.termsCheck) {
-      // console.log(this.state.newUser);
-      Axios.post(`${API_URL}/user/create`, {
-        ...this.state.newUser
-      })
-        .then(async res => {
-          const newUserData = res.data;
-          // When the user is created.. navigate to home with those details! Save them into Async email
-          AsyncStorage.setItem("userDetails", JSON.stringify(newUserData));
-          AsyncStorage.setItem("loginType", "email");
-          this.props.navigation.navigate("Home", { loginType: "email" });
-        })
-        .catch(err => {
-          console.log(err);
-          // Alert user that there was some error.. please try again.
-          Alert.alert("Something went wrong", "Please try again");
-        });
-    }
-    // else if (!this.state.selectedVolunteeringTypes.length)
-    //   Alert.alert(
-    //     "Volunteering Types",
-    //     "Please select at least one volunteering type of your choice."
-    //   );
-    else
+      console.log("Trying to go past apiCall...");
+
+      const response = await apiCall("", "/user/create", "POST", {
+        ...this.state.newUser,
+      });
+
+      console.log("Response:", response);
+      const newUserData = response.data;
+      // When the user is created.. navigate to home with those details! Save them into Async email
+      await AsyncStorage.setItem("userDetails", JSON.stringify(newUserData));
+
+      await AsyncStorage.setItem("loginType", "email");
+      this.props.navigation.navigate("Home");
+    } else
       Alert.alert(
         "Terms and Conditions",
         "Please accept terms and conditions to continue."
       );
+
+    try {
+    } catch (error) {
+      console.log(error);
+      // Alert user that there was some error.. please try again.
+      Alert.alert("Something went wrong", "Please try again");
+    }
   };
+
   // When on the final screen for Sign Up..
   async componentDidMount() {
     const { params } = this.props.navigation.state;

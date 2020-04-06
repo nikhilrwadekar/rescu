@@ -1,51 +1,33 @@
 import React, { Component } from "react";
 import {
   Text,
-  View,
   Button,
   StyleSheet,
   SafeAreaView,
-  FlatList
+  FlatList,
+  AsyncStorage,
 } from "react-native";
 import DisasterListItem from "../../../components/DisasterListItem";
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-// Axios
-import Axios from "axios";
-
-// API URL
-import { API_URL } from "../../../API";
+// API URL, API CALL
+import { apiCall } from "../../../API";
 
 export class DisasterListScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      disasters: [
-        // {
-        //   id: 1,
-        //   name: "Australian Bushfires",
-        //   city: "Mallacoota, Victoria",
-        //   country: "Australia",
-        //   description:
-        //     "Dozens of fires erupted in New South Wales, Australia, prompting the government to declare a state of emergency in November 2019. Fires rapidly spread across all states to become some of the most devastating on record. An area about the size of South Korea, roughly 25.5 million acres, has burned. At least 33 people are dead, including at least three volunteer firefighters, and more are missing. Around 3,000 homes have been destroyed or damaged. As blazes intensified in the days leading up to New Year’s Eve, thousands of people who were forced to evacuate sought shelter on beaches across New South Wales and Victoria.",
-        //   image_url: "https://source.unsplash.com/random",
-        //   donation: {
-        //     goal: 200000,
-        //     received: 110000
-        //   }
-        // }
-      ]
+      disasters: [],
     };
   }
 
-  componentDidMount() {
-    Axios.get(`${API_URL}/disaster`)
-      .then(res => res.data)
-      .then(disasters => this.setState({ disasters }));
+  async componentDidMount() {
+    const token = await AsyncStorage.getItem("accessToken");
+
+    apiCall(token, "/disaster", "GET")
+      .then((res) => res.data)
+      .then((disasters) => this.setState({ disasters }));
   }
 
   render() {
@@ -59,7 +41,7 @@ export class DisasterListScreen extends Component {
             marginTop: 25,
             fontSize: 25,
             fontFamily: "Quicksand-Medium",
-            color: "#383940"
+            color: "#383940",
           }}
         >
           Donate to a cause
@@ -67,7 +49,7 @@ export class DisasterListScreen extends Component {
 
         <FlatList
           style={{ flex: 1 }}
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           data={disasters}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -81,7 +63,7 @@ export class DisasterListScreen extends Component {
                     disaster_id: item._id,
                     disaster_title: item.name,
                     disaster_description: item.description,
-                    disaster_image: item.image_url
+                    disaster_image: item.image_url,
                   });
                 else if (type == "withoutID")
                   navigation.navigate("DonateSingleViewWithoutID", {
@@ -89,7 +71,7 @@ export class DisasterListScreen extends Component {
                     disaster_id: item._id,
                     disaster_title: item.name,
                     disaster_description: item.description,
-                    disaster_image: item.image_url
+                    disaster_image: item.image_url,
                   });
               }}
             >
@@ -119,19 +101,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 50,
-    backgroundColor: "#f7f7f7"
+    backgroundColor: "#f7f7f7",
     // textAlign: "center"
   },
   DisasterItem: {
     marginVertical: 15,
     borderRadius: 10,
-    borderColor: "black"
-  }
+    borderColor: "black",
+  },
 });
 
 DisasterListScreen.navigationOptions = {
   title: "Donate",
-  header: undefined
+  header: undefined,
 };
 
 export default DisasterListScreen;

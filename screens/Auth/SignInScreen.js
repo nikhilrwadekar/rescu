@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Get API URL
-import { API_URL } from "../../API";
+import { API_URL, apiCall } from "../../API";
 
 import {
   Text,
@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Image,
   AsyncStorage,
-  Alert
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
@@ -21,6 +21,10 @@ import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileCo
 // OAuth Providers + Expo
 import * as Google from "expo-google-app-auth";
 import * as Facebook from "expo-facebook";
+
+// OAuth + Passport Strategy
+import { AuthSession, Linking } from "expo";
+import * as WebBrowser from "expo-web-browser";
 
 import Axios from "axios";
 
@@ -35,7 +39,8 @@ export class SignInScreen extends Component {
   state = {
     email: "davinder@test.com",
     password: "secret",
-    isPasswordHidden: true
+    isPasswordHidden: true,
+    authResult: {},
   };
 
   // Google + Expo - OAuth (Please Implement Passport)
@@ -45,32 +50,36 @@ export class SignInScreen extends Component {
         iosClientId: GOOGLE_IOS_CLIENT_ID,
         androidClientId: GOOGLE_ANDROID_CLIENT_ID,
         // Get Profile Information and Email from Google
-        scopes: ["profile", "email"]
+        scopes: ["profile", "email"],
       });
 
       if (result.type === "success") {
         // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-        Axios.get(`${API_URL}/user/${result.user.email}`).then(async res => {
-          const user = res.data;
-
-          if (user) {
-            // Proceed with the login!
-            AsyncStorage.setItem("userDetails", JSON.stringify(user));
-            AsyncStorage.setItem("loginType", "google");
-            this.props.navigation.navigate("Home", { loginType: "google" });
-          } else {
-            // Take the user to the sign up screen! with details
-            await AsyncStorage.setItem("signUpType", "google");
-            this.props.navigation.navigate("PreferencesScreenOne", result);
-          }
-        });
-
-        // If doesn't.. prompt to Sign Up
-
-        // this.props.navigation.navigate("Home");
-
+        apiCall("", `/auth/login/google`, "POST", { token: result.accessToken })
+          .then((res) => res.data)
+          .then(async (userDetails) => {
+            // if User if found.. continue to login
+            if (userDetails.email) {
+              // Proceed with the login!
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+              await AsyncStorage.setItem(
+                "accessToken",
+                userDetails.accessToken
+              );
+              await AsyncStorage.setItem("loginType", "google");
+              this.props.navigation.navigate("Home", { loginType: "google" });
+            } else {
+              // Take the user to the sign up screen! with details
+              await AsyncStorage.setItem("signUpType", "google");
+              this.props.navigation.navigate("PreferencesScreenOne", result);
+            }
+          })
+          .catch((err) => console.log(err));
         // Return the Access Token
-        // return result.accessToken;
+        return result.accessToken;
       } else {
         return { cancelled: true };
       }
@@ -89,76 +98,57 @@ export class SignInScreen extends Component {
         token,
         expires,
         permissions,
-        declinedPermissions
+        declinedPermissions,
       } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", "email"]
+        permissions: ["public_profile", "email"],
       });
 
-      // console.log(test);
-
-      console.log(type);
       if (type === "success") {
-        // Get the user's name using Facebook's Graph API + Email
-        let axiosFBData = {};
-        let axiosFBEmail = {};
-        let axiosFBPicture = {};
-        // Get Name and ID
-        await Axios.get(`https://graph.facebook.com/me?access_token=${token}`)
-          .then(res => {
-            return res.data;
+        apiCall("", "/auth/login/facebook/", "POST", { token: token })
+          .then((res) => res.data)
+          .then(async (userDetails) => {
+            // if User if found.. continue to login
+            if (userDetails.email) {
+              // Proceed with the login!
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+              await AsyncStorage.setItem(
+                "accessToken",
+                userDetails.accessToken
+              );
+              await AsyncStorage.setItem("loginType", "facebook");
+              this.props.navigation.navigate("Home", { loginType: "facebook" });
+            } else {
+              // User not found!
+              // Get ID, Name, and Email!
+              const meResponse = await Axios.get(
+                `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`
+              );
+
+              const profilePicResponse = await Axios.get(
+                `https://graph.facebook.com/${meResponse.data.id}/picture?redirect=false&width=400&type=square`
+              );
+
+              // Make User Details ready for Preferences Screen One
+              const userDetails = {
+                facebook_id: meResponse.data.id,
+                name: meResponse.data.name,
+                email: meResponse.data.email,
+                profile_picture_url: profilePicResponse.data.data.url, // Get this!
+                token: token,
+              };
+
+              // Take the user to the sign up screen! with details
+              await AsyncStorage.setItem("signUpType", "facebook");
+              this.props.navigation.navigate(
+                "PreferencesScreenOne",
+                userDetails
+              );
+            }
           })
-          .then(data => {
-            axiosFBData = data;
-          });
-
-        // Get Email
-        await Axios.get(
-          `https://graph.facebook.com/${axiosFBData.id}?fields=email&access_token=${token}`
-        )
-          .then(res => {
-            return res.data;
-          })
-          .then(data => {
-            axiosFBEmail = data;
-          });
-
-        // Get Picture
-        await Axios.get(
-          `https://graph.facebook.com/${axiosFBData.id}/picture?redirect=false&width=400`
-        )
-          .then(res => {
-            return res.data;
-          })
-          .then(data => {
-            axiosFBPicture = data.data.url;
-          });
-
-        console.log(axiosFBPicture);
-        const userDetails = {
-          facebook_id: axiosFBData.id,
-          name: axiosFBData.name,
-          email: axiosFBEmail.email,
-          profile_picture_url: axiosFBPicture,
-          token: token
-        };
-
-        // If does exist.. update DB and log him/her in! Set stuff in AsyncStorage
-        Axios.get(`${API_URL}/user/${userDetails.email}`).then(async res => {
-          const user = res.data;
-
-          if (user) {
-            // Proceed with the login!
-            AsyncStorage.setItem("userDetails", JSON.stringify(user));
-            AsyncStorage.setItem("loginType", "facebook");
-            this.props.navigation.navigate("Home", { loginType: "facebook" });
-          } else {
-            // Take the user to the sign up screen! with details
-            await AsyncStorage.setItem("signUpType", "facebook");
-            this.props.navigation.navigate("PreferencesScreenOne", {
-              ...userDetails
-            });
-          }
-        });
+          .catch((err) => console.log(err));
       } else {
         // type === 'cancel'
       }
@@ -176,10 +166,10 @@ export class SignInScreen extends Component {
       // Post a login request to the Backend
       await Axios.post(`${API_URL}/auth/login`, {
         email: email,
-        password: password
+        password: password,
       })
-        .then(res => res.data)
-        .then(async data => {
+        .then((res) => res.data)
+        .then(async (data) => {
           if (data.role === "admin")
             Alert.alert(
               "Admin Account",
@@ -188,6 +178,7 @@ export class SignInScreen extends Component {
           else if (data.role === "volunteer") {
             await AsyncStorage.setItem("userDetails", JSON.stringify(data));
             await AsyncStorage.setItem("loginType", "email");
+            await AsyncStorage.setItem("accessToken", data.accessToken);
             this.props.navigation.navigate("Home", { loginType: "email" });
           } else if (data.status !== 200) {
             Alert.alert(
@@ -196,11 +187,8 @@ export class SignInScreen extends Component {
             );
           }
         })
-        .catch(err => {
-          Alert.alert(
-            "Could not login",
-            "Please make sure credentials are correct."
-          );
+        .catch((err) => {
+          Alert.alert("Could not login", "Something went wrong: " + err);
         });
     else {
       Alert.alert(
@@ -221,7 +209,7 @@ export class SignInScreen extends Component {
             style={{
               width: 200,
               height: 200,
-              resizeMode: "contain"
+              resizeMode: "contain",
             }}
             source={require("../../assets/images/outreach_logo.png")}
           ></Image>
@@ -239,13 +227,13 @@ export class SignInScreen extends Component {
                   paddingLeft: 10,
                   alignSelf: "center",
                   fontFamily: "OpenSans-Regular",
-                  fontSize: 15
+                  fontSize: 15,
                 }}
                 placeholder="monicageller@example.com"
                 autoCompleteType="email"
                 autoCapitalize="none"
                 keyboardType="email-address"
-                onChangeText={email => this.setState({ email })}
+                onChangeText={(email) => this.setState({ email })}
                 value={this.state.email}
               />
             </View>
@@ -259,12 +247,12 @@ export class SignInScreen extends Component {
                   alignSelf: "center",
                   fontFamily: "OpenSans-Regular",
                   paddingLeft: 10,
-                  fontSize: 15
+                  fontSize: 15,
                 }}
                 placeholder="Password"
                 autoCompleteType="password"
                 secureTextEntry={isPasswordHidden}
-                onChangeText={password => this.setState({ password })}
+                onChangeText={(password) => this.setState({ password })}
                 value={this.state.password}
               />
             </View>
@@ -326,7 +314,7 @@ export class SignInScreen extends Component {
                 style={{
                   fontSize: 18,
                   color: "#383940",
-                  fontFamily: "OpenSans-Regular"
+                  fontFamily: "OpenSans-Regular",
                 }}
               >
                 Don't have an account?{" "}
@@ -339,7 +327,7 @@ export class SignInScreen extends Component {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("DonateSelectCauseWithoutID", {
-                type: "withoutID"
+                type: "withoutID",
               });
             }}
           >
@@ -347,7 +335,7 @@ export class SignInScreen extends Component {
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
-                marginTop: 25
+                marginTop: 25,
                 // marginBottom: 45
               }}
             >
@@ -363,7 +351,7 @@ export class SignInScreen extends Component {
 }
 
 SignInScreen.navigationOptions = {
-  title: "Outreach"
+  title: "Outreach",
 };
 
 const styles = StyleSheet.create({
@@ -371,29 +359,29 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   socialButtonContainer: {
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   socialSignInButton: {
     width: 75,
-    height: 75
+    height: 75,
   },
   topContainer: {
-    alignItems: "center"
+    alignItems: "center",
   },
   middleContainer: {
-    flex: 1
+    flex: 1,
   },
   bottomContainer: {
-    height: 200
+    height: 200,
   },
   underLineTextContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 0
+    marginTop: 0,
   },
   underLineText: {
     fontSize: 18,
@@ -401,7 +389,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#383940",
     fontFamily: "Quicksand-Bold",
-    color: "#F27821"
+    color: "#F27821",
   },
 
   continueText: {
@@ -409,7 +397,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "OpenSans-Regular",
     color: "#383940",
-    marginBottom: 8
+    marginBottom: 8,
   },
   textWithEmailIconPlaceholder: {
     flexDirection: "row",
@@ -419,7 +407,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     height: 50,
-    marginTop: 25
+    marginTop: 25,
   },
   textWithPasswordIconPlaceholder: {
     flexDirection: "row",
@@ -429,10 +417,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     height: 50,
-    marginTop: 18
+    marginTop: 18,
   },
   iconPlaceHolder: {
-    width: 30
+    width: 30,
   },
   socialGoogleSignInButton: {
     width: 75,
@@ -440,7 +428,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D0422A",
     borderRadius: 12,
     paddingTop: 2,
-    paddingBottom: 2
+    paddingBottom: 2,
   },
   socialFacebookSignInButton: {
     width: 75,
@@ -448,7 +436,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B5998",
     borderRadius: 12,
     paddingTop: 2,
-    paddingBottom: 2
+    paddingBottom: 2,
   },
   socialTwitterSignInButton: {
     width: 75,
@@ -456,8 +444,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#3995C6",
     borderRadius: 12,
     paddingTop: 2,
-    paddingBottom: 2
-  }
+    paddingBottom: 2,
+  },
 });
 
 // Exporting

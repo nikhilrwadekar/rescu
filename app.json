@@ -4,7 +4,11 @@
     "slug": "outreach-react-native",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "config": {
@@ -24,6 +30,7 @@
           "reservedClientId": "com.googleusercontent.apps.458548322242-e39hntvdf192d6n9d34eei2p6lror4gl"
         }
       }
-    }
+    },
+    "description": ""
   }
 }
