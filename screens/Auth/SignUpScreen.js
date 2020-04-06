@@ -196,7 +196,8 @@ export class SignUpScreen extends Component {
       name.length > 2
     ) {
       // Check with DB if email is taken, or else proceed if fields are valid (Password: Strong; Name: Legible Enough)
-      Axios.get(`${API_URL}/user/${email}`)
+
+      apiCall("", `/user/${email}`, "GET")
         .then(async (res) => {
           if (res.data.userExists) {
             Alert.alert("Account Exists", `Please sign in.`, [
