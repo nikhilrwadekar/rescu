@@ -1,9 +1,11 @@
 import React from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
-import NotificationConfirmButton from "./NotificationConfirmButton";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+// Importing Outreach custom component
+import OptOutButtonComponent from "./OptOutButtonComponent";
+
+// Importing icons
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Test Comment
 const AssignedTaskCardComponent = ({
@@ -16,51 +18,72 @@ const AssignedTaskCardComponent = ({
   newKey,
 }) => (
   <View style={styles.container}>
+    {/* Title */}
     <View style={styles.Rone}>
       <Text style={styles.jobType}>{jobType}</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        <AntDesign
-          name="calendar"
-          size={18}
-          color="#F27821"
-          style={styles.nextIcon}
-        />
-        <Text style={styles.date}>{date}</Text>
-      </View>
     </View>
 
+    {/* Location */}
     <Text style={styles.location}>{location}</Text>
 
+    {/* Date Time Opt Out */}
     <View
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingTop: 12
+        alignContent: "center",
+        paddingTop: 25,
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        <Ionicons
-          name="ios-timer"
-          size={18}
-          color="#F27821"
-          style={styles.nextIcon}
-        />
-        <Text style={styles.time}>{time}</Text>
+      {/* Date Time */}
+      <View>
+        {/* Date */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+
+            paddingBottom: 0,
+            marginBottom: 0,
+          }}
+        >
+          <View style={{ width: 20, alignItems: "center" }}>
+            <AntDesign
+              name="calendar"
+              size={18}
+              color="#F27821"
+              style={styles.nextIcon}
+            />
+          </View>
+
+          <Text style={styles.date}>{date}</Text>
+        </View>
+        {/* Time */}
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ width: 20, alignItems: "center" }}>
+            <Ionicons
+              name="ios-timer"
+              size={18}
+              color="#F27821"
+              style={styles.nextIcon}
+            />
+          </View>
+
+          <Text style={styles.time}>{time}</Text>
+        </View>
       </View>
-      <NotificationConfirmButton
+
+      {/* Opt Out */}
+      <OptOutButtonComponent
         buttonText="Opt Out"
         onPressUpdate={onPressOptOut}
       />
@@ -90,19 +113,16 @@ const styles = StyleSheet.create({
   Rone: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingBottom: 10,
+    // paddingBottom: 10,
   },
 
   jobType: {
-    // fontFamily: "Segoe UI"
-    // color:"red"
     fontSize: 18,
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
   },
   date: {
-    // color: "#3672BC"
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
     paddingLeft: 5,
@@ -114,12 +134,13 @@ const styles = StyleSheet.create({
     width: 80,
   },
   location: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-LightItalic",
     color: "#383940",
     fontSize: 15,
+    opacity: 0.7,
   },
   time: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
     paddingLeft: 5,

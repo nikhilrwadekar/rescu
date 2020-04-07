@@ -90,66 +90,64 @@ class UpcomingTasksComponent extends Component {
   render() {
     const { assignedTasks } = this.state;
     return (
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
-        }
-        style={[styles.scene, { backgroundColor: "#fff" }]}
-      >
-        {assignedTasks &&
-          assignedTasks.map((taskCard, taskIndex) => {
-            const {
-              _id,
-              name,
-              location,
-              job_type,
-              job_id,
-              job_date,
-              job_start_time,
-              job_end_time,
-            } = taskCard;
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
+          }
+          style={[styles.scene, { backgroundColor: "#fff" }]}
+        >
+          {assignedTasks &&
+            assignedTasks.map((taskCard, taskIndex) => {
+              const {
+                _id,
+                name,
+                location,
+                job_type,
+                job_id,
+                job_date,
+                job_start_time,
+                job_end_time,
+              } = taskCard;
 
-            return (
-              <AssignedTaskCardComponent
-                time={`${moment(job_start_time).format("hh:MM A")} - ${moment(
-                  job_end_time
-                ).format("hh:MM A")}`}
-                newKey={job_id}
-                buttonText="Opt Out"
-                date={moment(job_date).format("DD/MM/YYYY")}
-                jobType={job_type}
-                location={location}
-                onPressOptOut={() => {
-                  Alert.alert(
-                    "Opt Out?",
-                    "You're about to opt out",
-                    [
-                      {
-                        text: "Yes, please.",
-                        onPress: () => this.handleOptOut(job_id),
-                      },
-                      {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel",
-                      },
-                    ],
-                    { cancelable: false }
-                  );
-                }}
-              />
-            );
-          })}
-      </ScrollView>
+              return (
+                <AssignedTaskCardComponent
+                  time={`${moment(job_start_time).format("hh:MM A")} - ${moment(
+                    job_end_time
+                  ).format("hh:MM A")}`}
+                  newKey={job_id}
+                  buttonText="Opt Out"
+                  date={moment(job_date).format("Do MMMM")}
+                  jobType={job_type}
+                  location={location}
+                  onPressOptOut={() => {
+                    Alert.alert(
+                      "Opt Out?",
+                      "You're about to opt out",
+                      [
+                        {
+                          text: "Yes, please.",
+                          onPress: () => this.handleOptOut(job_id),
+                        },
+                        {
+                          text: "Cancel",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel",
+                        },
+                      ],
+                      { cancelable: false }
+                    );
+                  }}
+                />
+              );
+            })}
+        </ScrollView>
     );
   }
 }
 
 // Right Tab: History
 const HistoryComponent = () => (
-  <View
-    style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
-  />
+  <View style={[styles.scene, { backgroundColor: "#fff", paddingTop: 20 }]} />
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
