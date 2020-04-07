@@ -26,7 +26,7 @@ export default class CustomHeader extends React.Component {
   render() {
     let { xTabOne, xTabTwo, translateX } = this.state;
     return (
-      <View>
+      <View style={{ backgroundColor: "#fff" }}>
         {/* Removed flex: 1 */}
         <View
           style={{

@@ -116,7 +116,7 @@ class UpcomingTasksComponent extends Component {
                 ).format("hh:MM A")}`}
                 newKey={job_id}
                 buttonText="Opt Out"
-                date={moment(job_date).format("DD/MM/YYYY")}
+                date={moment(job_date).format("Do MMMM")}
                 jobType={job_type}
                 location={location}
                 onPressOptOut={() => {
@@ -147,9 +147,7 @@ class UpcomingTasksComponent extends Component {
 
 // Right Tab: History
 const HistoryComponent = () => (
-  <View
-    style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
-  />
+  <View style={[styles.scene, { backgroundColor: "#fff", paddingTop: 20 }]} />
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
