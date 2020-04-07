@@ -5,7 +5,6 @@ import NotificationConfirmButton from "./NotificationConfirmButton";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-
 // Test Comment
 const AssignedTaskCardComponent = ({
   jobType,
@@ -14,7 +13,7 @@ const AssignedTaskCardComponent = ({
   time,
   buttonText,
   onPressOptOut,
-  newKey
+  newKey,
 }) => (
   <View style={styles.container}>
     <View style={styles.Rone}>
@@ -23,7 +22,7 @@ const AssignedTaskCardComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <AntDesign
@@ -50,7 +49,7 @@ const AssignedTaskCardComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Ionicons
@@ -61,16 +60,16 @@ const AssignedTaskCardComponent = ({
         />
         <Text style={styles.time}>{time}</Text>
       </View>
-      <NotificationConfirmButton buttonText="Opt Out" onPressUpdate={onPressOptOut}/>
-
-
+      <NotificationConfirmButton
+        buttonText="Opt Out"
+        onPressUpdate={onPressOptOut}
+      />
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    
     padding: 10,
     marginTop: 2,
     marginLeft: 20,
@@ -83,15 +82,15 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowRadius: 2,
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   Rone: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingBottom: 10
+    paddingBottom: 10,
   },
 
   jobType: {
@@ -99,33 +98,32 @@ const styles = StyleSheet.create({
     // color:"red"
     fontSize: 18,
     fontFamily: "OpenSans-Regular",
-    color: "#383940"
+    color: "#383940",
   },
   date: {
     // color: "#3672BC"
     fontFamily: "OpenSans-Regular",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   btn: {
     color: "white",
 
     height: 40,
-    width: 80
+    width: 80,
   },
   location: {
     fontFamily: "OpenSans-Regular",
     color: "#383940",
-    fontSize: 15
+    fontSize: 15,
   },
   time: {
     fontFamily: "OpenSans-Regular",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
-  }
- 
+    paddingLeft: 5,
+  },
 });
 
 export default AssignedTaskCardComponent;
