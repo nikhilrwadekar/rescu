@@ -89,10 +89,14 @@ export default class CustomHeader extends React.Component {
                 style={{
                   // Update colors based on current Tab
                   color: this.props.currentTab === 0 ? "#fff" : "#A9A9A9",
-                  fontFamily: "Quicksand-Bold",
+                  fontFamily:
+                    this.props.currentTab === 0
+                      ? "Quicksand-Bold"
+                      : "Quicksand-Medium",
+                  fontSize: 18,
                 }}
               >
-                Upcoming Tasks
+                Upcoming
               </Text>
             </TouchableOpacity>
 
@@ -123,7 +127,11 @@ export default class CustomHeader extends React.Component {
                 style={{
                   // Update colors based on current Tab
                   color: this.props.currentTab === 1 ? "#fff" : "#A9A9A9",
-                  fontFamily: "Quicksand-Bold",
+                  fontFamily:
+                    this.props.currentTab === 1
+                      ? "Quicksand-Bold"
+                      : "Quicksand-Medium",
+                  fontSize: 18,
                 }}
               >
                 History
