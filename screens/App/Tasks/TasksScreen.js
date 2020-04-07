@@ -24,6 +24,7 @@ import moment from "moment";
 
 // Custom Outreach Components
 import AssignedTaskCardComponent from "../../../components/AssignedTaskCardComponent";
+import CustomHeader from "../../../components/CustomHeader";
 
 // Left Tab: Upcoming
 class UpcomingTasksComponent extends Component {
@@ -115,7 +116,7 @@ class UpcomingTasksComponent extends Component {
                 ).format("hh:MM A")}`}
                 newKey={job_id}
                 buttonText="Opt Out"
-                date={moment(job_date).format("DD/MM/YYYY")}
+                date={moment(job_date).format("Do MMMM")}
                 jobType={job_type}
                 location={location}
                 onPressOptOut={() => {
@@ -146,9 +147,7 @@ class UpcomingTasksComponent extends Component {
 
 // Right Tab: History
 const HistoryComponent = () => (
-  <View
-    style={[styles.scene, { backgroundColor: "#f7f7f7", paddingTop: 20 }]}
-  />
+  <View style={[styles.scene, { backgroundColor: "#fff", paddingTop: 20 }]} />
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -170,18 +169,26 @@ export default class TasksScreen extends Component {
     };
   }
 
+  // Handle the Custom Tab Header Press
+  handleTabHeaderPress = (index) => {
+    this.setState({ index });
+  };
+
   render() {
     const { index, routes } = this.state;
     return (
       <TabView
+        renderTabBar={(props) => (
+          <CustomHeader
+            onTabHeaderPress={this.handleTabHeaderPress}
+            currentTab={index}
+          />
+        )}
         navigationState={{ index, routes }}
         indicatorStyle={{ backgroundColor: "white", color: "red" }}
-        style={{ backgroundColor: "pink" }}
-        renderLabel={({ route, focused, color }) => (
-          <Text style={{ color, margin: 8 }}>{route.title}</Text>
-        )}
         renderScene={renderScene}
         onIndexChange={(index) => {
+          console.log(index);
           this.setState({ index });
         }}
         initialLayout={initialLayout}

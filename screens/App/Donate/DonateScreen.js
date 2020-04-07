@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
 import ExpirationCVVComponent from "../../../components/credit_card_details/ExpirationCVVComponent";
 import CardHolderNameComponent from "../../../components/credit_card_details/CardHolderNameComponent";
@@ -12,7 +12,7 @@ export default class DonateScreen extends Component {
     super(props);
 
     this.state = {
-      initialAmount: 200,
+      amount: 200,
       question: "How much would you like to Donate?",
       currency: "$",
 
@@ -20,48 +20,48 @@ export default class DonateScreen extends Component {
       values: [
         {
           text: "$5",
-          value: "5"
+          value: "5",
         },
         {
           text: "$20",
-          value: "20"
+          value: "20",
         },
         {
           text: "$50",
-          value: "50"
+          value: "50",
         },
         {
           text: "$100",
-          value: "100"
-        }
-      ]
+          value: "100",
+        },
+      ],
     };
   }
 
   // If user decides to type in the Donation Amount
-  handleDonationChange = newValue => {
+  handleDonationChange = (newValue) => {
     this.setState({
-      initialAmount: parseInt(newValue)
+      amount: parseInt(newValue ? newValue : 0),
     });
     console.log(newValue);
   };
 
   render() {
     // Destructuring the State
-    const { initialAmount, question, currency } = this.state;
+    const { amount, question, currency } = this.state;
     const { values } = this.state;
 
     // Params from Navigation
     const { params } = this.props.navigation.state;
     const { type } = params;
 
-    const renderedButtons = values.map(b => {
+    const renderedButtons = values.map((b) => {
       return (
         <DonationValueButtonComponent
           key={b.text}
           buttonText={b.text}
           onPressUpdate={() => {
-            this.setState({ initialAmount: b.value });
+            this.setState({ amount: b.value });
             console.log(b.value);
           }}
         />
@@ -79,7 +79,7 @@ export default class DonateScreen extends Component {
               marginBottom: 20,
               fontSize: 25,
               fontFamily: "Quicksand-Medium",
-              color: "#383940"
+              color: "#383940",
             }}
           >
             Donate
@@ -88,7 +88,7 @@ export default class DonateScreen extends Component {
           {/* Donation statement */}
           <DonationAmountComponent
             question={question}
-            initialAmount={initialAmount.toString()}
+            initialAmount={amount.toString()}
             currency={currency}
             onChangeDonationValue={this.handleDonationChange}
           />
@@ -101,7 +101,7 @@ export default class DonateScreen extends Component {
               marginTop: 30,
               marginLeft: 25,
               marginRight: 25,
-              marginBottom: 30
+              marginBottom: 30,
             }}
           >
             {renderedButtons}
@@ -121,16 +121,18 @@ export default class DonateScreen extends Component {
             buttonText="Confirm"
             customStyle={{ marginTop: 30, marginBottom: 40 }}
             onPressUpdate={() => {
-              if (type == "withID") {
+              if (type == "withID" && amount > 0) {
                 this.props.navigation.navigate("DonateSuccessWithID", {
                   type: "withID",
-                  data: { amount: initialAmount }
+                  data: { amount: amount },
                 });
-              } else if (type == "withoutID") {
+              } else if (type == "withoutID" && amount > 0) {
                 this.props.navigation.navigate("DonateSuccessWithoutID", {
                   type: "withoutID",
-                  data: { amount: initialAmount }
+                  data: { amount: amount },
                 });
+              } else {
+                Alert.alert("Invalid Amount", "Amount is set to 0");
               }
             }}
           />
@@ -149,14 +151,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     textAlign: "center",
-    backgroundColor: "#f7f7f7"
+    backgroundColor: "#f7f7f7",
   },
   btnStyle: {
     marginLeft: 40,
-    marginTop: 20
+    marginTop: 20,
   },
   customDonate: {
     marginLeft: 30,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });

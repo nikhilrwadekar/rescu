@@ -1,7 +1,27 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
+
+const getIcon = (confirmDeclineIcon) => {
+  switch (confirmDeclineIcon) {
+    case "Admin Approved":
+      return <Feather size={18} color="#f27821" name="check-circle" />;
+
+    case "Admin Declined":
+      return <Feather size={18} color="" name="x-circle" />;
+
+    case "Volunteer Declined":
+      return <Feather size={18} color="" name="x-circle" />;
+
+    case "Opted Out":
+      return <Feather size={18} color="" name="x-circle" />;
+
+    case "Opted In":
+      return <Feather size={18} color="#f27821" name="check-circle" />;
+    default:
+    // code block
+  }
+};
 
 const NotificationFromAdminComponent = ({
   jobType,
@@ -21,11 +41,11 @@ const NotificationFromAdminComponent = ({
       style={{
         flexDirection: "row",
         justifyContent: "flex-start",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       {/* Confirm or Decline Icon */}
-      <View>{confirmDeclineIcon}</View>
+      <View>{getIcon(confirmDeclineStatus)}</View>
 
       <Text style={[styles.crfmDecStatus, confirmDeclineColor]} {...rest}>
         {confirmDeclineStatus}
@@ -48,7 +68,7 @@ const NotificationFromAdminComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <AntDesign
@@ -65,7 +85,7 @@ const NotificationFromAdminComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Ionicons
@@ -95,50 +115,50 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowRadius: 2,
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   dateTimeContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 8
+    paddingTop: 8,
   },
   jobType: {
     fontSize: 17,
-    fontFamily: "OpenSans-Regular",
-    color: "#383940"
+    fontFamily: "OpenSans-Light",
+    color: "#383940",
   },
   location: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
-    fontSize: 15
+    fontSize: 15,
   },
   address: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-LightItalic",
     color: "#A9A9A9",
-    fontSize: 15
+    fontSize: 15,
   },
   jobTime: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   date: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   crfmDecStatus: {
     fontSize: 20,
     fontFamily: "Quicksand-Medium",
     // color: "#F27821",
-    paddingLeft: 5
-  }
+    paddingLeft: 5,
+  },
 });
 
 // Exporting
