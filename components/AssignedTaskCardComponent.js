@@ -34,8 +34,7 @@ const AssignedTaskCardComponent = ({
         alignItems: "center",
         alignContent: "center",
         paddingTop: 25,
-      }}
-    >
+      }}>
       {/* Date Time */}
       <View>
         {/* Date */}
@@ -47,8 +46,7 @@ const AssignedTaskCardComponent = ({
 
             paddingBottom: 0,
             marginBottom: 0,
-          }}
-        >
+          }}>
           <View style={{ width: 20, alignItems: "center" }}>
             <AntDesign
               name="calendar"
@@ -61,25 +59,25 @@ const AssignedTaskCardComponent = ({
           <Text style={styles.date}>{date}</Text>
         </View>
         {/* Time */}
+        {time !== "" && (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}>
+            <View style={{ width: 20, alignItems: "center" }}>
+              <Ionicons
+                name="ios-timer"
+                size={18}
+                color="#F27821"
+                style={styles.nextIcon}
+              />
+            </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
-          <View style={{ width: 20, alignItems: "center" }}>
-            <Ionicons
-              name="ios-timer"
-              size={18}
-              color="#F27821"
-              style={styles.nextIcon}
-            />
+            <Text style={styles.time}>{time}</Text>
           </View>
-
-          <Text style={styles.time}>{time}</Text>
-        </View>
+        )}
       </View>
 
       {/* Opt Out */}

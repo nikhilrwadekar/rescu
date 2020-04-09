@@ -142,10 +142,18 @@ export default class NotificationScreen extends Component {
           jobType={request.job_type}
           notificationTime={request.notificationTime}
           location={request.location}
-          date={moment(request.job_date).format("Do MMMM YYYY")}
-          jobTime={`${moment(request.job_start_time).format(
-            "hh:MM A"
-          )} to ${moment(request.job_end_time).format("hh:MM A")}`}
+          date={
+            request.job_date
+              ? moment(request.job_date).format("Do MMMM YYYY")
+              : "Any time"
+          }
+          jobTime={
+            request.job_date
+              ? `${moment(request.job_start_time).format(
+                  "hh:MM A"
+                )} to ${moment(request.job_end_time).format("hh:MM A")}`
+              : ""
+          }
           onPressConfirm={() => this.handleAcceptRequest(request.job_id)}
           onPressDecline={() => this.handleDeclineRequest(request.job_id)}
         />
@@ -174,8 +182,7 @@ export default class NotificationScreen extends Component {
           refreshControl={
             <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
           }
-          style={{ paddingTop: 20 }}
-        >
+          style={{ paddingTop: 20 }}>
           {renderedNotifications}
           {renderedConfirmations}
         </ScrollView>
