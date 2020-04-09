@@ -277,7 +277,7 @@ export class SignInScreen extends Component {
             {/* Google social button */}
             <TouchableOpacity onPress={this.signInWithGoogle}>
               <Image
-                style={{ width: 60, height: 60 }}
+                style={{ width: 60, height: 65 }}
                 source={require("../../assets/images/google.png")}
               />
             </TouchableOpacity>
@@ -285,16 +285,8 @@ export class SignInScreen extends Component {
             {/* Facebook social button */}
             <TouchableOpacity onPress={this.signInWithFacebook}>
               <Image
-                style={{ width: 70, height: 70 }}
+                style={{ width: 70, height: 60 }}
                 source={require("../../assets/images/facebook.png")}
-              />
-            </TouchableOpacity>
-
-            {/* Twitter social button */}
-            <TouchableOpacity onPress={this.signInWithGoogle}>
-              <Image
-                style={{ width: 70, height: 70 }}
-                source={require("../../assets/images/twitter.png")}
               />
             </TouchableOpacity>
           </View>
@@ -363,7 +355,7 @@ const styles = StyleSheet.create({
   },
   socialButtonContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
   },
   socialSignInButton: {
     width: 75,

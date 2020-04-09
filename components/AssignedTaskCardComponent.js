@@ -1,9 +1,11 @@
 import React from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
-import NotificationConfirmButton from "./NotificationConfirmButton";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+// Importing Outreach custom component
+import OptOutButtonComponent from "./OptOutButtonComponent";
+
+// Importing icons
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 // Test Comment
 const AssignedTaskCardComponent = ({
@@ -81,7 +83,7 @@ const AssignedTaskCardComponent = ({
       </View>
 
       {/* Opt Out */}
-      <NotificationConfirmButton
+      <OptOutButtonComponent
         buttonText="Opt Out"
         onPressUpdate={onPressOptOut}
       />
@@ -115,14 +117,11 @@ const styles = StyleSheet.create({
   },
 
   jobType: {
-    // fontFamily: "Segoe UI"
-    // color:"red"
     fontSize: 18,
     fontFamily: "OpenSans-Light",
     color: "#383940",
   },
   date: {
-    // color: "#3672BC"
     fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
