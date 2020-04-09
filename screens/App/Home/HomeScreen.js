@@ -29,7 +29,7 @@ export default class HomeScreen extends Component {
   }
 
   getTasks = async () => {
-    apiCall(`/user/opportunities`)
+    apiCall(this.state.userDetails.accessToken, "/user/opportunities", "GET")
       .then((response) => response.data)
       .then((responseJson) => {
         const reliefCenters = responseJson.map((reliefCenter) => {
