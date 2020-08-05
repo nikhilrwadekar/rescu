@@ -6,6 +6,7 @@ import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfil
 
 // Lottie
 import LottieView from "lottie-react-native";
+import { ScrollView } from "react-native-gesture-handler";
 export class DonationSuccessScreen extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,7 @@ export class DonationSuccessScreen extends Component {
       thanksText: "Thank you!",
       currency: "$",
       donationAmount: "120",
-      donationCmfText: "Your donation was successful!"
+      donationCmfText: "Your donation was successful!",
     };
   }
 
@@ -34,7 +35,7 @@ export class DonationSuccessScreen extends Component {
     try {
       const result = await Share.share({
         message:
-          "React Native | A framework for building native apps using React"
+          "React Native | A framework for building native apps using React",
       });
 
       if (result.action === Share.sharedAction) {
@@ -63,9 +64,10 @@ export class DonationSuccessScreen extends Component {
     const { amount } = this.props.navigation.state.params.data;
     return (
       <View style={styles.container}>
+        <ScrollView>
         <Text style={styles.thankyouText}>Thank you!</Text>
         <LottieView
-          ref={animation => {
+          ref={(animation) => {
             this.animation = animation;
           }}
           style={{
@@ -73,7 +75,7 @@ export class DonationSuccessScreen extends Component {
             height: 200,
             backgroundColor: "",
             alignSelf: "center",
-            marginTop: 5
+            marginTop: 5,
           }}
           source={require("../../../assets/lottie-animations/piggyDonation.json")}
           // OR find more Lottie files @ https://lottiefiles.com/featured
@@ -112,13 +114,14 @@ export class DonationSuccessScreen extends Component {
             />
           </View>
         )}
+        </ScrollView>
       </View>
     );
   }
 }
 
 DonationSuccessScreen.navigationOptions = {
-  title: "Success"
+  title: "Success",
 };
 
 // Styles
@@ -126,20 +129,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     textAlign: "center",
-    backgroundColor: "#f7f7f7"
+    backgroundColor: "#f7f7f7",
   },
   thankyouText: {
     textAlign: "center",
-    marginTop: 40,
+    marginTop: "5 %",
     fontFamily: "Quicksand-SemiBold",
     fontSize: 40,
-    color: "#F27821"
+    color: "#F27821",
   },
   buttonConfirm: {
-    marginTop: 17
+    marginTop: 17,
   },
   buttonShare: {
-    marginTop: 20
+    marginTop: 20,
   },
   encouragingText: {
     fontSize: 20,
@@ -148,7 +151,7 @@ const styles = StyleSheet.create({
     color: "#383940",
     marginLeft: 15,
     marginRight: 15,
-    marginTop: 60
-  }
+    marginTop: "8%",
+  },
 });
 export default DonationSuccessScreen;

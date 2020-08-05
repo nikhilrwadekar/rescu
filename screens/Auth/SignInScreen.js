@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
 
@@ -204,138 +204,144 @@ export class SignInScreen extends Component {
     return (
       // Main Container ->
       <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Image
-            style={{
-              width: 200,
-              height: 200,
-              resizeMode: "contain",
-            }}
-            source={require("../../assets/images/outreach_logo.png")}
-          ></Image>
-        </View>
-
-        {/* Vertically Centered Container - Starts */}
-        <View style={styles.middleContainer}>
-          <View>
-            <View style={styles.textWithEmailIconPlaceholder}>
-              <Icon style={styles.iconPlaceHolder} size={20} name="envelope" />
-              <TextInput
-                style={{
-                  height: 40,
-                  width: 320,
-                  paddingLeft: 10,
-                  alignSelf: "center",
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                }}
-                placeholder="monicageller@example.com"
-                autoCompleteType="email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                onChangeText={(email) => this.setState({ email })}
-                value={this.state.email}
-              />
-            </View>
-            <View style={styles.textWithPasswordIconPlaceholder}>
-              <Icon style={styles.iconPlaceHolder} size={25} name="lock" />
-
-              <TextInput
-                style={{
-                  height: 40,
-                  width: 320,
-                  alignSelf: "center",
-                  fontFamily: "OpenSans-Regular",
-                  paddingLeft: 10,
-                  fontSize: 15,
-                }}
-                placeholder="Password"
-                autoCompleteType="password"
-                secureTextEntry={isPasswordHidden}
-                onChangeText={(password) => this.setState({ password })}
-                value={this.state.password}
-              />
-            </View>
-
-            {/* Login button */}
-            <UpdateButtonProfileComponent
-              buttonText="Log In"
-              customStyle={{ marginTop: 35, marginBottom: 40 }}
-              onPressUpdate={this.handleEmailLogin}
-            />
-          </View>
-          {/* Social Login Buttons - Start */}
-
-          <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>or continue with</Text>
+        <ScrollView>
+          <View style={styles.topContainer}>
+            <Image
+              style={{
+                width: 120,
+                height: 120,
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/images/outreach_logo.png")}
+            ></Image>
           </View>
 
-          <View style={styles.socialButtonContainer}>
-            {/* <SocialIcon onPress={this.signInWithGoogle} raised type="google" />
+          {/* Vertically Centered Container - Starts */}
+          <View style={styles.middleContainer}>
+            <View>
+              <View style={styles.textWithEmailIconPlaceholder}>
+                <Icon
+                  style={styles.iconPlaceHolder}
+                  size={20}
+                  name="envelope"
+                />
+                <TextInput
+                  style={{
+                    height: 40,
+                    width: "80%",
+                    paddingLeft: 10,
+                    alignSelf: "center",
+                    fontFamily: "OpenSans-Regular",
+                    fontSize: 15,
+                  }}
+                  placeholder="monicageller@example.com"
+                  autoCompleteType="email"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  onChangeText={(email) => this.setState({ email })}
+                  value={this.state.email}
+                />
+              </View>
+              <View style={styles.textWithPasswordIconPlaceholder}>
+                <Icon style={styles.iconPlaceHolder} size={25} name="lock" />
+
+                <TextInput
+                  style={{
+                    height: 40,
+                    width: "80%",
+                    alignSelf: "center",
+                    fontFamily: "OpenSans-Regular",
+                    paddingLeft: 10,
+                    fontSize: 15,
+                  }}
+                  placeholder="Password"
+                  autoCompleteType="password"
+                  secureTextEntry={isPasswordHidden}
+                  onChangeText={(password) => this.setState({ password })}
+                  value={this.state.password}
+                />
+              </View>
+
+              {/* Login button */}
+              <UpdateButtonProfileComponent
+                buttonText="Log In"
+                customStyle={{ marginTop: 35, marginBottom: "6%" }}
+                onPressUpdate={this.handleEmailLogin}
+              />
+            </View>
+            {/* Social Login Buttons - Start */}
+
+            <View style={styles.continueTextContainer}>
+              <Text style={styles.continueText}>or continue with</Text>
+            </View>
+
+            <View style={styles.socialButtonContainer}>
+              {/* <SocialIcon onPress={this.signInWithGoogle} raised type="google" />
             <SocialIcon raised type="facebook" /> */}
 
-            {/* Google social button */}
-            <TouchableOpacity onPress={this.signInWithGoogle}>
-              <Image
-                style={{ width: 60, height: 65 }}
-                source={require("../../assets/images/google.png")}
-              />
-            </TouchableOpacity>
+              {/* Google social button */}
+              <TouchableOpacity onPress={this.signInWithGoogle}>
+                <Image
+                  style={{ width: 60, height: 65 }}
+                  source={require("../../assets/images/google.png")}
+                />
+              </TouchableOpacity>
 
-            {/* Facebook social button */}
-            <TouchableOpacity onPress={this.signInWithFacebook}>
-              <Image
-                style={{ width: 70, height: 60 }}
-                source={require("../../assets/images/facebook.png")}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* Social Login Buttons - End */}
-        </View>
-        {/* Vertically Centered Container - Ends */}
-        {/* Bottom Container - Starts */}
-        <View style={styles.bottomContainer}>
-          {/* Go Back to Login */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("SignUp");
-            }}
-          >
-            <View style={styles.underLineTextContainer}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: "#383940",
-                  fontFamily: "OpenSans-Regular",
-                }}
-              >
-                Don't have an account?{" "}
-              </Text>
-              <Text style={styles.underLineText}>Sign Up</Text>
+              {/* Facebook social button */}
+              <TouchableOpacity onPress={this.signInWithFacebook}>
+                <Image
+                  style={{ width: 70, height: 60 }}
+                  source={require("../../assets/images/facebook.png")}
+                />
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-
-          {/* Skip to Donate */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("DonateSelectCauseWithoutID", {
-                type: "withoutID",
-              });
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 25,
-                // marginBottom: 45
+            {/* Social Login Buttons - End */}
+          </View>
+          {/* Vertically Centered Container - Ends */}
+          {/* Bottom Container - Starts */}
+          <View style={styles.bottomContainer}>
+            {/* Go Back to Login */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("SignUp");
               }}
             >
-              <Text style={styles.underLineText}>Skip to Donate</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        {/* Bottom Container - Ends */}
+              <View style={styles.underLineTextContainer}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "#383940",
+                    fontFamily: "OpenSans-Regular",
+                  }}
+                >
+                  Don't have an account?{" "}
+                </Text>
+                <Text style={styles.underLineText}>Sign Up</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Skip to Donate */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("DonateSelectCauseWithoutID", {
+                  type: "withoutID",
+                });
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: 25,
+                  // marginBottom: 45
+                }}
+              >
+                <Text style={styles.underLineText}>Skip to Donate</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          {/* Bottom Container - Ends */}
+        </ScrollView>
       </View>
       // <- Main Container
     );
@@ -373,7 +379,7 @@ const styles = StyleSheet.create({
   underLineTextContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 0,
+    marginTop: "5%",
   },
   underLineText: {
     fontSize: 18,

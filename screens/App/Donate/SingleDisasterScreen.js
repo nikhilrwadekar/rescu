@@ -120,7 +120,7 @@ export default class SingleDisasterScreen extends Component {
               paddingLeft: 30,
               paddingRight: 30,
               // marginTop: 5,
-              // marginBottom: 5
+              marginBottom: "10%",
             }}
           >
             {disaster_description}

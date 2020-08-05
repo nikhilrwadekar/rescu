@@ -20,7 +20,7 @@ import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileCo
 import * as Google from "expo-google-app-auth";
 import * as Facebook from "expo-facebook";
 
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import Axios from "axios";
 
 const GOOGLE_IOS_CLIENT_ID =
@@ -218,179 +218,181 @@ export class SignUpScreen extends Component {
     return (
       // Main Container ->
       <View style={styles.container}>
-        {/* Top Container for Logo */}
-        <View style={styles.topContainer}>
-          <Image
-            style={{
-              width: 200,
-              height: 200,
-              resizeMode: "contain",
-            }}
-            source={require("../../assets/images/outreach_logo.png")}
-          ></Image>
-        </View>
-
-        {/* Vertically Centered Container - Starts */}
-        <View style={styles.middleContainer}>
-          <View>
-            <View style={styles.textWithNameIconPlaceholder}>
-              <Icon
-                style={styles.iconPlaceHolder}
-                size={20}
-                name="user"
-                color="#383940"
-              />
-              <TextInput
-                style={{
-                  height: 40,
-                  width: 320,
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                  alignSelf: "center",
-                  paddingLeft: 10,
-                  color: "#383940",
-                }}
-                placeholder="Monica Geller"
-                autoCompleteType="name"
-                onChangeText={(name) => this.setState({ name })}
-                value={this.state.name}
-              />
-            </View>
-
-            <View style={styles.textWithEmailIconPlaceholder}>
-              <Icon
-                style={styles.iconPlaceHolder}
-                size={20}
-                name="envelope"
-                color="#383940"
-              />
-              <TextInput
-                style={{
-                  height: 40,
-                  width: 320,
-                  paddingLeft: 10,
-                  alignSelf: "center",
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                }}
-                placeholder="monicageller@example.com"
-                autoCapitalize="none"
-                autoCompleteType="email"
-                keyboardType="email-address"
-                onChangeText={(email) => this.setState({ email })}
-                value={this.state.email}
-              />
-            </View>
-
-            <View style={styles.textWithPasswordIconPlaceholder}>
-              <Icon
-                style={styles.iconPlaceHolder}
-                size={20}
-                name="lock"
-                color="#383940"
-              />
-              <TextInput
-                style={{
-                  height: 40,
-                  width: 320,
-                  fontFamily: "OpenSans-Regular",
-                  paddingLeft: 10,
-                  fontSize: 15,
-                }}
-                placeholder="Y0urS3cur3p@ssw0rd"
-                autoCompleteType="password"
-                secureTextEntry={isPasswordHidden}
-                onChangeText={(password) => this.setState({ password })}
-                value={this.state.password}
-              />
-            </View>
-
-            {/* Button for Sign Up */}
-            <UpdateButtonProfileComponent
-              buttonText="Sign Up"
-              customStyle={{ marginTop: 40, marginBottom: 30 }}
-              onPressUpdate={this.handleRegistration}
-            />
-          </View>
-
-          <View style={styles.continueTextContainer}>
-            <Text style={styles.continueText}>or contine with</Text>
-          </View>
-          {/* Social Sign Up Buttons - Start */}
-          <View style={styles.socialButtonContainer}>
-            {/* Google social button */}
-            <TouchableOpacity onPress={this.signInWithGoogle}>
-              <Image
-                style={{ width: 60, height: 65 }}
-                source={require("../../assets/images/google.png")}
-              />
-            </TouchableOpacity>
-
-            {/* Facebook social button */}
-            <TouchableOpacity onPress={this.signInWithFacebook}>
-              <Image
-                style={{ width: 70, height: 60 }}
-                source={require("../../assets/images/facebook.png")}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* Social Login Buttons - End */}
-        </View>
-        {/* Vertically Centered Container - Ends */}
-
-        {/* Bottom Container - Starts */}
-        <View style={styles.bottomContainer}>
-          {/* Go Back to Login */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("SignIn");
-            }}
-          >
-            <View style={styles.underLineTextContainer}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: "#383940",
-                  fontFamily: "OpenSans-Regular",
-                }}
-              >
-                Already have an account?{" "}
-              </Text>
-              <Text style={styles.underLineText}>Login</Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* Skip to Donate */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("DonateSelectCauseWithoutID", {
-                type: "withoutID",
-              });
-            }}
-          >
-            <View
+        <ScrollView>
+          {/* Top Container for Logo */}
+          <View style={styles.topContainer}>
+            <Image
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 25,
+                width: 120,
+                height: 120,
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/images/outreach_logo.png")}
+            ></Image>
+          </View>
+
+          {/* Vertically Centered Container - Starts */}
+          <View style={styles.middleContainer}>
+            <View>
+              <View style={styles.textWithNameIconPlaceholder}>
+                <Icon
+                  style={styles.iconPlaceHolder}
+                  size={20}
+                  name="user"
+                  color="#383940"
+                />
+                <TextInput
+                  style={{
+                    height: 40,
+                    width: "80%",
+                    fontFamily: "OpenSans-Regular",
+                    fontSize: 15,
+                    alignSelf: "center",
+                    paddingLeft: 10,
+                    color: "#383940",
+                  }}
+                  placeholder="Monica Geller"
+                  autoCompleteType="name"
+                  onChangeText={(name) => this.setState({ name })}
+                  value={this.state.name}
+                />
+              </View>
+
+              <View style={styles.textWithEmailIconPlaceholder}>
+                <Icon
+                  style={styles.iconPlaceHolder}
+                  size={20}
+                  name="envelope"
+                  color="#383940"
+                />
+                <TextInput
+                  style={{
+                    height: 40,
+                    width: "80%",
+                    paddingLeft: 10,
+                    alignSelf: "center",
+                    fontFamily: "OpenSans-Regular",
+                    fontSize: 15,
+                  }}
+                  placeholder="monicageller@example.com"
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  keyboardType="email-address"
+                  onChangeText={(email) => this.setState({ email })}
+                  value={this.state.email}
+                />
+              </View>
+
+              <View style={styles.textWithPasswordIconPlaceholder}>
+                <Icon
+                  style={styles.iconPlaceHolder}
+                  size={20}
+                  name="lock"
+                  color="#383940"
+                />
+                <TextInput
+                  style={{
+                    height: 40,
+                    width: "80%",
+                    fontFamily: "OpenSans-Regular",
+                    paddingLeft: 10,
+                    fontSize: 15,
+                  }}
+                  placeholder="Y0urS3cur3p@ssw0rd"
+                  autoCompleteType="password"
+                  secureTextEntry={isPasswordHidden}
+                  onChangeText={(password) => this.setState({ password })}
+                  value={this.state.password}
+                />
+              </View>
+
+              {/* Button for Sign Up */}
+              <UpdateButtonProfileComponent
+                buttonText="Sign Up"
+                customStyle={{ marginTop: "6%", marginBottom: "6%" }}
+                onPressUpdate={this.handleRegistration}
+              />
+            </View>
+
+            <View style={styles.continueTextContainer}>
+              <Text style={styles.continueText}>or continue with</Text>
+            </View>
+            {/* Social Sign Up Buttons - Start */}
+            <View style={styles.socialButtonContainer}>
+              {/* Google social button */}
+              <TouchableOpacity onPress={this.signInWithGoogle}>
+                <Image
+                  style={{ width: 60, height: 65 }}
+                  source={require("../../assets/images/google.png")}
+                />
+              </TouchableOpacity>
+
+              {/* Facebook social button */}
+              <TouchableOpacity onPress={this.signInWithFacebook}>
+                <Image
+                  style={{ width: 70, height: 60 }}
+                  source={require("../../assets/images/facebook.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            {/* Social Login Buttons - End */}
+          </View>
+          {/* Vertically Centered Container - Ends */}
+
+          {/* Bottom Container - Starts */}
+          <View style={styles.bottomContainer}>
+            {/* Go Back to Login */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("SignIn");
               }}
             >
-              <Text style={styles.underLineText}>Skip to Donate</Text>
-            </View>
-          </TouchableOpacity>
-          {/* <Image
+              <View style={styles.underLineTextContainer}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "#383940",
+                    fontFamily: "OpenSans-Regular",
+                  }}
+                >
+                  Already have an account?{" "}
+                </Text>
+                <Text style={styles.underLineText}>Login</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Skip to Donate */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("DonateSelectCauseWithoutID", {
+                  type: "withoutID",
+                });
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: 25,
+                }}
+              >
+                <Text style={styles.underLineText}>Skip to Donate</Text>
+              </View>
+            </TouchableOpacity>
+            {/* <Image
             style={{ width: 70, height: 70 }}
             source={require("../../assets/images/fb.png")}
           /> */}
-        </View>
-        {/* Bottom Container - Ends */}
-        {/* <img
+          </View>
+          {/* Bottom Container - Ends */}
+          {/* <img
           src={FacebookIcon}
           // className="choose-preference-svg"
           height={50}
           width={50}
           viewBox="0 0 60 100"
         /> */}
+        </ScrollView>
       </View>
       // <- Main Container
     );
@@ -406,7 +408,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 10,
+    paddingTop: "4%",
   },
 
   socialButtonContainer: {
@@ -446,7 +448,7 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flex: 1,
-    marginTop: 25,
+    marginTop: "2%",
   },
   bottomContainer: {
     height: 200,
@@ -473,7 +475,8 @@ const styles = StyleSheet.create({
 
   underLineTextContainer: {
     flexDirection: "row",
-    marginTop: 40,
+    marginTop: "5%",
+    justifyContent: "center",
   },
 
   textWithIconPlaceholder: {
