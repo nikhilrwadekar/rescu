@@ -1,5 +1,16 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, ScrollView, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  SafeAreaView,
+} from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import CardNumberComponent from "../../../components/credit_card_details/CardNumberComponent";
 import ExpirationCVVComponent from "../../../components/credit_card_details/ExpirationCVVComponent";
 import CardHolderNameComponent from "../../../components/credit_card_details/CardHolderNameComponent";
@@ -69,7 +80,7 @@ export default class DonateScreen extends Component {
     });
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           {/* Header */}
           <Text
@@ -137,7 +148,7 @@ export default class DonateScreen extends Component {
             }}
           />
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -152,6 +163,9 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: "center",
     backgroundColor: "#f7f7f7",
+    width: wp("100%"),
+    height: hp("40%"),
+    resizeMode: "contain",
   },
   btnStyle: {
     marginLeft: 40,

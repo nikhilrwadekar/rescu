@@ -11,7 +11,12 @@ import {
   Image,
   AsyncStorage,
   Alert,
+  SafeAreaView,
 } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider, SocialIcon, Input } from "react-native-elements";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
@@ -203,13 +208,15 @@ export class SignInScreen extends Component {
     const { isPasswordHidden, email, password } = this.state;
     return (
       // Main Container ->
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           <View style={styles.topContainer}>
             <Image
               style={{
-                width: 120,
-                height: 120,
+                // width: 120,
+                // height: 120,
+                width: wp("35%"),
+                height: hp("20%"),
                 resizeMode: "contain",
               }}
               source={require("../../assets/images/outreach_logo.png")}
@@ -332,7 +339,7 @@ export class SignInScreen extends Component {
                 style={{
                   flexDirection: "row",
                   justifyContent: "center",
-                  marginTop: 25,
+                  marginTop: 18,
                   // marginBottom: 45
                 }}
               >
@@ -342,7 +349,7 @@ export class SignInScreen extends Component {
           </View>
           {/* Bottom Container - Ends */}
         </ScrollView>
-      </View>
+      </SafeAreaView>
       // <- Main Container
     );
   }

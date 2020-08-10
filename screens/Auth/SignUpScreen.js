@@ -11,7 +11,12 @@ import {
   Image,
   Alert,
   AsyncStorage,
+  SafeAreaView,
 } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Divider } from "react-native-elements";
 import UpdateButtonProfileComponent from "../../components/UpdateButtonProfileComponent";
@@ -217,14 +222,16 @@ export class SignUpScreen extends Component {
     const { isPasswordHidden, email, password } = this.state;
     return (
       // Main Container ->
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           {/* Top Container for Logo */}
           <View style={styles.topContainer}>
             <Image
               style={{
-                width: 120,
-                height: 120,
+                // width: 120,
+                // height: 120,
+                width: wp("35%"),
+                height: hp("20%"),
                 resizeMode: "contain",
               }}
               source={require("../../assets/images/outreach_logo.png")}
@@ -373,7 +380,7 @@ export class SignUpScreen extends Component {
                 style={{
                   flexDirection: "row",
                   justifyContent: "center",
-                  marginTop: 25,
+                  marginTop: 18,
                 }}
               >
                 <Text style={styles.underLineText}>Skip to Donate</Text>
@@ -393,7 +400,7 @@ export class SignUpScreen extends Component {
           viewBox="0 0 60 100"
         /> */}
         </ScrollView>
-      </View>
+      </SafeAreaView>
       // <- Main Container
     );
   }

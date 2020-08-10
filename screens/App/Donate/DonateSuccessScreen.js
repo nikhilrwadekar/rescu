@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Text, View, Share, StyleSheet } from "react-native";
+import { Text, View, Share, StyleSheet, SafeAreaView } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import DonationSuccess from "../../../components/DonationSuccess";
 import ShareDonationComponent from "../../../components/ShareDonationComponent";
 import UpdateButtonProfileComponent from "../../../components/UpdateButtonProfileComponent";
@@ -63,59 +67,61 @@ export class DonationSuccessScreen extends Component {
     const { navigation } = this.props;
     const { amount } = this.props.navigation.state.params.data;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
-        <Text style={styles.thankyouText}>Thank you!</Text>
-        <LottieView
-          ref={(animation) => {
-            this.animation = animation;
-          }}
-          style={{
-            width: 200,
-            height: 200,
-            backgroundColor: "",
-            alignSelf: "center",
-            marginTop: 5,
-          }}
-          source={require("../../../assets/lottie-animations/piggyDonation.json")}
-          // OR find more Lottie files @ https://lottiefiles.com/featured
-          // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
-        />
+          <Text style={styles.thankyouText}>Thank you!</Text>
+          <LottieView
+            ref={(animation) => {
+              this.animation = animation;
+            }}
+            style={{
+              // width: 200,
+              // height: 200,
+              width: wp("25%"),
+              height: hp("25%"),
+              backgroundColor: "",
+              alignSelf: "center",
+              marginTop: 5,
+            }}
+            source={require("../../../assets/lottie-animations/piggyDonation.json")}
+            // OR find more Lottie files @ https://lottiefiles.com/featured
+            // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+          />
 
-        {/* Component to display the thanks message and value donated */}
-        <DonationSuccess
-          thankingText={thanksText}
-          currency={currency}
-          donationAmount={amount}
-          donationConfirmationText={donationCmfText}
-        />
+          {/* Component to display the thanks message and value donated */}
+          <DonationSuccess
+            thankingText={thanksText}
+            currency={currency}
+            donationAmount={amount}
+            donationConfirmationText={donationCmfText}
+          />
 
-        {/* Component to share the donation amount */}
-        <ShareDonationComponent
-          textButton={"Share"}
-          textStatement={"Encourage your friends to donate"}
-          onShareButtonPress={this.onShare}
-          customStyle={styles.buttonShare}
-        />
+          {/* Component to share the donation amount */}
+          <ShareDonationComponent
+            textButton={"Share"}
+            textStatement={"Encourage your friends to donate"}
+            onShareButtonPress={this.onShare}
+            customStyle={styles.buttonShare}
+          />
 
-        {/* If not signed in, Show Sign Up! */}
-        {type == "withoutID" && (
-          <View>
-            <Text style={styles.encouragingText}>
-              Let's all come together to help the people in need.
-            </Text>
+          {/* If not signed in, Show Sign Up! */}
+          {type == "withoutID" && (
+            <View>
+              <Text style={styles.encouragingText}>
+                Let's all come together to help the people in need.
+              </Text>
 
-            <UpdateButtonProfileComponent
-              buttonText="Sign Up"
-              customStyle={styles.buttonConfirm}
-              onPressUpdate={() => {
-                navigation.navigate("SignUp");
-              }}
-            />
-          </View>
-        )}
+              <UpdateButtonProfileComponent
+                buttonText="Sign Up"
+                customStyle={styles.buttonConfirm}
+                onPressUpdate={() => {
+                  navigation.navigate("SignUp");
+                }}
+              />
+            </View>
+          )}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

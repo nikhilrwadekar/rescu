@@ -8,7 +8,7 @@ const ProfileHeader = ({
   buttonText,
   onPressEditProfile,
   customHeadStyle,
-  fName
+  fName,
 }) => (
   <View style={[styles.header, customHeadStyle]}>
     <Image style={styles.profileImage} source={imageUrl} />
@@ -21,20 +21,20 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 20,
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
   },
   fName: {
     fontSize: 24,
     fontFamily: "Quicksand-Medium",
     marginTop: 5,
-    color: "#383940"
+    color: "#383940",
   },
   profileImage: {
     paddingBottom: 40,
     resizeMode: "cover",
     width: 150,
     height: 150,
-    borderRadius: 150
-  }
+    borderRadius: 150,
+  },
 });
 export default ProfileHeader;
