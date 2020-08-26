@@ -8,8 +8,12 @@ import {
   Button,
   Alert,
   ScrollView,
-  View
+  View,
 } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 
 // Custom Components
 import SelectMultiple from "react-native-select-multiple";
@@ -24,11 +28,17 @@ const PreferencesScreenTwoComponent = ({
   selectedVolunteeringTypes,
   volunteeringTypes,
   termsCheck,
-  onPressUpdate
+  onPressUpdate,
 }) => {
   return (
-    <View
-      style={{ backgroundColor: "#f7f7f7", paddingLeft: 40, paddingRight: 40 }}
+    <SafeAreaView
+      style={{
+        backgroundColor: "#f7f7f7",
+        // paddingLeft: 40,
+        // paddingRight: 40,
+        marginLeft: 20,
+        marginRight: 20,
+      }}
     >
       <ScrollView>
         <Text style={styles.typestextLabel}>Types of Volunteering</Text>
@@ -62,7 +72,7 @@ const PreferencesScreenTwoComponent = ({
           onPressUpdate={onPressUpdate}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -74,11 +84,11 @@ const styles = StyleSheet.create({
     marginTop: 22,
     fontSize: 17,
     fontFamily: "OpenSans-Regular",
-    marginBottom: 2
+    marginBottom: 2,
     // marginLeft: 22
   },
   label: {
     fontFamily: "OpenSans-Regular",
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });

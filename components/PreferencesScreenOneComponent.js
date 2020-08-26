@@ -9,6 +9,10 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { ScrollView } from "react-native-gesture-handler";
 
 // Custom Components
@@ -51,7 +55,7 @@ const PreferencesScreenOneComponent = ({
   isNextVisible
 }) => {
   return (
-    <View>
+    <SafeAreaView>
       <ScrollView>
         {/* PreferencesScreenOne */}
         <Text style={styles.textHeader}> Preferences </Text>
@@ -347,7 +351,7 @@ const PreferencesScreenOneComponent = ({
           />
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -33,8 +33,9 @@ const AssignedTaskCardComponent = ({
         justifyContent: "space-between",
         alignItems: "center",
         alignContent: "center",
-        paddingTop: 25,
-      }}>
+        paddingTop: 20,
+      }}
+    >
       {/* Date Time */}
       <View>
         {/* Date */}
@@ -46,7 +47,8 @@ const AssignedTaskCardComponent = ({
 
             paddingBottom: 0,
             marginBottom: 0,
-          }}>
+          }}
+        >
           <View style={{ width: 20, alignItems: "center" }}>
             <AntDesign
               name="calendar"
@@ -65,7 +67,8 @@ const AssignedTaskCardComponent = ({
               flexDirection: "row",
               justifyContent: "flex-start",
               alignItems: "center",
-            }}>
+            }}
+          >
             <View style={{ width: 20, alignItems: "center" }}>
               <Ionicons
                 name="ios-timer"
@@ -81,6 +84,20 @@ const AssignedTaskCardComponent = ({
       </View>
 
       {/* Opt Out */}
+      {/* <OptOutButtonComponent
+        buttonText="Opt Out"
+        onPressUpdate={onPressOptOut}
+      /> */}
+    </View>
+    {/* Opt Out */}
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        paddingTop: 10,
+      }}
+    >
       <OptOutButtonComponent
         buttonText="Opt Out"
         onPressUpdate={onPressOptOut}

@@ -182,7 +182,8 @@ export default class NotificationScreen extends Component {
           refreshControl={
             <RefreshControl refreshing={false} onRefresh={this.handleRefresh} />
           }
-          style={{ paddingTop: 20 }}>
+          style={{ paddingTop: 20 }}
+        >
           {renderedNotifications}
           {renderedConfirmations}
         </ScrollView>

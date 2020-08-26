@@ -11,7 +11,7 @@ import {
   Image,
   AsyncStorage,
   Alert,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native";
 import {
   heightPercentageToDP as hp,

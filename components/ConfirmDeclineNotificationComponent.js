@@ -14,7 +14,7 @@ const ConfirmDeclineNotificationComponent = ({
   onPressConfirm,
   onPressDecline,
   jobTime,
-  notificationTime
+  notificationTime,
 }) => (
   // Other container
   <View style={styles.container}>
@@ -34,7 +34,7 @@ const ConfirmDeclineNotificationComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <AntDesign
@@ -51,7 +51,7 @@ const ConfirmDeclineNotificationComponent = ({
         style={{
           flexDirection: "row",
           justifyContent: "flex-start",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Ionicons
@@ -70,7 +70,7 @@ const ConfirmDeclineNotificationComponent = ({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingTop: 12
+        paddingTop: 20,
       }}
     >
       {/* Decline button */}
@@ -107,51 +107,52 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowRadius: 2,
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
   },
   Rone: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 8
+    paddingBottom: 0,
   },
   RTwo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 8
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // paddingTop: 8
   },
   button: {
-    paddingBottom: 8
+    paddingBottom: 8,
   },
   jobType: {
     fontSize: 18,
-    fontFamily: "OpenSans-Regular",
-    color: "#383940"
+    fontFamily: "OpenSans-Light",
+    color: "#383940",
   },
   notificationTime: {
     fontFamily: "OpenSans-Light",
-    color: "#383940"
+    color: "#383940",
   },
   location: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-LightItalic",
     color: "#383940",
-    fontSize: 15
+    paddingBottom: 20,
+    fontSize: 15,
   },
   jobTime: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   date: {
-    fontFamily: "OpenSans-Regular",
+    fontFamily: "OpenSans-Light",
     color: "#383940",
     fontSize: 15,
-    paddingLeft: 5
-  }
+    paddingLeft: 5,
+  },
 });
 export default ConfirmDeclineNotificationComponent;
