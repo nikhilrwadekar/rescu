@@ -19,7 +19,7 @@
     "@fortawesome/react-native-fontawesome": "^0.2.2",
     "@react-native-community/datetimepicker": "^2.2.3",
     "@react-navigation/web": "~1.0.0-alpha.9",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "expo": "~36.0.0",
     "expo-asset": "~8.0.0",
     "expo-constants": "~8.0.0",
